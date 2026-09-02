@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Large dataset files (too big for git — regenerate with src/data_generator.py)
+data/transactions_raw.csv
+data/transactions_features.csv
+
+# Large preprocessed data pickle (too big — regenerate with src/preprocess.py)
+models/preprocessed_data.pkl
+
+# Old model artifact (replaced by best_model.pkl)
+models/fraud_model.pkl
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+*.env

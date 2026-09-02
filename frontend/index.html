@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Razorpay AI Risk Manager | Real-Time Fraud Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.25);
+      --accent: #6366f1;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b 0%, #0b0f19 50%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .api-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #e5e7eb;
+    }
+
+    /* Form Inputs */
+    .preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-preset {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: #d1d5db;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-preset:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    input, select {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      color: #fff;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #374151;
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 1.25rem;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, #3b82f6, #4f46e5);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Result Gauge Card */
+    .result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 1rem 0;
+    }
+
+    .gauge-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: conic-gradient(var(--success) 0deg, var(--warning) 180deg, var(--danger) 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+
+    .gauge-inner {
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .risk-score-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+
+    .risk-score-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .decision-badge {
+      padding: 0.5rem 1.25rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .tier-LOW { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .tier-MEDIUM { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .tier-HIGH { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .explanation-box {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      padding: 1rem;
+      border: 1px solid var(--card-border);
+    }
+
+    .explanation-box h4 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .explanation-list {
+      list-style-type: none;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .explanation-list li {
+      position: relative;
+      padding-left: 1.2rem;
+      color: #e5e7eb;
+    }
+
+    .explanation-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.3rem;
+      color: var(--primary);
+    }
+
+    /* Comparison Table */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 500;
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    tr.highlight-winner {
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .winner-tag {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h1>Razorpay AI Risk Manager</h1>
+          <p>Real-Time Payment Gateway Fraud Scoring Engine</p>
+        </div>
+      </div>
+      <div id="apiStatus" class="api-status-badge">
+        <div class="pulse-dot"></div>
+        <span>FastAPI Connected (127.0.0.1:8000)</span>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      <!-- Form Input Card -->
+      <div class="card">
+        <div class="card-title">
+          <span>🔍</span> Transaction Risk Evaluator
+        </div>
+
+        <div class="preset-buttons">
+          <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">Presets:</span>
+          <button class="btn-preset" onclick="applyPreset('legit')">Legit Purchase</button>
+          <button class="btn-preset" onclick="applyPreset('takeover')">Account Takeover</button>
+          <button class="btn-preset" onclick="applyPreset('velocity')">Velocity Abuse</button>
+          <button class="btn-preset" onclick="applyPreset('stolen')">High-Value Stolen Card</button>
+        </div>
+
+        <form id="txnForm" onsubmit="evaluateRisk(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="amount">Amount (INR ₹)</label>
+              <input type="number" id="amount" value="1500.00" step="any" required />
+            </div>
+
+            <div class="form-group">
+              <label for="account_age_days">Account Age (Days)</label>
+              <input type="number" id="account_age_days" value="450" required />
+            </div>
+
+            <div class="form-group">
+              <label for="txn_velocity_1h">Velocity (Txns in Past Hour)</label>
+              <input type="number" id="txn_velocity_1h" value="0" min="0" required />
+            </div>
+
+            <div class="form-group">
+              <label for="txn_hour">Transaction Hour (0-23, 24h clock)</label>
+              <select id="txn_hour">
+                <option value="0">00:00 — Midnight</option>
+                <option value="1">01:00 — Late Night</option>
+                <option value="2">02:00 — Late Night</option>
+                <option value="3">03:00 — Late Night</option>
+                <option value="4">04:00 — Late Night</option>
+                <option value="5">05:00 — Early Morning</option>
+                <option value="6">06:00 — Early Morning</option>
+                <option value="7">07:00 — Morning</option>
+                <option value="8">08:00 — Morning</option>
+                <option value="9">09:00 — Morning</option>
+                <option value="10">10:00 — Morning</option>
+                <option value="11">11:00 — Late Morning</option>
+                <option value="12">12:00 — Noon</option>
+                <option value="13">13:00 — Afternoon</option>
+                <option value="14">14:00 — Afternoon</option>
+                <option value="15">15:00 — Afternoon</option>
+                <option value="16">16:00 — Evening</option>
+                <option value="17">17:00 — Evening</option>
+                <option value="18">18:00 — Evening</option>
+                <option value="19">19:00 — Evening</option>
+                <option value="20">20:00 — Night</option>
+                <option value="21">21:00 — Night</option>
+                <option value="22">22:00 — Night</option>
+                <option value="23" selected>23:00 — Late Night</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="payment_method">Payment Method</label>
+              <select id="payment_method">
+                <option value="UPI">UPI</option>
+                <option value="Credit Card" selected>Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Net Banking">Net Banking</option>
+                <option value="Wallet">Wallet</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="txn_city">Transaction City</label>
+              <input type="text" id="txn_city" value="Mumbai" required />
+            </div>
+
+            <div class="form-group">
+              <label for="home_city">Registered Home City</label>
+              <input type="text" id="home_city" value="Mumbai" required />
+            </div>
+
+            <div class="form-group full-width">
+              <label for="merchant_category">Merchant Category</label>
+              <select id="merchant_category">
+                <option value="E-commerce">E-commerce</option>
+                <option value="Electronics" selected>Electronics</option>
+                <option value="Food Delivery">Food Delivery</option>
+                <option value="Travel">Travel</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Crypto/Forex">Crypto / Forex</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Subscription">Subscription</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <div class="toggle-group">
+                <label for="device_new" style="cursor:pointer;">Unrecognised / New Device?</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="device_new" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">⚡ Score Transaction in Real Time</button>
+        </form>
+      </div>
+
+      <!-- Result Card -->
+      <div class="card">
+        <div class="card-title">
+          <span>📊</span> Live ML Model Output
+        </div>
+
+        <div class="result-container">
+          <div class="gauge-wrapper">
+            <div id="gaugeCircle" class="gauge-circle">
+              <div class="gauge-inner">
+                <div id="riskScoreValue" class="risk-score-value">--%</div>
+                <div class="risk-score-label">Fraud Risk</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="decisionBadge" class="decision-badge tier-LOW">
+            READY FOR EVALUATION
+          </div>
+
+          <div class="explanation-box">
+            <h4>Key Model Explanation Factors:</h4>
+            <ul id="explanationList" class="explanation-list">
+              <li>Submit transaction parameters to compute real-time XGBoost risk score.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Model Comparison Leaderboard Card -->
+    <div class="card">
+      <div class="card-title">
+        <span>🏆</span> Model Comparison Leaderboard (Trained on 40,000 Transactions)
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 0.5rem;">
+        Comparative evaluation across 4 algorithms on held-out test dataset (10,000 samples).
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Algorithm Name</th>
+              <th>Accuracy</th>
+              <th>Precision (Fraud)</th>
+              <th>Recall (Fraud)</th>
+              <th>F1-Score</th>
+              <th>ROC-AUC</th>
+              <th>PR-AUC</th>
+            </tr>
+          </thead>
+          <tbody id="metricsTableBody">
+            <tr><td colspan="8" style="text-align:center; color:var(--text-muted);">Loading benchmark metrics from FastAPI...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_HOST = window.location.hostname || '127.0.0.1';
+    const API_BASE = `http://${API_HOST}:8000`;
+
+    // Check FastAPI backend health on load
+    async function checkHealth() {
+      try {
+        const res = await fetch(`${API_BASE}/health`);
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('apiStatus').innerHTML = `
+            <div class="pulse-dot"></div>
+            <span>FastAPI Server Online (${data.model_name})</span>
+          `;
+        } else {
+          throw new Error("Health check failed");
+        }
+      } catch (err) {
+        document.getElementById('apiStatus').innerHTML = `
+          <div class="pulse-dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></div>
+          <span style="color:#f87171;">FastAPI Offline (${API_BASE})</span>
+        `;
+      }
+    }
+
+    // Load Metrics Leaderboard
+    async function loadMetrics() {
+      try {
+        const res = await fetch(`${API_BASE}/metrics`);
+        if (res.ok) {
+          const data = await res.json();
+          const tbody = document.getElementById('metricsTableBody');
+          tbody.innerHTML = '';
+
+          data.metrics.forEach((m, idx) => {
+            const isWinner = m.model_name === data.best_model;
+            const tr = document.createElement('tr');
+            if (isWinner) tr.className = 'highlight-winner';
+
+            tr.innerHTML = `
+              <td>${isWinner ? '🥇 1' : idx + 1}</td>
+              <td style="font-weight:600;">
+                ${m.model_name}
+                ${isWinner ? '<span class="winner-tag">BEST MODEL</span>' : ''}
+              </td>
+              <td>${(m.accuracy * 100).toFixed(2)}%</td>
+              <td>${(m.precision * 100).toFixed(2)}%</td>
+              <td>${(m.recall * 100).toFixed(2)}%</td>
+              <td style="font-weight:700; color:${isWinner ? '#60a5fa' : 'inherit'};">${m.f1_score.toFixed(4)}</td>
+              <td>${m.roc_auc.toFixed(4)}</td>
+              <td>${m.pr_auc.toFixed(4)}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load metrics", err);
+      }
+    }
+
+    // Evaluate Risk Function
+    async function evaluateRisk(event) {
+      if (event) event.preventDefault();
+
+      const amountVal = parseFloat(document.getElementById('amount').value);
+      const ageVal = parseInt(document.getElementById('account_age_days').value);
+      const velocityVal = parseInt(document.getElementById('txn_velocity_1h').value);
+
+      const txnHour = parseInt(document.getElementById('txn_hour').value);
+
+      const payload = {
+        amount: isNaN(amountVal) ? 1000.0 : amountVal,
+        account_age_days: isNaN(ageVal) ? 30 : ageVal,
+        txn_velocity_1h: isNaN(velocityVal) ? 0 : velocityVal,
+        payment_method: document.getElementById('payment_method').value || 'Credit Card',
+        txn_city: document.getElementById('txn_city').value || 'Mumbai',
+        home_city: document.getElementById('home_city').value || 'Mumbai',
+        merchant_category: document.getElementById('merchant_category').value || 'Electronics',
+        device_new: document.getElementById('device_new').checked,
+        txn_hour: isNaN(txnHour) ? 12 : txnHour
+      };
+
+      document.getElementById('riskScoreValue').innerText = "...";
+
+      try {
+        const res = await fetch(`${API_BASE}/predict`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          renderOutput(data);
+        } else {
+          const errData = await res.json().catch(() => ({ detail: "API Error" }));
+          renderError("Evaluation Failed", errData.detail || "Invalid transaction input");
+        }
+      } catch (err) {
+        renderError("Backend Server Error", `FastAPI backend at ${API_BASE} is unavailable.`);
+      }
+    }
+
+    function renderOutput(data) {
+      const score = data.risk_score_pct;
+      document.getElementById('riskScoreValue').innerText = `${score.toFixed(1)}%`;
+      
+      const badge = document.getElementById('decisionBadge');
+      badge.className = `decision-badge tier-${data.risk_tier}`;
+      badge.innerText = `${data.risk_tier} RISK — ${data.decision}`;
+
+      // Color score text
+      const scoreVal = document.getElementById('riskScoreValue');
+      if (data.risk_tier === 'HIGH') scoreVal.style.color = '#f87171';
+      else if (data.risk_tier === 'MEDIUM') scoreVal.style.color = '#fbbf24';
+      else scoreVal.style.color = '#34d399';
+
+      // Explanations
+      const list = document.getElementById('explanationList');
+      list.innerHTML = '';
+      data.explanation.forEach(exp => {
+        const li = document.createElement('li');
+        li.innerText = exp;
+        list.appendChild(li);
+      });
+    }
+
+    function renderError(title, detail) {
+      document.getElementById('riskScoreValue').innerText = "ERR";
+      document.getElementById('riskScoreValue').style.color = "#f87171";
+      
+      const badge = document.getElementById('decisionBadge');
+      badge.className = `decision-badge tier-HIGH`;
+      badge.innerText = title;
+
+      const list = document.getElementById('explanationList');
+      list.innerHTML = `<li style="color:#f87171;">${detail}</li>`;
+    }
+
+    // Apply Presets
+    function applyPreset(type) {
+      if (type === 'legit') {
+        document.getElementById('amount').value = 750.00;
+        document.getElementById('account_age_days').value = 600;
+        document.getElementById('txn_velocity_1h').value = 0;
+        document.getElementById('payment_method').value = 'UPI';
+        document.getElementById('txn_city').value = 'Mumbai';
+        document.getElementById('home_city').value = 'Mumbai';
+        document.getElementById('merchant_category').value = 'Food Delivery';
+        document.getElementById('device_new').checked = false;
+        document.getElementById('txn_hour').value = 14;
+      } else if (type === 'takeover') {
+        document.getElementById('amount').value = 18500.00;
+        document.getElementById('account_age_days').value = 400;
+        document.getElementById('txn_velocity_1h').value = 4;
+        document.getElementById('payment_method').value = 'Credit Card';
+        document.getElementById('txn_city').value = 'Kolkata';
+        document.getElementById('home_city').value = 'Bangalore';
+        document.getElementById('merchant_category').value = 'Electronics';
+        document.getElementById('device_new').checked = true;
+        document.getElementById('txn_hour').value = 2;
+      } else if (type === 'velocity') {
+        document.getElementById('amount').value = 3200.00;
+        document.getElementById('account_age_days').value = 120;
+        document.getElementById('txn_velocity_1h').value = 8;
+        document.getElementById('payment_method').value = 'Debit Card';
+        document.getElementById('txn_city').value = 'Delhi';
+        document.getElementById('home_city').value = 'Delhi';
+        document.getElementById('merchant_category').value = 'Gaming';
+        document.getElementById('device_new').checked = false;
+        document.getElementById('txn_hour').value = 3;
+      } else if (type === 'stolen') {
+        document.getElementById('amount').value = 65000.00;
+        document.getElementById('account_age_days').value = 12;
+        document.getElementById('txn_velocity_1h').value = 2;
+        document.getElementById('payment_method').value = 'Credit Card';
+        document.getElementById('txn_city').value = 'Jaipur';
+        document.getElementById('home_city').value = 'Chennai';
+        document.getElementById('merchant_category').value = 'Crypto/Forex';
+        document.getElementById('device_new').checked = true;
+        document.getElementById('txn_hour').value = 1;
+      }
+      evaluateRisk();
+    }
+
+    // On Load
+    window.addEventListener('DOMContentLoaded', () => {
+      checkHealth();
+      loadMetrics();
+      evaluateRisk();
+    });
+  </script>
+
+</body>
+</html>
