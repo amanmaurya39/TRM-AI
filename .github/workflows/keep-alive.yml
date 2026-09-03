@@ -1,0 +1,16 @@
+name: Keep Render API Awake
+
+on:
+  schedule:
+    # Runs every 10 minutes (cron syntax: minute hour day month day-of-week)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping TRM-AI FastAPI Health Endpoint
+        run: |
+          echo "Pinging https://trm-ai.onrender.com/health ..."
+          curl -s -f -m 60 https://trm-ai.onrender.com/health || echo "Ping request sent"

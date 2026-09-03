@@ -703,7 +703,7 @@
 
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000); // 8s per attempt
+        const timeout = setTimeout(() => controller.abort(), 35000); // 35s to allow Render cold start
         const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
         clearTimeout(timeout);
 
