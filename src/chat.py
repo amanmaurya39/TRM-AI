@@ -4,18 +4,6 @@ LLM Analyst Chat — Gemini-powered explanation endpoint
 Lets a user ask free-form questions about a scored transaction
 (or general fraud patterns) and get an answer grounded in the
 model's actual SHAP explanation + risk score, not a generic guess.
-
-SETUP:
-1. pip install google-generativeai
-2. Get a free API key: https://aistudio.google.com/app/apikey
-3. Set it as an environment variable:
-       export GEMINI_API_KEY="your-key-here"
-   (On Render: add GEMINI_API_KEY in your service's Environment tab)
-
-INTEGRATION:
-- Import `router` into your existing src/api.py and include it:
-      from src.chat import router as chat_router
-      app.include_router(chat_router)
 """
 
 import os
@@ -26,9 +14,15 @@ from pydantic import BaseModel
 
 router = APIRouter(tags=["AI Analyst Chat"])
 
-# Preferred model for fast, cost-effective, grounded Q&A
-MODEL_NAME = "gemini-2.0-flash"
-FALLBACK_MODEL_NAME = "gemini-1.5-flash"
+# Preferred models in order of priority (starting with the currently recommended 3.6-flash)
+CANDIDATE_MODELS = [
+    "gemini-3.6-flash",
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro",
+    "gemini-pro"
+]
 
 
 class ChatRequest(BaseModel):
@@ -39,7 +33,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     answer: str
-    model_used: str = MODEL_NAME
+    model_used: str
 
 
 def get_configured_gemini_client():
@@ -87,6 +81,46 @@ information would be needed."""
     return prompt
 
 
+def generate_with_gemini(prompt: str) -> tuple[str, str]:
+    """
+    Iterate through candidate models and dynamically discover supported models
+    to guarantee high availability across different Gemini API versions.
+    """
+    last_error = None
+
+    # 1. Try candidate list first (gemini-3.6-flash, etc.)
+    for m_name in CANDIDATE_MODELS:
+        try:
+            model = genai.GenerativeModel(m_name)
+            response = model.generate_content(prompt)
+            if response and response.text:
+                return response.text.strip(), m_name
+        except Exception as e:
+            last_error = e
+            continue
+
+    # 2. Dynamic discovery fallback: query active models supporting generateContent on this key
+    try:
+        for m in genai.list_models():
+            if hasattr(m, "supported_generation_methods") and "generateContent" in m.supported_generation_methods:
+                model_name_clean = m.name.replace("models/", "")
+                try:
+                    model = genai.GenerativeModel(model_name_clean)
+                    response = model.generate_content(prompt)
+                    if response and response.text:
+                        return response.text.strip(), model_name_clean
+                except Exception as e:
+                    last_error = e
+                    continue
+    except Exception as e:
+        last_error = e
+
+    raise HTTPException(
+        status_code=502,
+        detail=f"Gemini API error: {str(last_error)}"
+    )
+
+
 @router.post("/chat", response_model=ChatResponse)
 def chat_with_analyst(req: ChatRequest):
     api_key = get_configured_gemini_client()
@@ -113,23 +147,6 @@ def chat_with_analyst(req: ChatRequest):
         )
 
     prompt = build_prompt(req.question, prediction_context)
+    answer, model_used = generate_with_gemini(prompt)
 
-    # Attempt primary model, fallback if unavailable
-    used_model = MODEL_NAME
-    try:
-        model = genai.GenerativeModel(MODEL_NAME)
-        response = model.generate_content(prompt)
-        answer = response.text.strip()
-    except Exception as e_primary:
-        try:
-            used_model = FALLBACK_MODEL_NAME
-            model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
-            response = model.generate_content(prompt)
-            answer = response.text.strip()
-        except Exception as e_fallback:
-            raise HTTPException(
-                status_code=502,
-                detail=f"Gemini API error: {str(e_primary)} (fallback error: {str(e_fallback)})"
-            )
-
-    return ChatResponse(answer=answer, model_used=used_model)
+    return ChatResponse(answer=answer, model_used=model_used)
