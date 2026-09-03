@@ -112,7 +112,9 @@ python -m http.server 3000 --directory frontend
 | `POST` | `/chat` | Gemini-powered AI Risk Analyst chat grounded in prediction factors |
 | `POST` | `/feedback` | Log analyst ground-truth verdict ('CONFIRMED_FRAUD' or 'FALSE_POSITIVE') |
 | `GET` | `/feedback` | Retrieve recent analyst feedback and agreement/drift metrics |
-| `POST` | `/feedback/recalibrate` | Run threshold recalibration & active learning fine-tune simulation |
+| `POST | `/feedback/recalibrate` | Run threshold recalibration & active learning fine-tune simulation |
+| `GET` | `/alerts` | Severity-filtered real-time alert feed & webhook dispatch history |
+| `POST` | `/alerts/test-webhook` | Test live Slack webhook dispatch or simulate mock alert blast |
 
 ### Example `/predict` Request
 ```json

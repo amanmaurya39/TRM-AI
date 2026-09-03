@@ -187,6 +187,23 @@ def predict_fraud(txn: TransactionRequest):
     if not explanations:
         explanations.append("Standard transaction profile with normal user activity metrics.")
 
+    # 6. Trigger Real-Time Alerting Pipeline & Webhook Dispatch for HIGH/MEDIUM risk
+    try:
+        from src.alert_service import trigger_alert_pipeline
+        trigger_alert_pipeline(
+            amount=txn.amount,
+            merchant_category=txn.merchant_category,
+            device_new=txn.device_new,
+            txn_city=txn.txn_city,
+            home_city=txn.home_city,
+            risk_score_pct=risk_score_pct,
+            risk_tier=risk_tier,
+            decision=decision,
+            explanation_factors=explanations
+        )
+    except Exception as e_alert:
+        print(f"[ALERT PIPELINE NOTICE] {e_alert}")
+
     return PredictionResponse(
         is_fraud=is_fraud,
         risk_score_pct=risk_score_pct,
@@ -249,6 +266,47 @@ def get_feedback():
 @app.post("/feedback/recalibrate")
 def recalibrate_feedback():
     return simulate_feedback_recalibration()
+
+# -------------------------------------------------------------
+# Real-Time Alert Pipeline & Webhook Endpoints
+# -------------------------------------------------------------
+from src.alert_service import (
+    get_active_alerts,
+    get_webhook_logs,
+    dispatch_webhook
+)
+
+class TestWebhookRequest(BaseModel):
+    webhook_url: Optional[str] = None
+
+@app.get("/alerts")
+def list_alerts(severity: Optional[str] = "ALL"):
+    return {
+        "alerts": get_active_alerts(severity=severity),
+        "webhook_logs": get_webhook_logs()
+    }
+
+@app.post("/alerts/test-webhook")
+def test_webhook_dispatch(req: TestWebhookRequest):
+    test_alert = {
+        "id": f"ALT-TEST-{int(datetime.now().timestamp()) % 100000:05d}",
+        "timestamp": datetime.now().isoformat(),
+        "severity": "CRITICAL",
+        "risk_tier": "HIGH",
+        "risk_score_pct": 98.9,
+        "decision": "BLOCK & STEP-UP AUTHENTICATION REQUIRED",
+        "amount": 49999.0,
+        "merchant_category": "Electronics",
+        "device_new": True,
+        "txn_city": "Mumbai",
+        "home_city": "Delhi",
+        "explanation_factors": ["Test alert dispatched from TRM-AI Security Dashboard."]
+    }
+    log = dispatch_webhook(test_alert, webhook_url=req.webhook_url)
+    return {
+        "status": "success",
+        "dispatch_log": log
+    }
 
 if __name__ == "__main__":
     import uvicorn

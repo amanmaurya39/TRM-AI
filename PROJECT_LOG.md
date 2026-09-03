@@ -181,7 +181,33 @@ This document maintains a real-time chronological log of all steps taken, datase
   - Tested CLI script via `python src/feedback_loop.py` (all 4 stages executed cleanly).
   - Tested `POST /feedback` and `POST /feedback/recalibrate` endpoints via urllib.
   - Verified UI rendering on port 3000.
-- **Status:** Step 11 Completed. 🎉
+- **Status:** Step 11 Completed.
+
+---
+
+### [2026-09-04 00:29] - Step 12: Real-Time Alert Pipeline & Slack Webhook Dispatcher
+- **Goal:** Transform the risk detection engine from passive analytics to an active security operations alert hub, streaming severity-based alerts (CRITICAL vs WARNING) and dispatching rich Slack webhooks for every high-risk anomaly.
+- **Components Implemented:**
+  1. [`src/alert_service.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/alert_service.py):
+     - In-memory ring buffer tracking active alerts and webhook deliveries.
+     - Severity engine: categorizes alerts into `CRITICAL` (HIGH risk, score >85%) and `WARNING` (MEDIUM risk).
+     - Slack Block Kit formatter: formats formatted messages with color coding, transaction metadata, and SHAP triggers.
+     - Webhook Dispatcher: supports live Slack incoming webhook URLs or mock delivery pipeline with detailed status logging.
+  2. Integrated auto-trigger in [`src/api.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/api.py) `POST /predict`.
+  3. Added endpoints in [`src/api.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/api.py):
+     - `GET /alerts`: Returns severity-filtered active alerts and webhook delivery logs.
+     - `POST /alerts/test-webhook`: Dispatches test alert to custom or mock Slack webhook.
+  4. Standalone CLI tool [`src/alert_simulator.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/alert_simulator.py): Simulates streaming incoming attacks and automated alerting.
+  5. UI Feed in [`frontend/index.html`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/frontend/index.html) & [`docs/index.html`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/docs/index.html):
+     - Live operations alert stream with 4-second auto-polling.
+     - Severity tabs (`All Alerts`, `🚨 Critical Only`, `⚠️ Warnings Only`, `🔌 Webhook Dispatch Log`).
+     - Optional in-browser Slack webhook URL configuration.
+     - Dynamic test webhook dispatch button with live UI reflection.
+- **Verification:**
+  - Tested `src/alert_simulator.py` (CLI events streamed and alerted).
+  - Tested `/alerts` and `/alerts/test-webhook` endpoints via urllib.
+  - Verified UI rendering and polling on port 3000.
+- **Status:** Step 12 Completed. 🎉
 
 ---
 

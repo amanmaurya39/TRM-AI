@@ -775,6 +775,188 @@
     .recal-pill strong {
       color: #60a5fa;
     }
+
+    /* Live Alert Feed & Webhook Pipeline */
+    .alert-filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .alert-tab {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .alert-tab:hover, .alert-tab.active {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: #6366f1;
+      color: #c7d2fe;
+    }
+
+    .alert-tab.tab-critical.active {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    .alert-tab.tab-warning.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: #f59e0b;
+      color: #fde68a;
+    }
+
+    .alert-feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .alert-item-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .alert-item-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .alert-card-CRITICAL {
+      border-left: 4px solid #ef4444;
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.08), rgba(15, 23, 42, 0.7));
+    }
+
+    .alert-card-WARNING {
+      border-left: 4px solid #f59e0b;
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.08), rgba(15, 23, 42, 0.7));
+    }
+
+    .alert-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .alert-id-time {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .alert-badge-CRITICAL {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .alert-badge-WARNING {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fde68a;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .alert-card-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .alert-amount-cat {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .alert-meta {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    .alert-factors {
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .alert-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      padding-top: 0.2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .webhook-tag {
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .webhook-config-bar {
+      margin-bottom: 1rem;
+      padding: 0.65rem 0.85rem;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px dashed var(--card-border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .webhook-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.4rem 0.65rem;
+      font-size: 0.78rem;
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -1084,6 +1266,43 @@
             <tr><td colspan="8" class="history-empty">Loading feedback log from database...</td></tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Real-Time Security Operations Alert Feed & Webhook Pipeline Card -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card-title" style="justify-content: space-between;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span>🚨 Live Security Operations Alert Feed</span>
+          <span class="chat-badge" style="background:rgba(239,68,68,0.15); color:#fca5a5; border-color:rgba(239,68,68,0.3);">Real-Time Webhooks</span>
+        </div>
+        <button class="clear-btn" style="background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; border:none; font-weight:700;" onclick="triggerTestAlert()">
+          ⚡ Send Test Webhook Alert
+        </button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem;">
+        Automated alerting pipeline triggering severity-based webhooks (Slack Block Kit / Mock Endpoint) for every high-risk anomaly detected by XGBoost.
+      </p>
+
+      <!-- Optional Slack Webhook Input Bar -->
+      <div class="webhook-config-bar">
+        <span style="font-size:0.76rem; color:#a78bfa; font-weight:600;">Slack Webhook (Optional):</span>
+        <input id="slackWebhookInput" class="webhook-input" type="text" placeholder="https://hooks.slack.com/services/... (optional, mock active by default)" />
+        <button type="button" class="btn-preset" style="padding:0.35rem 0.75rem; font-size:0.75rem;" onclick="saveSlackWebhook()">Save URL</button>
+        <span id="webhookSaveStatus" style="font-size:0.72rem; color:#34d399;"></span>
+      </div>
+
+      <!-- Severity Filter Tabs -->
+      <div class="alert-filter-tabs">
+        <button class="alert-tab active" id="tabAllAlerts" onclick="filterAlerts('ALL')">All Alerts (<span id="countAllAlerts">0</span>)</button>
+        <button class="alert-tab tab-critical" id="tabCritical" onclick="filterAlerts('CRITICAL')">🚨 Critical Only (<span id="countCritical">0</span>)</button>
+        <button class="alert-tab tab-warning" id="tabWarning" onclick="filterAlerts('WARNING')">⚠️ Warnings (<span id="countWarning">0</span>)</button>
+        <button class="alert-tab" id="tabWebhooks" onclick="filterAlerts('WEBHOOKS')">🔌 Webhook Dispatch Log (<span id="countWebhooks">0</span>)</button>
+      </div>
+
+      <!-- Alert Feed Stream Container -->
+      <div id="alertFeedContainer" class="alert-feed-list">
+        <div style="text-align:center; color:var(--text-muted); padding:1.5rem; font-style:italic;">Listening for real-time security events...</div>
       </div>
     </div>
 
@@ -1586,12 +1805,156 @@
       }
     }
 
+    // -------------------------------------------------------------
+    // Real-Time Alerting Pipeline & Webhook Client Logic
+    // -------------------------------------------------------------
+    let currentAlertSeverity = 'ALL';
+    let cachedAlerts = [];
+    let cachedWebhookLogs = [];
+
+    async function fetchAlerts() {
+      try {
+        const res = await fetch(`${API_BASE}/alerts?severity=ALL`);
+        if (!res.ok) return;
+        const data = await res.json();
+        cachedAlerts = data.alerts || [];
+        cachedWebhookLogs = data.webhook_logs || [];
+
+        // Update tab counts
+        const criticalCount = cachedAlerts.filter(a => a.severity === 'CRITICAL').length;
+        const warningCount = cachedAlerts.filter(a => a.severity === 'WARNING').length;
+
+        document.getElementById('countAllAlerts').innerText = cachedAlerts.length;
+        document.getElementById('countCritical').innerText = criticalCount;
+        document.getElementById('countWarning').innerText = warningCount;
+        document.getElementById('countWebhooks').innerText = cachedWebhookLogs.length;
+
+        renderAlertFeed();
+      } catch (err) {
+        console.error("Alert poll error:", err);
+      }
+    }
+
+    function filterAlerts(tab) {
+      currentAlertSeverity = tab;
+      document.querySelectorAll('.alert-tab').forEach(el => el.classList.remove('active'));
+      if (tab === 'ALL') document.getElementById('tabAllAlerts').classList.add('active');
+      else if (tab === 'CRITICAL') document.getElementById('tabCritical').classList.add('active');
+      else if (tab === 'WARNING') document.getElementById('tabWarning').classList.add('active');
+      else if (tab === 'WEBHOOKS') document.getElementById('tabWebhooks').classList.add('active');
+      renderAlertFeed();
+    }
+
+    function renderAlertFeed() {
+      const container = document.getElementById('alertFeedContainer');
+      if (currentAlertSeverity === 'WEBHOOKS') {
+        if (cachedWebhookLogs.length === 0) {
+          container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:1.5rem;">No webhook dispatches logged yet.</div>';
+          return;
+        }
+        container.innerHTML = '';
+        cachedWebhookLogs.forEach(w => {
+          const el = document.createElement('div');
+          el.className = 'alert-item-card';
+          const isSuccess = w.status.includes('DELIVERED');
+          el.innerHTML = `
+            <div class="alert-card-header">
+              <div class="alert-id-time">
+                <strong style="color:#e2e8f0;">${w.alert_id}</strong> &bull; <span>${new Date(w.timestamp).toLocaleTimeString()}</span>
+              </div>
+              <span style="font-size:0.72rem; font-weight:700; color:${isSuccess ? '#34d399' : '#f87171'};">
+                ${isSuccess ? '✓ DISPATCHED' : '✕ FAILED'} (${w.status})
+              </span>
+            </div>
+            <div style="font-size:0.78rem; color:#cbd5e1;">Target: <code>${w.target_url}</code> &bull; Severity: <strong>${w.severity}</strong> &bull; Amount: &#8377;${parseFloat(w.amount).toLocaleString('en-IN')}</div>
+          `;
+          container.appendChild(el);
+        });
+        return;
+      }
+
+      let list = cachedAlerts;
+      if (currentAlertSeverity !== 'ALL') {
+        list = cachedAlerts.filter(a => a.severity === currentAlertSeverity);
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:1.5rem;">No active ${currentAlertSeverity} alerts found.</div>`;
+        return;
+      }
+
+      container.innerHTML = '';
+      list.forEach(a => {
+        const el = document.createElement('div');
+        el.className = `alert-item-card alert-card-${a.severity}`;
+
+        const badge = a.severity === 'CRITICAL'
+          ? `<span class="alert-badge-CRITICAL">🚨 CRITICAL &bull; ${a.risk_score_pct.toFixed(1)}%</span>`
+          : `<span class="alert-badge-WARNING">⚠️ WARNING &bull; ${a.risk_score_pct.toFixed(1)}%</span>`;
+
+        const factors = (a.explanation_factors || []).slice(0, 2).map(f => `<div>&bull; ${f}</div>`).join('');
+
+        el.innerHTML = `
+          <div class="alert-card-header">
+            <div class="alert-id-time">
+              <span style="font-weight:700; color:#e2e8f0;">${a.id}</span> &bull; <span>${new Date(a.timestamp).toLocaleTimeString()}</span>
+            </div>
+            ${badge}
+          </div>
+          <div class="alert-card-body">
+            <div class="alert-amount-cat">&#8377;${parseFloat(a.amount).toLocaleString('en-IN', {minimumFractionDigits:2})} &bull; <span style="font-weight:500; font-size:0.85rem; color:#94a3b8;">${a.merchant_category}</span></div>
+            <div class="alert-meta">${a.txn_city} vs Home: ${a.home_city} &bull; ${a.device_new ? '⚠️ New Device' : '✓ Known Device'}</div>
+          </div>
+          <div class="alert-factors">${factors || 'Anomalous payment velocity / location mismatch'}</div>
+          <div class="alert-footer">
+            <span style="color:#94a3b8;">Verdict: <strong style="color:${a.severity==='CRITICAL' ? '#f87171':'#fbbf24'};">${a.decision}</strong></span>
+            <span class="webhook-tag">✓ Webhook Dispatched (${a.webhook_status})</span>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function saveSlackWebhook() {
+      const url = document.getElementById('slackWebhookInput').value.trim();
+      localStorage.setItem('TRM_SLACK_WEBHOOK_URL', url);
+      const status = document.getElementById('webhookSaveStatus');
+      status.innerText = url ? '✓ Webhook URL Saved in Browser' : 'Reset to Mock Pipeline';
+      setTimeout(() => { status.innerText = ''; }, 3000);
+    }
+
+    async function triggerTestAlert() {
+      const customUrl = localStorage.getItem('TRM_SLACK_WEBHOOK_URL') || '';
+      try {
+        const res = await fetch(`${API_BASE}/alerts/test-webhook`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ webhook_url: customUrl })
+        });
+        if (res.ok) {
+          fetchAlerts();
+        }
+      } catch (err) {
+        console.error("Test alert error", err);
+      }
+    }
+
     // On Load
     window.addEventListener('DOMContentLoaded', () => {
       checkHealth();
       loadMetrics();
       loadFeedbackData();
+      fetchAlerts();
       evaluateRisk();
+
+      // Poll alerts every 4 seconds for live operations feel
+      setInterval(fetchAlerts, 4000);
+
+      const savedWebhook = localStorage.getItem('TRM_SLACK_WEBHOOK_URL');
+      if (savedWebhook) {
+        const input = document.getElementById('slackWebhookInput');
+        if (input) input.value = savedWebhook;
+      }
 
       const chatInputField = document.getElementById("chat-input");
       if (chatInputField) {
