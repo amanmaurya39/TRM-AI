@@ -609,7 +609,7 @@
                           window.location.hostname.includes('render.com');
 
     const API_BASE = IS_PRODUCTION
-      ? 'https://trm-ai.onrender.com'       // ← Your Render.com deployed FastAPI URL
+      ? 'https://trm-ai.onrender.com'
       : `http://${window.location.hostname || '127.0.0.1'}:8000`;
 
     // Check FastAPI backend health on load
