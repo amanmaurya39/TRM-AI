@@ -7,3 +7,4 @@ scikit-learn
 xgboost
 shap
 requests
+google-generativeai

@@ -139,7 +139,26 @@ This document maintains a real-time chronological log of all steps taken, datase
 - **Verification:**
   - Live Render endpoint returns 200 OK within ~3-4 seconds.
   - GitHub Pages CDN confirmed updated with the latest build.
-- **Status:** Step 9 Completed. System fully operational and automated against cold-start sleep. 🎉
+- **Status:** Step 9 Completed.
+
+---
+
+### [2026-09-04 00:12] - Step 10: LLM Analyst Chat Integration (Gemini-Powered)
+- **Goal:** Enable fraud analysts to ask conversational questions about scored transactions and receive grounded explanations directly referencing the model's SHAP factors, risk tier, and decisions.
+- **Components Implemented:**
+  1. [`src/chat.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/chat.py): Created FastAPI router with `POST /chat` endpoint integrating Google Gemini (`gemini-2.0-flash` with fallback to `gemini-1.5-flash`). Grounded prompt strictly prevents hallucination.
+  2. Registered `chat_router` into [`src/api.py`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/src/api.py).
+  3. Added `google-generativeai` to [`requirements.txt`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/requirements.txt).
+  4. Integrated UI chat widget into [`frontend/index.html`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/frontend/index.html) and [`docs/index.html`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/docs/index.html):
+     - Modern glassmorphism UI matching the dashboard theme.
+     - Quick prompt chips ("Why high risk?", "New device impact?", "Suggested action?", "How to reduce risk?").
+     - Dynamic conversation log storing user queries and grounded analyst responses.
+     - Auto-wires `lastPredictionResult` from the live `/predict` evaluation.
+- **Verification:**
+  - Tested `/chat` endpoint registration on OpenAPI schema (`http://127.0.0.1:8000/openapi.json` confirmed `True`).
+  - Tested missing key handling (returns clear 503 HTTP status instructing on adding `GEMINI_API_KEY`).
+  - Verified frontend widget on `http://127.0.0.1:3000`.
+- **Status:** Step 10 Completed. 🎉
 
 ---
 

@@ -109,6 +109,7 @@ python -m http.server 3000 --directory frontend
 | `GET` | `/health` | Server status & loaded model info |
 | `GET` | `/metrics` | 4-model comparison benchmark table |
 | `POST` | `/predict` | Score a transaction in real time |
+| `POST` | `/chat` | Gemini-powered AI Risk Analyst chat grounded in prediction factors |
 
 ### Example `/predict` Request
 ```json

@@ -37,6 +37,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Register AI Analyst Chat router
+from src.chat import router as chat_router
+app.include_router(chat_router)
+
 # Global variables for model state
 artifact = None
 model = None
