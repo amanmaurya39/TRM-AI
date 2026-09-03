@@ -126,7 +126,20 @@ This document maintains a real-time chronological log of all steps taken, datase
   - **API Swagger Docs:** [https://trm-ai.onrender.com/docs](https://trm-ai.onrender.com/docs)
   - **GitHub Repository:** [https://github.com/amanmaurya39/TRM-AI](https://github.com/amanmaurya39/TRM-AI)
 - **Verification:** Both URLs confirmed live. FastAPI /health returns `{"status":"healthy","model_loaded":true,"model_name":"XGBoost","feature_count":24}`. GitHub Pages serves full dashboard.
-- **Status:** PROJECT FULLY COMPLETE & DEPLOYED. 🎉
+- **Status:** Step 8 Completed.
+
+---
+
+### [2026-09-03 23:07] - Step 9: Cold-Start Mitigation & Keep-Alive Automation
+- **Issue Identified:** Render free-tier spins down after 15 minutes of inactivity. When booting up, requests taking >8s were previously aborted by short browser timeouts, leaving the UI showing repeated wake-up attempts.
+- **Actions Taken:**
+  1. Extended browser health check timeout from 8s to 35s to allow sufficient headroom for Render container boot.
+  2. Created [`.github/workflows/keep-alive.yml`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/.github/workflows/keep-alive.yml) that executes a cron job every 10 minutes to ping `https://trm-ai.onrender.com/health`, preventing the free instance from sleeping.
+  3. Re-synced and deployed latest static assets to GitHub Pages (`docs/index.html`).
+- **Verification:**
+  - Live Render endpoint returns 200 OK within ~3-4 seconds.
+  - GitHub Pages CDN confirmed updated with the latest build.
+- **Status:** Step 9 Completed. System fully operational and automated against cold-start sleep. 🎉
 
 ---
 
