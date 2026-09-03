@@ -110,9 +110,26 @@ This document maintains a real-time chronological log of all steps taken, datase
   - **Pre-set Fraud Attack Scenarios:** Includes 1-click test presets ("Legit Purchase", "Account Takeover", "Velocity Abuse", "High-Value Stolen Card").
   - **Live Model Comparison Leaderboard:** Dynamic table populated from `/metrics` rendering all 4 algorithms with metrics and highlighting the winning XGBoost model.
 - **Verification:** Deployed local web server daemon on `http://localhost:3000`. Verified full end-to-end integration (Frontend UI -> FastAPI `/predict` -> XGBoost Model -> Real-Time Explanation -> Gauge Display).
-- **Status:** ALL STEPS COMPLETED SUCCESSFULLY! 🎉
+- **Status:** Step 7 Completed. ALL STEPS COMPLETED SUCCESSFULLY!
 
 ---
+
+### [2026-09-03 19:59] - Step 8: Production Deployment to GitHub & Render.com
+- **Action Taken:** Deployed the full-stack application to public cloud hosting — FastAPI backend on Render.com and frontend dashboard on GitHub Pages.
+- **Deployment Configuration:**
+  - Added [`render.yaml`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/render.yaml) for Render.com auto-deployment from GitHub.
+  - Added [`docs/index.html`](file:///c:/Users/amanm/Desktop/Razor_pay/razorpay-risk-manager/docs/index.html) for GitHub Pages static site hosting.
+  - Smart `API_BASE` detection in frontend: uses `https://trm-ai.onrender.com` when on GitHub Pages, falls back to `localhost:8000` on local development.
+- **Live Production URLs:**
+  - **Web Dashboard:** [https://amanmaurya39.github.io/TRM-AI/](https://amanmaurya39.github.io/TRM-AI/)
+  - **FastAPI Backend:** [https://trm-ai.onrender.com](https://trm-ai.onrender.com)
+  - **API Swagger Docs:** [https://trm-ai.onrender.com/docs](https://trm-ai.onrender.com/docs)
+  - **GitHub Repository:** [https://github.com/amanmaurya39/TRM-AI](https://github.com/amanmaurya39/TRM-AI)
+- **Verification:** Both URLs confirmed live. FastAPI /health returns `{"status":"healthy","model_loaded":true,"model_name":"XGBoost","feature_count":24}`. GitHub Pages serves full dashboard.
+- **Status:** PROJECT FULLY COMPLETE & DEPLOYED. 🎉
+
+---
+
 
 
 

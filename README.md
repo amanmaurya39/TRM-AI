@@ -4,6 +4,16 @@
 
 A real-time payment transaction fraud detection engine built with XGBoost, FastAPI, and a modern web dashboard. Achieves **99.69% accuracy** and **0.9997 ROC-AUC** on held-out test data.
 
+## 🌐 Live Demo
+
+| | URL |
+|---|---|
+| 📊 **Web Dashboard** | [amanmaurya39.github.io/TRM-AI](https://amanmaurya39.github.io/TRM-AI/) |
+| 🔌 **FastAPI Backend** | [trm-ai.onrender.com](https://trm-ai.onrender.com) |
+| 📖 **API Swagger Docs** | [trm-ai.onrender.com/docs](https://trm-ai.onrender.com/docs) |
+
+> **Note:** The free Render tier may take ~30 seconds to wake up after idle. Once warmed up, predictions are instant.
+
 ---
 
 ## 🏗️ Project Architecture
