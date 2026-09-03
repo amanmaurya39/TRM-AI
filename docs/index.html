@@ -688,24 +688,53 @@
       ? 'https://trm-ai.onrender.com'
       : `http://${window.location.hostname || '127.0.0.1'}:8000`;
 
-    // Check FastAPI backend health on load
+    // Check FastAPI backend health — with cold-start retry for Render free tier
+    let healthRetries = 0;
+    const MAX_HEALTH_RETRIES = 18; // 18 x 5s = 90 seconds max wait
+
     async function checkHealth() {
+      // Show "waking up" state immediately on production
+      if (IS_PRODUCTION && healthRetries === 0) {
+        document.getElementById('apiStatus').innerHTML = `
+          <div class="pulse-dot" style="background:#fbbf24; box-shadow:0 0 8px #fbbf24; animation:pulse 0.8s infinite;"></div>
+          <span style="color:#fbbf24;">&#9203; API Waking Up... (may take 30-60s on free tier)</span>
+        `;
+      }
+
       try {
-        const res = await fetch(`${API_BASE}/health`);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000); // 8s per attempt
+        const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
+        clearTimeout(timeout);
+
         if (res.ok) {
           const data = await res.json();
+          healthRetries = 0;
           document.getElementById('apiStatus').innerHTML = `
             <div class="pulse-dot"></div>
-            <span>FastAPI Server Online (${data.model_name})</span>
+            <span>FastAPI Online &#10003; (${data.model_name} loaded)</span>
           `;
+          // Also trigger metrics load now that API is up
+          loadMetrics();
         } else {
           throw new Error("Health check failed");
         }
       } catch (err) {
-        document.getElementById('apiStatus').innerHTML = `
-          <div class="pulse-dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></div>
-          <span style="color:#f87171;">FastAPI Offline (${API_BASE})</span>
-        `;
+        healthRetries++;
+        if (healthRetries < MAX_HEALTH_RETRIES) {
+          // Still retrying — show waking up state
+          document.getElementById('apiStatus').innerHTML = `
+            <div class="pulse-dot" style="background:#fbbf24; box-shadow:0 0 8px #fbbf24;"></div>
+            <span style="color:#fbbf24;">&#9203; API Waking Up... (attempt ${healthRetries}/${MAX_HEALTH_RETRIES})</span>
+          `;
+          setTimeout(checkHealth, 5000); // retry in 5 seconds
+        } else {
+          // Truly offline after all retries
+          document.getElementById('apiStatus').innerHTML = `
+            <div class="pulse-dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></div>
+            <span style="color:#f87171;">FastAPI Offline &#8212; <a href="${API_BASE}/health" target="_blank" style="color:#f87171;">check status</a></span>
+          `;
+        }
       }
     }
 
