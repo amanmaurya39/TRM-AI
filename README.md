@@ -110,6 +110,9 @@ python -m http.server 3000 --directory frontend
 | `GET` | `/metrics` | 4-model comparison benchmark table |
 | `POST` | `/predict` | Score a transaction in real time |
 | `POST` | `/chat` | Gemini-powered AI Risk Analyst chat grounded in prediction factors |
+| `POST` | `/feedback` | Log analyst ground-truth verdict ('CONFIRMED_FRAUD' or 'FALSE_POSITIVE') |
+| `GET` | `/feedback` | Retrieve recent analyst feedback and agreement/drift metrics |
+| `POST` | `/feedback/recalibrate` | Run threshold recalibration & active learning fine-tune simulation |
 
 ### Example `/predict` Request
 ```json

@@ -197,6 +197,59 @@ def predict_fraud(txn: TransactionRequest):
         processed_at=now.isoformat()
     )
 
+# -------------------------------------------------------------
+# Continuous Learning & Human-in-the-Loop Feedback Endpoints
+# -------------------------------------------------------------
+from src.feedback_service import (
+    record_feedback,
+    get_feedback_history,
+    get_feedback_metrics,
+    simulate_feedback_recalibration
+)
+
+class FeedbackSubmission(BaseModel):
+    amount: float
+    merchant_category: str = "Electronics"
+    device_new: bool = False
+    txn_city: str = "Mumbai"
+    home_city: str = "Mumbai"
+    model_score_pct: float
+    model_tier: str
+    model_decision: str
+    analyst_label: str = Field(..., description="'CONFIRMED_FRAUD' or 'FALSE_POSITIVE'")
+    analyst_notes: Optional[str] = ""
+
+@app.post("/feedback")
+def submit_feedback(feedback: FeedbackSubmission):
+    result = record_feedback(
+        amount=feedback.amount,
+        merchant_category=feedback.merchant_category,
+        device_new=feedback.device_new,
+        txn_city=feedback.txn_city,
+        home_city=feedback.home_city,
+        model_score_pct=feedback.model_score_pct,
+        model_tier=feedback.model_tier,
+        model_decision=feedback.model_decision,
+        analyst_label=feedback.analyst_label,
+        analyst_notes=feedback.analyst_notes
+    )
+    return {
+        "status": "success",
+        "message": f"Analyst feedback '{feedback.analyst_label}' logged to SQLite.",
+        "record": result
+    }
+
+@app.get("/feedback")
+def get_feedback():
+    return {
+        "metrics": get_feedback_metrics(),
+        "history": get_feedback_history(limit=20)
+    }
+
+@app.post("/feedback/recalibrate")
+def recalibrate_feedback():
+    return simulate_feedback_recalibration()
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.api:app", host="127.0.0.1", port=8000, reload=True)

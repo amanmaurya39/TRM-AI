@@ -626,6 +626,155 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    /* Analyst Verdict Action Bar */
+    .verdict-container {
+      margin: 1rem 0;
+      padding: 0.85rem 1rem;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed var(--card-border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .verdict-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .verdict-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-verdict {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.55rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .btn-confirm {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .btn-confirm:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      transform: translateY(-1px);
+    }
+
+    .btn-dispute {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+
+    .btn-dispute:hover {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: #10b981;
+      transform: translateY(-1px);
+    }
+
+    .verdict-msg {
+      font-size: 0.76rem;
+      min-height: 1rem;
+      transition: all 0.2s;
+    }
+
+    /* Feedback KPI Grid */
+    .feedback-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .kpi-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    .kpi-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+    }
+
+    .kpi-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* Recalibration Result Panel */
+    .recalibration-box {
+      background: rgba(16, 185, 129, 0.05);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 8px;
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: none;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .recal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .recal-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .recal-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin: 0.75rem 0;
+    }
+
+    .recal-pill {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+
+    .recal-pill strong {
+      color: #60a5fa;
+    }
   </style>
 </head>
 <body>
@@ -776,6 +925,23 @@
             READY FOR EVALUATION
           </div>
 
+          <!-- Human-in-the-Loop Analyst Verdict Action Bar -->
+          <div class="verdict-container">
+            <div class="verdict-title">
+              <span>👨‍💻 Analyst Ground-Truth Action</span>
+              <span style="color:#a78bfa; font-size:0.7rem;">Active Feedback Loop</span>
+            </div>
+            <div class="verdict-buttons">
+              <button id="btnConfirmFraud" type="button" class="btn-verdict btn-confirm" onclick="submitCurrentFeedback('CONFIRMED_FRAUD')">
+                🚨 Confirm Fraud
+              </button>
+              <button id="btnDisputeFraud" type="button" class="btn-verdict btn-dispute" onclick="submitCurrentFeedback('FALSE_POSITIVE')">
+                🛡️ False Positive (Dispute)
+              </button>
+            </div>
+            <div id="verdictFeedbackMsg" class="verdict-msg"></div>
+          </div>
+
           <div class="explanation-box">
             <h4>Key Model Explanation Factors:</h4>
             <ul id="explanationList" class="explanation-list">
@@ -849,6 +1015,73 @@
           </thead>
           <tbody id="historyTableBody">
             <tr><td colspan="8" class="history-empty">No transactions scored yet. Submit a transaction above to begin.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Model Feedback Loop & Continuous Learning Card -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card-title" style="justify-content: space-between;">
+        <span>🔄 Continuous Learning & Analyst Feedback Loop</span>
+        <button class="clear-btn" style="background:linear-gradient(135deg,#10b981,#059669); color:white; border:none; font-weight:700;" onclick="runRecalibrationSimulation()">
+          ⚡ Simulate Threshold Recalibration
+        </button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;">
+        Human-in-the-loop decisions stored in persistent SQLite database. Directly feeds error analysis, threshold tuning, and active-learning fine-tuning.
+      </p>
+
+      <!-- Feedback Summary KPI Cards -->
+      <div class="feedback-kpi-grid">
+        <div class="kpi-box">
+          <div id="fbTotalReviews" class="kpi-value" style="color:#60a5fa;">--</div>
+          <div class="kpi-label">Total Reviews</div>
+        </div>
+        <div class="kpi-box">
+          <div id="fbConfirmedFraud" class="kpi-value" style="color:#f87171;">--</div>
+          <div class="kpi-label">Confirmed Fraud</div>
+        </div>
+        <div class="kpi-box">
+          <div id="fbFalsePositives" class="kpi-value" style="color:#fbbf24;">--</div>
+          <div class="kpi-label">False Positives</div>
+        </div>
+        <div class="kpi-box">
+          <div id="fbAgreementRate" class="kpi-value" style="color:#34d399;">--%</div>
+          <div class="kpi-label">Model Agreement</div>
+        </div>
+      </div>
+
+      <!-- Recalibration Result Simulation Box -->
+      <div id="recalibrationResult" class="recalibration-box">
+        <div class="recal-header">
+          <div class="recal-title">
+            <span>🎯 Automated Recalibration & Hard-Sample Mining Results</span>
+          </div>
+          <span style="font-size:0.75rem; color:#34d399; font-weight:600;">Simulation Complete</span>
+        </div>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem;" id="recalTypologies"></p>
+        <div class="recal-pills" id="recalPills"></div>
+        <div style="font-size:0.78rem; color:#a78bfa; margin-top:0.4rem;" id="recalAction"></div>
+      </div>
+
+      <!-- Live Feedback Decisions Table -->
+      <div class="table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>Amount (INR)</th>
+              <th>Category</th>
+              <th>Score</th>
+              <th>Model Tier</th>
+              <th>Analyst Verdict</th>
+              <th>Notes / Ground Truth</th>
+            </tr>
+          </thead>
+          <tbody id="feedbackTableBody">
+            <tr><td colspan="8" class="history-empty">Loading feedback log from database...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1218,10 +1451,146 @@
       }
     }
 
+    // -------------------------------------------------------------
+    // Continuous Learning & Analyst Feedback Loop Client Logic
+    // -------------------------------------------------------------
+    async function loadFeedbackData() {
+      try {
+        const res = await fetch(`${API_BASE}/feedback`);
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        // Update KPI counters
+        document.getElementById('fbTotalReviews').innerText = data.metrics.total_reviews;
+        document.getElementById('fbConfirmedFraud').innerText = data.metrics.confirmed_fraud_count;
+        document.getElementById('fbFalsePositives').innerText = data.metrics.false_positive_count;
+        document.getElementById('fbAgreementRate').innerText = `${data.metrics.model_agreement_pct}%`;
+
+        // Render Feedback Table
+        const tbody = document.getElementById('feedbackTableBody');
+        if (!data.history || data.history.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="history-empty">No analyst reviews recorded yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = '';
+        data.history.forEach(item => {
+          const tr = document.createElement('tr');
+          const isFraud = item.analyst_label === 'CONFIRMED_FRAUD';
+          tr.className = isFraud ? 'history-row-HIGH' : 'history-row-LOW';
+
+          const timeStr = new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const verdictBadge = isFraud
+            ? '<span class="tier-pill pill-HIGH">🚨 CONFIRMED FRAUD</span>'
+            : '<span class="tier-pill pill-LOW">🛡️ FALSE POSITIVE</span>';
+
+          tr.innerHTML = `
+            <td style="color:var(--text-muted); font-size:0.75rem;">#${item.id}</td>
+            <td style="font-size:0.75rem; color:var(--text-muted);">${timeStr}</td>
+            <td style="font-weight:600;">&#8377;${parseFloat(item.amount).toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
+            <td>${item.merchant_category}</td>
+            <td style="font-weight:700;">${parseFloat(item.model_score_pct).toFixed(1)}%</td>
+            <td><span class="tier-pill pill-${item.model_tier}">${item.model_tier}</span></td>
+            <td>${verdictBadge}</td>
+            <td style="font-size:0.76rem; color:#cbd5e1; max-width:260px;">${item.analyst_notes || 'Analyst verification recorded.'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Failed to fetch feedback data:", err);
+      }
+    }
+
+    async function submitCurrentFeedback(label) {
+      const msgEl = document.getElementById('verdictFeedbackMsg');
+      if (!lastPredictionResult) {
+        msgEl.innerHTML = '<span style="color:#fbbf24;">⚠️ Score a transaction first before providing feedback.</span>';
+        return;
+      }
+
+      msgEl.innerHTML = '<span style="color:#94a3b8;">Logging decision to SQLite...</span>';
+
+      const payload = {
+        amount: parseFloat(document.getElementById('amount').value) || 1000.0,
+        merchant_category: document.getElementById('merchant_category').value || 'Electronics',
+        device_new: document.getElementById('device_new').checked,
+        txn_city: document.getElementById('txn_city').value || 'Mumbai',
+        home_city: document.getElementById('home_city').value || 'Mumbai',
+        model_score_pct: lastPredictionResult.risk_score_pct,
+        model_tier: lastPredictionResult.risk_tier,
+        model_decision: lastPredictionResult.decision,
+        analyst_label: label,
+        analyst_notes: label === 'CONFIRMED_FRAUD' 
+          ? 'Analyst verified suspicious indicators / confirmed attack.' 
+          : 'Analyst verified legitimate cardholder activity / false alarm.'
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/feedback`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const resData = await res.json();
+          msgEl.innerHTML = label === 'CONFIRMED_FRAUD'
+            ? `<span style="color:#f87171;">✓ Logged: Marked as <strong>CONFIRMED FRAUD</strong> (#${resData.record.id}). Retraining queue updated.</span>`
+            : `<span style="color:#34d399;">✓ Logged: Marked as <strong>FALSE POSITIVE</strong> (#${resData.record.id}). Added to threshold tuning pool.</span>`;
+          
+          // Refresh feedback table and metrics
+          loadFeedbackData();
+        } else {
+          msgEl.innerHTML = '<span style="color:#f87171;">Failed to save feedback to API.</span>';
+        }
+      } catch (err) {
+        msgEl.innerHTML = '<span style="color:#f87171;">Server connection error while saving feedback.</span>';
+      }
+    }
+
+    async function runRecalibrationSimulation() {
+      const box = document.getElementById('recalibrationResult');
+      box.style.display = 'block';
+      document.getElementById('recalTypologies').innerText = 'Analyzing false positive clusters across merchant categories and devices...';
+
+      try {
+        const res = await fetch(`${API_BASE}/feedback/recalibrate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const th = data.threshold_recalibration;
+
+          document.getElementById('recalTypologies').innerHTML = `
+            <strong>Drift & Error Analysis:</strong> ${data.patterns_detected.join(' ')}
+          `;
+
+          document.getElementById('recalPills').innerHTML = `
+            <div class="recal-pill">Analyzed Feedback: <strong>${data.analyzed_samples} reviews</strong></div>
+            <div class="recal-pill">BLOCK Threshold: <strong>${th.current_block_threshold_pct}% &rarr; ${th.recommended_block_threshold_pct}%</strong></div>
+            <div class="recal-pill">REVIEW Threshold: <strong>${th.current_review_threshold_pct}% &rarr; ${th.recommended_review_threshold_pct}%</strong></div>
+            <div class="recal-pill">False Positive Drop: <strong style="color:#34d399;">-${th.expected_false_positive_reduction}</strong></div>
+            <div class="recal-pill">Fraud Recall Preserved: <strong style="color:#34d399;">${th.projected_recall_preservation}</strong></div>
+          `;
+
+          document.getElementById('recalAction').innerHTML = `
+            🚀 <strong>Continuous Retraining Pipeline:</strong> ${data.retraining_pipeline_action.action} (${data.retraining_pipeline_action.next_automated_retrain})
+          `;
+        }
+      } catch (err) {
+        document.getElementById('recalTypologies').innerText = 'Recalibration simulation unavailable offline.';
+      }
+    }
+
     // On Load
     window.addEventListener('DOMContentLoaded', () => {
       checkHealth();
       loadMetrics();
+      loadFeedbackData();
       evaluateRisk();
 
       const chatInputField = document.getElementById("chat-input");
