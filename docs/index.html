@@ -2270,6 +2270,7 @@
     // Risk Evaluation Inference
     // -------------------------------------------------------------
     let transactionHistory = [];
+    let lastEvaluatedPrediction = null;
 
     async function evaluateRisk() {
       const btn = document.getElementById('evaluateBtn');
@@ -2366,6 +2367,7 @@
     }
 
     function renderVerdict(data, payload) {
+      lastEvaluatedPrediction = { ...data, amount: payload.amount };
       const score = data.risk_score_pct;
       document.getElementById('riskScoreValue').innerText = `${score.toFixed(1)}%`;
 
@@ -2759,11 +2761,15 @@
         const res = await fetch(`${API_BASE}/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify({ 
+            question: text,
+            message: text,
+            prediction_context: lastEvaluatedPrediction 
+          })
         });
         if (res.ok) {
           const data = await res.json();
-          botMsg.innerText = data.response || "Analysis complete.";
+          botMsg.innerText = data.answer || data.response || "Analysis complete.";
         } else {
           throw new Error("Chat endpoint returned error");
         }
