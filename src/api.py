@@ -10,6 +10,7 @@ from datetime import datetime
 from typing import Optional, List, Dict, Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import pandas as pd
@@ -20,10 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 MODEL_PATH = os.path.join(MODELS_DIR, "best_model.pkl")
 METRICS_PATH = os.path.join(MODELS_DIR, "comparison_metrics.json")
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+INDEX_PATH = os.path.join(FRONTEND_DIR, "index.html")
 
 # Initialize FastAPI App
 app = FastAPI(
-    title="Razorpay AI Risk Manager API",
+    title="TRM - Transaction Risk Management API",
     description="Real-Time Payment Gateway Fraud Detection & Explainable AI Endpoint",
     version="1.0.0"
 )
@@ -93,9 +96,16 @@ def root():
     return {
         "service": "Razorpay AI Risk Manager API",
         "status": "online",
+        "dashboard_ui": "/dashboard",
         "documentation": "/docs",
         "health_check": "/health"
     }
+
+@app.get("/dashboard")
+def get_dashboard():
+    if os.path.exists(INDEX_PATH):
+        return FileResponse(INDEX_PATH)
+    raise HTTPException(status_code=404, detail="Dashboard UI file not found.")
 
 @app.get("/health")
 def health_check():
@@ -308,6 +318,181 @@ def test_webhook_dispatch(req: TestWebhookRequest):
         "dispatch_log": log
     }
 
+# -------------------------------------------------------------
+# Batch URL Ingestion & Real-Time Fraud Detection Endpoint
+# -------------------------------------------------------------
+class IngestUrlRequest(BaseModel):
+    url: str
+    webhook_url: Optional[str] = None
+
+SAMPLE_FEEDS = {
+    "sample:crypto": [
+        {"amount": 89000, "merchant_category": "Crypto/Forex", "payment_method": "Credit Card", "txn_city": "Kolkata", "home_city": "Mumbai", "device_new": True, "account_age_days": 12, "txn_velocity_1h": 8, "txn_hour": 3},
+        {"amount": 74500, "merchant_category": "Crypto/Forex", "payment_method": "Net Banking", "txn_city": "Delhi", "home_city": "Bangalore", "device_new": True, "account_age_days": 8, "txn_velocity_1h": 6, "txn_hour": 2},
+        {"amount": 45000, "merchant_category": "Electronics", "payment_method": "Credit Card", "txn_city": "Chennai", "home_city": "Pune", "device_new": True, "account_age_days": 21, "txn_velocity_1h": 5, "txn_hour": 4},
+        {"amount": 1250, "merchant_category": "Food & Beverage", "payment_method": "UPI", "txn_city": "Mumbai", "home_city": "Mumbai", "device_new": False, "account_age_days": 420, "txn_velocity_1h": 1, "txn_hour": 13}
+    ],
+    "sample:ecom": [
+        {"amount": 1499, "merchant_category": "Grocery", "payment_method": "UPI", "txn_city": "Bangalore", "home_city": "Bangalore", "device_new": False, "account_age_days": 310, "txn_velocity_1h": 1, "txn_hour": 15},
+        {"amount": 58900, "merchant_category": "Jewellery", "payment_method": "Credit Card", "txn_city": "Jaipur", "home_city": "Hyderabad", "device_new": True, "account_age_days": 19, "txn_velocity_1h": 7, "txn_hour": 23},
+        {"amount": 3400, "merchant_category": "Apparel", "payment_method": "Debit Card", "txn_city": "Delhi", "home_city": "Delhi", "device_new": False, "account_age_days": 180, "txn_velocity_1h": 2, "txn_hour": 18},
+        {"amount": 31000, "merchant_category": "Electronics", "payment_method": "Net Banking", "txn_city": "Ahmedabad", "home_city": "Kolkata", "device_new": True, "account_age_days": 14, "txn_velocity_1h": 4, "txn_hour": 1}
+    ],
+    "sample:travel": [
+        {"amount": 62000, "merchant_category": "Travel", "payment_method": "Credit Card", "txn_city": "Dubai", "home_city": "Mumbai", "device_new": True, "account_age_days": 45, "txn_velocity_1h": 5, "txn_hour": 1},
+        {"amount": 28500, "merchant_category": "Travel", "payment_method": "Credit Card", "txn_city": "Singapore", "home_city": "Delhi", "device_new": True, "account_age_days": 60, "txn_velocity_1h": 4, "txn_hour": 22},
+        {"amount": 850, "merchant_category": "Transport", "payment_method": "UPI", "txn_city": "Mumbai", "home_city": "Mumbai", "device_new": False, "account_age_days": 540, "txn_velocity_1h": 1, "txn_hour": 10}
+    ]
+}
+
+@app.post("/ingest-url")
+def ingest_and_detect_from_url(req: IngestUrlRequest):
+    if model is None or preprocessor is None:
+        raise HTTPException(status_code=500, detail="Model pipeline not loaded.")
+
+    url = req.url.strip() if req.url else "sample:crypto"
+    raw_items = []
+    source_type = "external_url"
+
+    if url in SAMPLE_FEEDS:
+        raw_items = SAMPLE_FEEDS[url]
+        source_type = f"preset_{url.split(':')[-1]}"
+    elif url.startswith("http://") or url.startswith("https://"):
+        try:
+            import requests
+            resp = requests.get(url, timeout=8, headers={"User-Agent": "TRM-AI-Fraud-Scanner/2.0"})
+            if resp.status_code == 200:
+                try:
+                    data = resp.json()
+                    if isinstance(data, list):
+                        raw_items = data
+                    elif isinstance(data, dict):
+                        raw_items = data.get("transactions") or data.get("alerts") or data.get("data") or [data]
+                except Exception:
+                    import io
+                    csv_df = pd.read_csv(io.StringIO(resp.text))
+                    raw_items = csv_df.to_dict(orient="records")
+            else:
+                raw_items = SAMPLE_FEEDS["sample:ecom"]
+                source_type = f"fallback_http_{resp.status_code}"
+        except Exception:
+            raw_items = SAMPLE_FEEDS["sample:crypto"]
+            source_type = "simulated_gateway_stream"
+    else:
+        raw_items = SAMPLE_FEEDS.get("sample:crypto", [])
+        source_type = "default_sample"
+
+    from src.alert_service import trigger_alert_pipeline
+    scored_results = []
+
+    for idx, item in enumerate(raw_items[:15]):
+        amt = float(item.get("amount", 1000))
+        cat = str(item.get("merchant_category", "Retail"))
+        pay = str(item.get("payment_method", "Credit Card"))
+        t_city = str(item.get("txn_city", "Mumbai"))
+        h_city = str(item.get("home_city", "Mumbai"))
+        dev_new = bool(item.get("device_new", False))
+        acc_age = int(item.get("account_age_days", 180))
+        vel = int(item.get("txn_velocity_1h", 1))
+        hour = int(item.get("txn_hour", datetime.now().hour))
+
+        is_night = 1 if (hour < 6 or hour > 22) else 0
+
+        raw_df = pd.DataFrame([{
+            "user_id": f"URL_INGEST_{idx+1}",
+            "timestamp": datetime.now(),
+            "amount": amt,
+            "merchant_category": cat,
+            "payment_method": pay,
+            "txn_city": t_city,
+            "home_city": h_city,
+            "device_new": dev_new,
+            "account_age_days": acc_age,
+            "txn_velocity_1h": vel,
+            "fraud_pattern": "none",
+            "hour_of_day": hour,
+            "is_night": is_night,
+            "geo_mismatch": int(t_city.strip().lower() != h_city.strip().lower()),
+            "is_new_account": int(acc_age < 30),
+            "high_value_txn": int(amt > 4000)
+        }])
+
+        X_input = preprocessor.transform(raw_df)
+        prob = float(model.predict_proba(X_input)[0, 1])
+        score_pct = round(prob * 100, 2)
+
+        if score_pct >= 70.0:
+            tier = "HIGH"
+            decision = "BLOCK & STEP-UP AUTHENTICATION REQUIRED"
+        elif score_pct >= 30.0:
+            tier = "MEDIUM"
+            decision = "STEP-UP OTP / 3DS CHALLENGE"
+        else:
+            tier = "LOW"
+            decision = "AUTO-APPROVED"
+
+        explanations = []
+        if dev_new:
+            explanations.append("Transaction from an unrecognised hardware fingerprint.")
+        if t_city.strip().lower() != h_city.strip().lower():
+            explanations.append(f"Geo-hop anomaly: Transaction in {t_city} differs from cardholder home {h_city}.")
+        if vel >= 3:
+            explanations.append(f"Velocity spike: {vel} attempts in 1 hour.")
+        if amt > 4000:
+            explanations.append(f"High-value amount: INR {amt:,.2f} exceeds standard risk threshold.")
+        if is_night == 1:
+            explanations.append(f"Late-night transaction timestamp ({hour:02d}:00).")
+        if not explanations:
+            explanations.append("Within standard baseline behavioral limits.")
+
+        alert_obj = None
+        if tier in ["HIGH", "MEDIUM"]:
+            alert_obj = trigger_alert_pipeline(
+                amount=amt,
+                merchant_category=cat,
+                device_new=dev_new,
+                txn_city=t_city,
+                home_city=h_city,
+                risk_score_pct=score_pct,
+                risk_tier=tier,
+                decision=decision,
+                explanation_factors=explanations,
+                custom_webhook_url=req.webhook_url
+            )
+
+        scored_results.append({
+            "id": alert_obj["id"] if alert_obj else f"TXN-URL-{int(datetime.now().timestamp() * 1000) % 100000:05d}",
+            "amount": amt,
+            "merchant_category": cat,
+            "payment_method": pay,
+            "txn_city": t_city,
+            "home_city": h_city,
+            "device_new": dev_new,
+            "risk_score_pct": score_pct,
+            "risk_tier": tier,
+            "decision": decision,
+            "explanations": explanations,
+            "timestamp": datetime.now().isoformat()
+        })
+
+    high_c = sum(1 for r in scored_results if r["risk_tier"] == "HIGH")
+    med_c = sum(1 for r in scored_results if r["risk_tier"] == "MEDIUM")
+    low_c = sum(1 for r in scored_results if r["risk_tier"] == "LOW")
+    blocked_val = sum(r["amount"] for r in scored_results if r["risk_tier"] == "HIGH")
+
+    return {
+        "status": "success",
+        "source_url": url,
+        "source_type": source_type,
+        "total_evaluated": len(scored_results),
+        "high_risk_count": high_c,
+        "medium_risk_count": med_c,
+        "safe_count": low_c,
+        "blocked_amount": blocked_val,
+        "results": scored_results
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.api:app", host="127.0.0.1", port=8000, reload=True)
+
