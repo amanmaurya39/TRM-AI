@@ -1153,17 +1153,47 @@
       border-radius: 8px;
     }
     #view-transactions .gauge-wrapper {
-      padding: 0.25rem 0;
+      padding: 0.15rem 0;
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
     }
     #view-transactions .score-circle-svg {
-      width: 120px;
-      height: 120px;
+      width: 125px;
+      height: 125px;
+    }
+    #view-transactions .gauge-center-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
     }
     #view-transactions .gauge-pct {
-      font-size: 2.1rem;
+      font-size: 1.42rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      text-align: center;
+      font-family: var(--font-heading);
+      max-width: 85px;
+      overflow: hidden;
+      text-overflow: clip;
     }
     #view-transactions .gauge-tag {
-      font-size: 0.62rem;
+      font-size: 0.58rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
       margin-top: 0.15rem;
     }
     #view-transactions .decision-badge {
@@ -1567,9 +1597,8 @@
           <div class="nav-item" id="navItemAuditLogs" data-page="audit-trail" onclick="navigateTo('audit-trail')">
             <div class="nav-left">
               <span class="nav-icon">≡</span>
-              <span>Audit Logs</span>
+              <span>Transaction History</span>
             </div>
-            <span class="role-badge role-admin" style="font-size:0.58rem; padding:0.1rem 0.35rem; margin-left:auto;">ADMIN</span>
           </div>
         </div>
 
@@ -2085,10 +2114,14 @@
                 </div>
               </div>
 
-              <!-- AI Chatbot Investigation Action Deck -->
-              <div style="margin-top:0.5rem; width:100%; text-align:left;">
-                <button id="btnAnalyzeWithAi" class="btn-action" style="width:100%; justify-content:center; padding:0.6rem 1rem; font-size:0.85rem;" onclick="analyzeCurrentTxnWithAI()">
-                  <span>🤖 Analyze with AI Chatbot</span>
+              <!-- Dual Action Deck: AI Chatbot & Direct History Navigation -->
+              <div style="margin-top:0.45rem; width:100%; display:grid; grid-template-columns: 1.1fr 1fr; gap:0.45rem;">
+                <button id="btnAnalyzeWithAi" class="btn-action" style="justify-content:center; padding:0.55rem 0.65rem; font-size:0.8rem; white-space:nowrap;" onclick="analyzeCurrentTxnWithAI()">
+                  <span>🤖 Analyze with AI</span>
+                  <span>→</span>
+                </button>
+                <button id="btnViewHistory" class="btn-action" style="justify-content:center; padding:0.55rem 0.65rem; font-size:0.8rem; background:rgba(255,255,255,0.05); border-color:var(--border-subtle); color:#ffffff; white-space:nowrap;" onclick="navigateToHistory()">
+                  <span>📋 View History</span>
                   <span>→</span>
                 </button>
               </div>
@@ -2282,8 +2315,8 @@
           
           <div class="heading-bar">
             <div class="heading-left">
-              <h1 class="page-title">Audit Logs</h1>
-              <p class="page-sub">Chronological audit ledger of all evaluated transactions and risk decisions.</p>
+              <h1 class="page-title">Transaction History</h1>
+              <p class="page-sub">Chronological audit ledger and forensic records of all evaluated transactions.</p>
             </div>
             <div class="db-live-pill">
               <span>LOG BUFFER</span>
@@ -2384,19 +2417,14 @@
 
       // Restrict/Decorate Navigation Items for Merchant User
       const navModels = document.getElementById('navItemModels');
-      const navAudit = document.getElementById('navItemAuditLogs');
       if (navModels) {
         navModels.style.opacity = isAdmin ? '1' : '0.45';
         navModels.setAttribute('title', isAdmin ? 'Risk Models & Benchmarks' : 'Administrator Privileges Required');
       }
-      if (navAudit) {
-        navAudit.style.opacity = isAdmin ? '1' : '0.45';
-        navAudit.setAttribute('title', isAdmin ? 'Audit Logs & Ledger' : 'Administrator Privileges Required');
-      }
 
       // If non-admin is currently on restricted view, bounce to overview
       const currentHash = window.location.hash.replace('#', '') || 'overview';
-      if (!isAdmin && (currentHash === 'policies' || currentHash === 'audit-trail')) {
+      if (!isAdmin && currentHash === 'policies') {
         navigateTo('overview');
       }
     }
@@ -2504,20 +2532,31 @@
       });
     }
 
+    function navigateToHistory() {
+      navigateTo('audit-trail');
+      showTrmToast(`
+        <span style="font-size:1.1rem;">📋</span>
+        <div>
+          <div style="font-weight:700;">Transaction History</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);">Loaded session scored transactions audit trail.</div>
+        </div>
+      `, 'LOW');
+    }
+
     // -------------------------------------------------------------
     // Multi-Page SPA Navigation Router
     // -------------------------------------------------------------
     function navigateTo(pageId) {
       if (!pageId) pageId = 'overview';
 
-      // Check role permissions
+      // Check role permissions (only Risk Models algorithmic leaderboard is restricted to admin)
       const currentRole = getCurrentRole();
-      if (currentRole === 'user' && (pageId === 'policies' || pageId === 'audit-trail')) {
+      if (currentRole === 'user' && pageId === 'policies') {
         showTrmToast(`
           <span style="font-size:1.1rem;">🔒</span>
           <div>
             <div style="font-weight:700; color:var(--approval-orange);">Admin Access Required</div>
-            <div style="font-size:0.75rem; color:var(--text-dim);">${pageId === 'policies' ? 'Risk Models' : 'Audit Logs'} is restricted to Administrator role.</div>
+            <div style="font-size:0.75rem; color:var(--text-dim);">Risk Models algorithm leaderboard is restricted to Administrator role.</div>
           </div>
         `, 'MEDIUM');
         return;
