@@ -1740,29 +1740,10 @@
 
               <!-- AI Copilot Investigation Action Deck -->
               <div style="margin-top:1.25rem; width:100%; text-align:left;">
-                <div style="display:flex; gap:0.5rem; width:100%;">
-                  <button id="btnAnalyzeWithAi" class="btn-action" style="flex:1; justify-content:center; padding:0.75rem 1rem; font-size:0.85rem;" onclick="analyzeCurrentTxnWithAI()">
-                    <span>🤖 Analyze with AI Copilot</span>
-                    <span>⚡</span>
-                  </button>
-                  <button class="btn-preset" title="Open in full chat terminal" onclick="openInChatTerminal()" style="padding:0.75rem 1rem; font-size:0.85rem; white-space:nowrap;">
-                    <span>Open Terminal →</span>
-                  </button>
-                </div>
-
-                <!-- Inline AI Copilot Response Card -->
-                <div id="inlineAiAnalysisBox" style="display:none; margin-top:0.85rem; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:1rem;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-                    <div style="display:flex; align-items:center; gap:0.5rem;">
-                      <span class="pulse-dot"></span>
-                      <strong style="font-size:0.82rem; color:var(--red-light); text-transform:uppercase; letter-spacing:0.06em;">TRM AI Copilot Telemetry Analysis</strong>
-                    </div>
-                    <span id="inlineAiModelTag" class="card-tag" style="font-size:0.7rem;">AI Copilot</span>
-                  </div>
-                  <div id="inlineAiContent" style="font-size:0.84rem; line-height:1.55; color:var(--text-main);">
-                    <!-- AI response text injected here -->
-                  </div>
-                </div>
+                <button id="btnAnalyzeWithAi" class="btn-action" style="width:100%; justify-content:center; padding:0.85rem 1.25rem; font-size:0.9rem;" onclick="analyzeCurrentTxnWithAI()">
+                  <span>🤖 Analyze with AI Copilot</span>
+                  <span>→</span>
+                </button>
               </div>
 
             </div>
@@ -2451,82 +2432,27 @@
     }
 
     // -------------------------------------------------------------
-    // Analyze Current Transaction with AI Copilot
+    // Analyze Current Transaction with AI Copilot (Lands on AI Tab)
     // -------------------------------------------------------------
-    async function analyzeCurrentTxnWithAI() {
-      const btn = document.getElementById('btnAnalyzeWithAi');
-      const box = document.getElementById('inlineAiAnalysisBox');
-      const content = document.getElementById('inlineAiContent');
-      const modelTag = document.getElementById('inlineAiModelTag');
-
-      if (box) box.style.display = 'block';
-      if (content) {
-        content.innerHTML = '<span style="color:var(--text-dim);">Analyzing current transaction parameters against XGBoost SHAP trees...</span> <span class="pulse-dot"></span>';
-      }
-      if (btn) btn.disabled = true;
-
-      const payload = {
-        amount: parseFloat(document.getElementById('txn_amount').value) || 0,
-        account_age_days: parseInt(document.getElementById('account_age_days').value) || 0,
-        txn_velocity_1h: parseInt(document.getElementById('txn_velocity_1h').value) || 0,
-        txn_city: document.getElementById('txn_city').value,
-        home_city: document.getElementById('home_city').value,
-        device_new: document.getElementById('device_new').checked,
-        merchant_category: document.getElementById('merchant_category').value,
-        payment_method: document.getElementById('payment_method').value,
-        txn_hour: parseInt(document.getElementById('txn_hour').value) || 14
-      };
-
-      const query = `Analyze this transaction: Amount INR ${payload.amount.toLocaleString('en-IN')}, Merchant: ${payload.merchant_category}, City: ${payload.txn_city} vs Home: ${payload.home_city}, Device: ${payload.device_new ? 'New' : 'Known'}, Velocity: ${payload.txn_velocity_1h}/hr, Hour: ${payload.txn_hour}:00. Why was it evaluated with this risk tier and decision?`;
-
-      try {
-        const res = await fetch(`${API_BASE}/chat`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question: query,
-            message: query,
-            transaction: payload,
-            prediction_context: lastEvaluatedPrediction || payload
-          })
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (content) content.innerText = data.answer || data.response || "Analysis complete.";
-          if (modelTag) modelTag.innerText = data.model_used || "AI Copilot";
-        } else {
-          throw new Error("Chat API returned error");
-        }
-      } catch (err) {
-        if (content) {
-          content.innerText = `SecOps Telemetry: Transaction of INR ${payload.amount.toLocaleString('en-IN')} was scored based on correlation across device novelty (${payload.device_new ? 'unrecognised hardware' : 'known hardware'}), geographic hop (${payload.txn_city} vs ${payload.home_city}), and rolling velocity (${payload.txn_velocity_1h} attempts/hr).`;
-        }
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
-
-    function openInChatTerminal() {
+    function analyzeCurrentTxnWithAI() {
       const amt = parseFloat(document.getElementById('txn_amount').value) || 0;
       const cat = document.getElementById('merchant_category').value;
       const city = document.getElementById('txn_city').value;
       const home = document.getElementById('home_city').value;
       const isNew = document.getElementById('device_new').checked;
       const vel = document.getElementById('txn_velocity_1h').value;
+      const score = lastEvaluatedPrediction ? lastEvaluatedPrediction.risk_score_pct : null;
+      const decision = lastEvaluatedPrediction ? lastEvaluatedPrediction.decision : null;
 
-      const query = `Analyze why this transaction of ₹${amt.toLocaleString('en-IN')} at ${cat} in ${city} (Home: ${home}, Device: ${isNew ? 'New' : 'Known'}, Velocity: ${vel}/hr) received this risk score and decision.`;
+      const query = `Analyze why this transaction of INR ${amt.toLocaleString('en-IN')} at ${cat} in ${city} (Home: ${home}, Device: ${isNew ? 'New' : 'Known'}, Velocity: ${vel}/hr) received risk score ${score !== null ? score + '%' : ''} and decision: ${decision || 'Pending'}. Explain the primary risk factors.`;
 
+      // 1. Immediately switch to AI Copilot tab
       navigateTo('ai-agents');
 
+      // 2. Automatically trigger inquiry in chat terminal
       setTimeout(() => {
-        const chatInput = document.getElementById('chat-input');
-        if (chatInput) {
-          chatInput.value = query;
-          chatInput.focus();
-          askAnalyst();
-        }
-      }, 200);
+        askAnalyst(query);
+      }, 150);
     }
 
     function recordAudit(item) {
@@ -2848,9 +2774,9 @@
     // -------------------------------------------------------------
     // AI Risk Analyst Chat
     // -------------------------------------------------------------
-    async function askAnalyst() {
+    async function askAnalyst(overrideText) {
       const input = document.getElementById('chat-input');
-      const text = input.value.trim();
+      const text = (overrideText || (input ? input.value : '')).trim();
       if (!text) return;
 
       const log = document.getElementById('chat-log');
@@ -2858,7 +2784,7 @@
       userMsg.className = 'chat-msg user';
       userMsg.innerText = text;
       log.appendChild(userMsg);
-      input.value = '';
+      if (input) input.value = '';
       log.scrollTop = log.scrollHeight;
 
       const botMsg = document.createElement('div');
