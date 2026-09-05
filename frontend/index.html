@@ -6,48 +6,84 @@
   <title>Transaction Risk Manager | TRM AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      /* Sentinel Red Cybernetic & Crimson Particle Network */
-      --bg-space: #070102;
-      --bg-sidebar: #0a0203;
-      --bg-topbar: rgba(10, 2, 3, 0.9);
-      --card-bg: rgba(18, 4, 6, 0.78);
-      --card-bg-solid: #120406;
-      --card-border: rgba(239, 68, 68, 0.20);
-      --card-border-hover: rgba(248, 113, 113, 0.45);
-      --border-subtle: rgba(255, 255, 255, 0.07);
+      /* ── Razorpay Light Enterprise Theme ── */
+      --bg-main: #f0f4f8;
+      --bg-sidebar: #ffffff;
+      --bg-topbar: #ffffff;
+      --bg-card: #ffffff;
+      --bg-hover: #f8fafc;
+      --bg-input: #ffffff;
 
-      --red-primary: #ef4444;
-      --red-glow: rgba(239, 68, 68, 0.35);
-      --red-light: #f87171;
-      --red-dark: #7f1d1d;
-      --red-bg: rgba(239, 68, 68, 0.12);
+      /* Brand Blue */
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #3b82f6;
+      --primary-bg: #eff6ff;
+      --primary-border: #bfdbfe;
+      --primary-text: #1e40af;
 
-      --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.22);
-      --emerald-light: #34d399;
-      --emerald-dark: #064e3b;
-      --emerald-bg: rgba(16, 185, 129, 0.10);
+      /* Borders */
+      --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --border-focus: #2563eb;
 
-      --allow-blue: #38bdf8;
-      --modify-pink: #f43f5e;
-      --approval-orange: #f59e0b;
-      --block-yellow: #fbbf24;
-      --danger-red: #ef4444;
-
-      --text-main: #f1f5f9;
-      --text-muted: #cbd5e1;
+      /* Text */
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
       --text-dim: #94a3b8;
-      --input-bg: rgba(14, 3, 4, 0.88);
-      --input-border: rgba(239, 68, 68, 0.28);
 
-      --font-heading: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
-      --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      /* Status Colors */
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --danger-text: #dc2626;
+
+      --success: #10b981;
+      --success-bg: #f0fdf4;
+      --success-border: #bbf7d0;
+      --success-text: #059669;
+
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --warning-text: #d97706;
+
+      --purple: #8b5cf6;
+      --purple-bg: #f5f3ff;
+      --purple-border: #ddd6fe;
+
+      /* Legacy compat */
+      --red-primary: #ef4444;
+      --red-glow: rgba(239,68,68,0.15);
+      --red-light: #dc2626;
+      --red-dark: #991b1b;
+      --red-bg: #fef2f2;
+      --emerald: #10b981;
+      --emerald-light: #059669;
+      --emerald-dark: #064e3b;
+      --emerald-bg: #f0fdf4;
+      --emerald-glow: rgba(16,185,129,0.15);
+      --approval-orange: #d97706;
+      --danger-red: #ef4444;
+      --allow-blue: #0284c7;
+      --block-yellow: #d97706;
+      --modify-pink: #db2777;
+
+      --font-heading: 'Mulish', 'Inter', -apple-system, sans-serif;
+      --font-sans: 'Mulish', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --font-monster: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-monster: 'Mulish', 'Inter', sans-serif;
+
+      /* Shadows */
+      --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08), 0 4px 10px -5px rgba(0,0,0,0.05);
+      --shadow-hover: 0 10px 25px -5px rgba(15,23,42,0.1), 0 4px 10px -5px rgba(0,0,0,0.06);
     }
 
     * {
@@ -55,12 +91,12 @@
       margin: 0;
       padding: 0;
       scrollbar-width: thin;
-      scrollbar-color: rgba(239, 68, 68, 0.3) transparent;
+      scrollbar-color: #cbd5e1 transparent;
     }
 
     body {
-      background-color: var(--bg-space);
-      color: var(--text-main);
+      background-color: var(--bg-main);
+      color: var(--text-primary);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
@@ -68,7 +104,7 @@
       position: relative;
     }
 
-    /* Red particle background canvas */
+    /* Subtle dot-grid background */
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -77,7 +113,7 @@
       height: 100vh;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.75;
+      opacity: 0.4;
     }
 
     /* Layout Shell */
@@ -89,48 +125,48 @@
       min-height: 100vh;
     }
 
-    /* -------------------------------------------------------------
-       Sidebar Navigation
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       SIDEBAR — exact Razorpay docs sidebar
+    ───────────────────────────────────────── */
     .sidebar {
       width: 260px;
       min-width: 260px;
       background: var(--bg-sidebar);
-      border-right: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       height: 100vh;
       position: sticky;
       top: 0;
       z-index: 50;
-      padding: 1.5rem 1rem 1.25rem 1rem;
+      padding: 0 0 1.25rem 0;
       user-select: none;
     }
 
     .sidebar-brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding-bottom: 1.5rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border-subtle);
+      gap: 0.65rem;
+      padding: 1.25rem 1.25rem 1.1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
+      background: var(--bg-sidebar);
     }
 
     .brand-icon {
       width: 36px;
       height: 36px;
       border-radius: 8px;
-      background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-      border: 1px solid rgba(248, 113, 113, 0.4);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #ffffff;
-      box-shadow: 0 0 16px var(--red-glow);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.35);
+      flex-shrink: 0;
     }
 
     .brand-text {
@@ -140,22 +176,20 @@
 
     .brand-title {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: -0.01em;
-      color: #ffffff;
-      line-height: 1.1;
-      text-shadow: none;
+      color: var(--text-primary);
+      line-height: 1.15;
     }
 
     .brand-sub {
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--red-light);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
       text-transform: uppercase;
-      opacity: 0.95;
-      line-height: 1.25;
+      line-height: 1.4;
     }
 
     .sidebar-nav {
@@ -163,106 +197,105 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      padding-right: 0.25rem;
+      gap: 0.15rem;
+      padding: 1rem 0.75rem;
     }
 
     .nav-section {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.1rem;
+      margin-bottom: 0.75rem;
     }
 
     .nav-label {
-      font-family: var(--font-sans);
       font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      padding: 0 0.75rem 0.35rem 0.75rem;
-      text-shadow: none;
+      color: var(--text-muted);
+      padding: 0 0.6rem 0.4rem 0.6rem;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.65rem 0.85rem;
+      gap: 0.65rem;
+      padding: 0.55rem 0.7rem;
       border-radius: 8px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
       font-weight: 500;
       text-decoration: none;
-      transition: all 0.18s ease;
+      transition: all 0.14s ease;
       cursor: pointer;
+      border: 1px solid transparent;
     }
 
     .nav-item:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+      background: var(--bg-hover);
     }
 
     .nav-item.active {
-      color: #ffffff;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: var(--primary);
+      background: var(--primary-bg);
+      border-color: var(--primary-border);
       font-weight: 600;
     }
 
     .nav-item.active .nav-icon {
-      color: var(--red-light);
-      filter: drop-shadow(0 0 8px var(--red-glow));
+      color: var(--primary);
     }
 
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.6rem;
     }
 
     .nav-icon {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       width: 18px;
       display: inline-block;
       text-align: center;
-      color: var(--text-dim);
-      transition: color 0.18s;
+      color: var(--text-muted);
+      transition: color 0.14s;
     }
 
     .nav-badge {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-family: var(--font-mono);
-      font-weight: 600;
+      font-weight: 700;
       padding: 0.15rem 0.45rem;
       border-radius: 999px;
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--red-light);
-      border: 1px solid rgba(239, 68, 68, 0.45);
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
     }
 
     .sidebar-footer {
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-subtle);
+      padding: 1rem 1rem 0 1rem;
+      border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .version-pill {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-family: var(--font-mono);
-      color: var(--text-dim);
-      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      background: var(--bg-hover);
       padding: 0.25rem 0.55rem;
       border-radius: 6px;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border);
     }
 
-    /* -------------------------------------------------------------
-       Main Content Area & Page Views System
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       MAIN CONTENT AREA
+    ───────────────────────────────────────── */
     .main-wrapper {
       flex: 1;
       display: flex;
@@ -270,146 +303,140 @@
       min-width: 0;
       height: 100vh;
       overflow-y: auto;
+      background: var(--bg-main);
     }
 
-    /* Top Executive Bar */
+    /* Topbar — exact Razorpay dashboard topbar */
     .topbar {
       position: sticky;
       top: 0;
       background: var(--bg-topbar);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 0.85rem 2rem;
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.75rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 40;
+      box-shadow: 0 1px 0 var(--border);
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.85rem;
     }
 
     .status-pill {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: rgba(127, 29, 29, 0.35);
-      border: 1px solid rgba(239, 68, 68, 0.5);
-      padding: 0.35rem 0.85rem;
+      gap: 0.45rem;
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      padding: 0.3rem 0.75rem;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: var(--red-light);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--success-text);
     }
 
     .pulse-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--red-light);
-      box-shadow: 0 0 12px var(--red-light);
-      animation: pulseAnim 1.6s infinite ease-in-out;
+      background: var(--success);
+      animation: pulseAnim 2s infinite ease-in-out;
     }
 
     @keyframes pulseAnim {
       0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.35); opacity: 0.6; }
+      50% { transform: scale(1.4); opacity: 0.6; }
     }
 
     .tag-mode {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      padding: 0.35rem 0.75rem;
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      padding: 0.3rem 0.65rem;
       border-radius: 6px;
-      color: var(--text-muted);
+      color: var(--primary-text);
     }
 
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     .time-display {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
     }
 
     .user-pill {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-subtle);
-      padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+      gap: 0.55rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem 0.3rem 0.35rem;
       border-radius: 999px;
       font-size: 0.8rem;
-      color: var(--text-main);
+      color: var(--text-secondary);
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.14s;
     }
 
     .user-pill:hover {
-      background: rgba(255, 255, 255, 0.06);
+      background: #e2e8f0;
+      border-color: var(--border-hover);
     }
 
     .user-avatar {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--red-dark);
-      border: 1px solid rgba(248, 113, 113, 0.5);
-      color: #fee2e2;
-      font-size: 0.75rem;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border: 1.5px solid var(--primary-border);
+      color: #ffffff;
+      font-size: 0.72rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Content Body Container */
+    /* Content Container */
     .content-container {
-      padding: 2rem;
+      padding: 1.75rem 2rem;
       max-width: 1480px;
       margin: 0 auto;
       width: 100%;
     }
 
-    /* -------------------------------------------------------------
-       Multi-Page Views Switching Logic
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       PAGE VIEW SYSTEM
+    ───────────────────────────────────────── */
     .page-view {
       display: none;
-      animation: fadeInView 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeInView 0.2s ease;
       width: 100%;
     }
 
     .page-view.active {
       display: flex;
       flex-direction: column;
-      gap: 1.75rem;
+      gap: 1.5rem;
     }
 
     @keyframes fadeInView {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* Section Heading */
@@ -419,50 +446,52 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 1rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
 
     .heading-left {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.25rem;
     }
 
     .page-title {
       font-family: var(--font-heading);
-      font-size: 1.85rem;
+      font-size: 1.6rem;
       font-weight: 800;
-      letter-spacing: -0.025em;
-      color: #ffffff;
-      line-height: 1.15;
-      text-shadow: none;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.2;
     }
 
     .page-sub {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
+      font-weight: 400;
     }
 
     .db-live-pill {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid var(--border-subtle);
-      padding: 0.4rem 0.85rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
       border-radius: 8px;
+      box-shadow: var(--shadow-sm);
     }
 
     .db-live-pill strong {
-      color: var(--red-light);
+      color: var(--primary);
+      font-weight: 700;
     }
 
-    /* -------------------------------------------------------------
-       6 Executive KPI Cards Row
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       KPI CARDS
+    ───────────────────────────────────────── */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -477,74 +506,68 @@
     }
 
     .kpi-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 1.25rem 1.1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 128px;
-      transition: all 0.22s ease;
+      min-height: 116px;
+      transition: all 0.18s ease;
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
 
     .kpi-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
+      top: 0; left: 0; right: 0;
+      height: 3px;
       background: transparent;
-      transition: background 0.22s;
+      transition: background 0.2s;
     }
 
     .kpi-card:hover {
-      border-color: var(--card-border-hover);
+      border-color: var(--border-hover);
       transform: translateY(-2px);
-      box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.65), 0 0 16px var(--red-glow);
+      box-shadow: var(--shadow-hover);
     }
 
     .kpi-card:hover::before {
-      background: linear-gradient(90deg, transparent, var(--red-light), transparent);
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
 
     .kpi-label {
-      font-family: var(--font-sans);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      text-shadow: none;
+      color: var(--text-muted);
     }
 
     .kpi-value {
       font-family: var(--font-heading);
-      font-size: 2.1rem;
+      font-size: 1.9rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       letter-spacing: -0.02em;
       line-height: 1;
       margin: 0.4rem 0;
-      text-shadow: none;
     }
 
     .kpi-sub {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
     }
 
-    /* -------------------------------------------------------------
-       Middle Row: Pipeline & Decision Distribution
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       CARDS / PANELS
+    ───────────────────────────────────────── */
     .middle-grid {
       display: grid;
       grid-template-columns: 1.55fr 1fr;
@@ -556,131 +579,369 @@
     }
 
     .glass-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem 1.5rem;
       display: flex;
       flex-direction: column;
       position: relative;
-      transition: border-color 0.2s;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      box-shadow: var(--shadow-sm);
     }
 
     .glass-card:hover {
-      border-color: var(--card-border-hover);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
     }
 
     .card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.1rem;
     }
 
     .card-heading {
       font-family: var(--font-heading);
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: #ffffff;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      text-shadow: none;
+      gap: 0.45rem;
     }
 
     .card-tag {
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      background: rgba(255, 255, 255, 0.03);
-      padding: 0.25rem 0.6rem;
+      color: var(--text-muted);
+      background: var(--bg-hover);
+      padding: 0.2rem 0.55rem;
       border-radius: 6px;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border);
     }
 
-    /* Pipeline Component */
+    /* ─────────────────────────────────────────
+       PIPELINE
+    ───────────────────────────────────────── */
+    /* ─────────────────────────────────────────
+       LIVE AUTHORIZATION PIPELINE
+    ───────────────────────────────────────── */
+    .btn-pipeline-test {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--primary);
+      color: #ffffff;
+      border: 1px solid var(--primary-dark);
+      border-radius: 6px;
+      padding: 0.28rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-pipeline-test:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-pipeline-test:active {
+      transform: translateY(0);
+    }
+
+    .pipeline-stream-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.85rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+    }
+
+    .stream-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(16,185,129,0.7);
+      animation: pulseDot 1.4s infinite;
+      flex-shrink: 0;
+    }
+
+    .stream-info {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .stream-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    .stream-txn-id {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stream-dot {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    .stream-amount {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stream-verdict {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+
+    .stream-score {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .stream-decision-pill {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .stream-decision-pill.pill-allow {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+    }
+
+    .stream-decision-pill.pill-stepup {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid var(--warning-border);
+    }
+
+    .stream-decision-pill.pill-block {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+    }
+
     .pipeline-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.4rem;
-      padding: 1rem 0;
+      gap: 0.25rem;
+      padding: 0.4rem 0;
       overflow-x: auto;
     }
 
     .pipeline-step {
       flex: 1;
+      min-width: 105px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.9rem 0.5rem;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
+      gap: 0.35rem;
+      padding: 0.75rem 0.45rem;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       transition: all 0.25s ease;
-      min-width: 80px;
+      position: relative;
+      text-align: center;
+    }
+
+    .pipeline-step:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
 
     .pipeline-step.active {
-      background: rgba(239, 68, 68, 0.16);
-      border-color: var(--red-light);
-      box-shadow: 0 0 16px var(--red-glow);
+      background: var(--primary-bg);
+      border-color: var(--primary-border);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
     }
 
-    .pipeline-step.active .step-name {
-      color: var(--red-light);
+    .pipeline-step.pstep-flash {
+      animation: stepFlash 0.5s ease;
+      border-color: var(--primary);
+      box-shadow: 0 0 14px rgba(37,99,235,0.35);
+    }
+
+    @keyframes stepFlash {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); border-color: #2563eb; }
+      100% { transform: scale(1); }
+    }
+
+    .pstep-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 0.15rem;
+    }
+
+    .pstep-num {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .pstep-latency {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-hover);
+      padding: 0.08rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .pstep-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin: 0.15rem 0;
+      transition: all 0.2s ease;
+    }
+
+    .pipeline-step.active .pstep-icon-wrap {
+      background: rgba(37,99,235,0.12);
+      color: var(--primary);
+    }
+
+    .pstep-title {
+      font-family: var(--font-heading);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-top: 0.1rem;
+    }
+
+    .pstep-sub {
+      font-size: 0.63rem;
+      color: var(--text-muted);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .pstep-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      margin-top: 0.25rem;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pstep-badge.status-ok {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+    }
+
+    .pstep-badge.status-warn {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid var(--warning-border);
+    }
+
+    .pstep-badge.status-danger {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+    }
+
+    .pipeline-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.15rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      font-size: 0.9rem;
       font-weight: 700;
     }
 
-    .step-glyph {
-      font-size: 1rem;
-      color: var(--text-dim);
-    }
-
-    .pipeline-step.active .step-glyph {
-      color: var(--red-light);
-    }
-
-    .step-name {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    .pipeline-arrow {
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      opacity: 0.5;
-    }
-
-    /* Pipeline Scrubber / Progress Bar */
     .pipeline-track {
       width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.04);
+      height: 7px;
+      background: var(--border);
       border-radius: 999px;
       position: relative;
-      margin: 1.25rem 0 1.5rem 0;
+      margin: 0.9rem 0 1rem 0;
       overflow: hidden;
-      border: 1px solid var(--border-subtle);
     }
 
     .pipeline-fill {
       height: 100%;
-      width: 65%;
-      background: linear-gradient(90deg, #b91c1c, #ef4444);
+      width: 100%;
+      background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #10b981 100%);
       border-radius: 999px;
-      box-shadow: 0 0 14px var(--red-glow);
-      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.4s ease;
+    }
+
+    .pipeline-laser {
+      position: absolute;
+      top: 0;
+      left: -20%;
+      width: 25%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+      animation: laserSweep 2.2s infinite ease-in-out;
+    }
+
+    @keyframes laserSweep {
+      0%   { left: -25%; }
+      100% { left: 110%; }
     }
 
     .pipeline-footer {
@@ -693,54 +954,56 @@
     }
 
     .pipeline-caption {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-style: normal;
     }
 
     .btn-action {
-      background: rgba(239, 68, 68, 0.16);
-      border: 1px solid rgba(239, 68, 68, 0.45);
-      color: var(--red-light);
-      padding: 0.55rem 1.1rem;
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      padding: 0.5rem 1rem;
       border-radius: 8px;
-      font-family: var(--font-heading);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.45rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
       text-decoration: none;
     }
 
     .btn-action:hover {
-      background: rgba(239, 68, 68, 0.32);
-      border-color: var(--red-light);
-      box-shadow: 0 0 16px var(--red-glow);
+      background: #dbeafe;
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.18);
       transform: translateY(-1px);
     }
 
-    /* Decision Distribution Donut Chart */
+    /* ─────────────────────────────────────────
+       DONUT CHART
+    ───────────────────────────────────────── */
     .distribution-legend {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 1.25rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       flex-wrap: wrap;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 0.45rem;
-      font-size: 0.72rem;
+      gap: 0.4rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      color: var(--text-secondary);
     }
 
     .legend-dot {
@@ -771,63 +1034,61 @@
     .donut-center-count {
       font-size: 1.85rem;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-primary);
       line-height: 1;
     }
 
     .donut-center-label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      color: var(--text-dim);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
       margin-top: 0.2rem;
     }
 
-    /* -------------------------------------------------------------
-       Lower Engine Grid: Evaluation, Alerts, Feedback, Models, Chat
-    ------------------------------------------------------------- */
+    /* ─────────────────────────────────────────
+       ENGINE GRID / SIMULATOR
+    ───────────────────────────────────────── */
     .engine-grid {
       display: grid;
       grid-template-columns: 1.3fr 1fr;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     @media (max-width: 1100px) {
       .engine-grid { grid-template-columns: 1fr; }
     }
 
-    /* Presets Strip */
     .presets-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
     }
 
     .btn-preset {
       font-size: 0.72rem;
       font-weight: 600;
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 7px;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.14s;
     }
 
     .btn-preset:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.2);
+      background: #e2e8f0;
+      color: var(--text-primary);
+      border-color: var(--border-hover);
     }
 
-    /* Form Fields Grid */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: 0.85rem;
     }
 
     @media (max-width: 640px) {
@@ -837,45 +1098,50 @@
     .field-group {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.3rem;
     }
 
     .field-label {
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       display: flex;
       justify-content: space-between;
     }
 
     .field-label span.field-meta {
-      font-size: 0.68rem;
-      color: var(--text-dim);
+      font-size: 0.65rem;
+      color: var(--text-muted);
       font-family: var(--font-mono);
     }
 
     .field-input, .field-select {
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
+      background: var(--bg-input);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      color: #ffffff;
-      padding: 0.65rem 0.85rem;
-      font-size: 0.88rem;
+      color: var(--text-primary);
+      padding: 0.55rem 0.8rem;
+      font-size: 0.85rem;
       font-family: inherit;
       outline: none;
-      transition: all 0.18s ease;
+      transition: all 0.15s ease;
     }
 
     .field-input:focus, .field-select:focus {
-      border-color: var(--red-light);
-      box-shadow: 0 0 10px var(--red-glow);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .field-select {
+      background-color: var(--bg-input);
+      color: var(--text-primary);
     }
 
     .checkbox-row {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.5rem 0;
+      gap: 0.55rem;
+      padding: 0.45rem 0;
       grid-column: span 2;
     }
 
@@ -884,33 +1150,30 @@
     }
 
     .checkbox-row input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      accent-color: var(--red-primary);
+      width: 15px;
+      height: 15px;
+      accent-color: var(--primary);
       cursor: pointer;
     }
 
     .btn-score-primary {
       grid-column: span 2;
-      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
       color: #ffffff;
-      border: 1px solid rgba(254, 202, 202, 0.25);
-      padding: 0.75rem 1.4rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.7rem 1.4rem;
       border-radius: 9px;
       font-family: var(--font-heading);
-      font-size: 0.88rem;
+      font-size: 0.875rem;
       font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      transition: all 0.22s;
-      box-shadow: 0 4px 18px var(--red-glow);
-      margin-top: 0.35rem;
-      text-shadow: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+      margin-top: 0.25rem;
     }
 
     @media (max-width: 640px) {
@@ -918,17 +1181,20 @@
     }
 
     .btn-score-primary:hover {
-      box-shadow: 0 6px 24px rgba(239, 68, 68, 0.65);
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
       transform: translateY(-1px);
     }
 
-    /* Risk Score Gauge & Verdict Area */
+    /* ─────────────────────────────────────────
+       RISK GAUGE
+    ───────────────────────────────────────── */
     .gauge-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem 0;
+      padding: 1.25rem 0;
       position: relative;
     }
 
@@ -945,118 +1211,116 @@
     }
 
     .gauge-pct {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 800;
       font-family: var(--font-heading);
-      color: #ffffff;
+      color: var(--text-primary);
       line-height: 1;
       letter-spacing: -0.03em;
-      text-shadow: none;
     }
 
     .gauge-tag {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-dim);
-      margin-top: 0.25rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
     }
 
     .decision-badge {
       display: inline-block;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      padding: 0.5rem 1.25rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 999px;
-      margin: 1rem 0;
+      margin: 0.75rem 0;
       text-align: center;
-      transition: all 0.25s;
+      transition: all 0.2s;
     }
 
     .badge-low {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: var(--emerald-light);
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
     }
 
     .badge-medium {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: var(--approval-orange);
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: var(--warning-text);
     }
 
     .badge-high {
-      background: rgba(239, 68, 68, 0.18);
-      border: 1px solid rgba(239, 68, 68, 0.45);
-      color: #fca5a5;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
     }
 
-    /* Explanation List (SHAP Factors) */
     .factors-box {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 1rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.55rem;
       width: 100%;
     }
 
     .factor-item {
       display: flex;
       align-items: flex-start;
-      gap: 0.65rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
       line-height: 1.4;
     }
 
-    /* Risk Gauge Glow Pulses & Simulator Enhancements */
+    /* ─────────────────────────────────────────
+       ANIMATIONS & TOASTS
+    ───────────────────────────────────────── */
     @keyframes pulseRedGlow {
-      0% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); border-color: var(--border-subtle); }
-      50% { box-shadow: 0 0 32px rgba(239, 68, 68, 0.45); border-color: rgba(239, 68, 68, 0.7); }
-      100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); border-color: var(--border-subtle); }
+      0%   { box-shadow: 0 0 0 rgba(239, 68, 68, 0); border-color: var(--border); }
+      50%  { box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); border-color: var(--danger-border); }
+      100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); border-color: var(--border); }
     }
     @keyframes pulseAmberGlow {
-      0% { box-shadow: 0 0 0 rgba(245, 158, 11, 0); border-color: var(--border-subtle); }
-      50% { box-shadow: 0 0 28px rgba(245, 158, 11, 0.4); border-color: rgba(245, 158, 11, 0.65); }
-      100% { box-shadow: 0 0 0 rgba(245, 158, 11, 0); border-color: var(--border-subtle); }
+      0%   { box-shadow: 0 0 0 rgba(245, 158, 11, 0); border-color: var(--border); }
+      50%  { box-shadow: 0 0 18px rgba(245, 158, 11, 0.25); border-color: var(--warning-border); }
+      100% { box-shadow: 0 0 0 rgba(245, 158, 11, 0); border-color: var(--border); }
     }
     @keyframes pulseGreenGlow {
-      0% { box-shadow: 0 0 0 rgba(16, 185, 129, 0); border-color: var(--border-subtle); }
-      50% { box-shadow: 0 0 28px rgba(16, 185, 129, 0.4); border-color: rgba(16, 185, 129, 0.65); }
-      100% { box-shadow: 0 0 0 rgba(16, 185, 129, 0); border-color: var(--border-subtle); }
+      0%   { box-shadow: 0 0 0 rgba(16, 185, 129, 0); border-color: var(--border); }
+      50%  { box-shadow: 0 0 18px rgba(16, 185, 129, 0.2); border-color: var(--success-border); }
+      100% { box-shadow: 0 0 0 rgba(16, 185, 129, 0); border-color: var(--border); }
     }
-    .glow-pulse-red { animation: pulseRedGlow 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    .glow-pulse-amber { animation: pulseAmberGlow 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    .glow-pulse-green { animation: pulseGreenGlow 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .glow-pulse-red   { animation: pulseRedGlow   1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .glow-pulse-amber { animation: pulseAmberGlow 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .glow-pulse-green { animation: pulseGreenGlow 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
 
-    /* TRM Live Floating Toast Notification */
     .trm-toast {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: rgba(15, 17, 23, 0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border-subtle);
-      border-left: 4px solid var(--emerald-light);
-      padding: 0.85rem 1.25rem;
+      background: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-left: 4px solid var(--success);
+      padding: 0.8rem 1.15rem;
       border-radius: 10px;
-      font-size: 0.85rem;
-      color: #fff;
+      font-size: 0.83rem;
+      color: #ffffff;
       font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: var(--shadow-lg);
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       z-index: 99999;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(16px);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
     }
     .trm-toast.show {
@@ -1064,14 +1328,15 @@
       transform: translateY(0);
     }
     .trm-toast.toast-high {
-      border-left-color: var(--danger-red);
-      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25);
+      border-left-color: var(--danger);
     }
     .trm-toast.toast-medium {
-      border-left-color: var(--approval-orange);
+      border-left-color: var(--warning);
     }
 
-    /* Compact, Full-Viewport Risk Simulator Layout (Zero Vertical Scroll) */
+    /* ─────────────────────────────────────────
+       RISK SIMULATOR LAYOUT
+    ───────────────────────────────────────── */
     #view-transactions:not(.active) {
       display: none !important;
     }
@@ -1079,20 +1344,20 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      max-height: calc(100vh - 74px);
+      max-height: calc(100vh - 70px);
       box-sizing: border-box;
       padding-bottom: 0.25rem;
     }
     #view-transactions .heading-bar {
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
       padding-bottom: 0;
     }
     #view-transactions .page-title {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       margin-bottom: 0.1rem;
     }
     #view-transactions .page-sub {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       margin-bottom: 0;
     }
     #view-transactions .engine-grid {
@@ -1103,53 +1368,53 @@
       min-height: 0;
     }
     #view-transactions .glass-card {
-      padding: 0.85rem 1.05rem;
+      padding: 0.8rem 1rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
     #view-transactions .card-top {
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
     }
     #view-transactions .card-heading {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
     }
     #view-transactions .presets-strip {
-      gap: 0.35rem;
-      margin-bottom: 0.5rem;
+      gap: 0.3rem;
+      margin-bottom: 0.45rem;
     }
     #view-transactions .btn-preset {
-      padding: 0.3rem 0.55rem;
-      font-size: 0.72rem;
+      padding: 0.28rem 0.5rem;
+      font-size: 0.7rem;
     }
     #view-transactions .form-grid {
-      gap: 0.4rem 0.65rem;
+      gap: 0.35rem 0.6rem;
     }
     #view-transactions .field-group {
       gap: 0.1rem;
     }
     #view-transactions .field-label {
-      font-size: 0.7rem;
-      margin-bottom: 0.05rem;
+      font-size: 0.68rem;
+      margin-bottom: 0.03rem;
     }
     #view-transactions .field-label span.field-meta {
-      font-size: 0.62rem;
+      font-size: 0.6rem;
     }
     #view-transactions .field-input, #view-transactions .field-select {
-      padding: 0.32rem 0.55rem;
-      font-size: 0.8rem;
-      height: 31px;
+      padding: 0.3rem 0.52rem;
+      font-size: 0.78rem;
+      height: 30px;
       border-radius: 6px;
     }
     #view-transactions .checkbox-row {
-      padding: 0.35rem 0.6rem;
-      margin-top: 0.1rem;
-      font-size: 0.76rem;
+      padding: 0.3rem 0.55rem;
+      margin-top: 0.08rem;
+      font-size: 0.74rem;
     }
     #view-transactions .btn-score-primary {
-      font-size: 1.05rem;
-      padding: 0.6rem 1rem;
-      margin-top: 0.35rem;
+      font-size: 0.88rem;
+      padding: 0.55rem 1rem;
+      margin-top: 0.3rem;
       border-radius: 8px;
     }
     #view-transactions .gauge-wrapper {
@@ -1166,10 +1431,8 @@
     }
     #view-transactions .gauge-center-content {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1177,7 +1440,7 @@
       pointer-events: none;
     }
     #view-transactions .gauge-pct {
-      font-size: 1.42rem;
+      font-size: 1.4rem;
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.02em;
@@ -1189,75 +1452,79 @@
       text-overflow: clip;
     }
     #view-transactions .gauge-tag {
-      font-size: 0.58rem;
+      font-size: 0.56rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-      margin-top: 0.15rem;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      margin-top: 0.12rem;
     }
     #view-transactions .decision-badge {
       margin: 0.3rem 0;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.75rem;
+      padding: 0.32rem 0.85rem;
+      font-size: 0.72rem;
     }
     #view-transactions .factors-box {
-      padding: 0.5rem 0.75rem;
-      gap: 0.3rem;
+      padding: 0.45rem 0.7rem;
+      gap: 0.28rem;
       border-radius: 8px;
-      margin-top: 0.15rem;
+      margin-top: 0.12rem;
       max-height: 115px;
       overflow-y: auto;
     }
     #view-transactions .factor-item {
-      font-size: 0.73rem;
-      line-height: 1.35;
+      font-size: 0.71rem;
+      line-height: 1.32;
     }
     #view-transactions .btn-action {
-      font-size: 0.95rem;
-      padding: 0.55rem 1rem;
+      font-size: 0.82rem;
+      padding: 0.48rem 0.9rem;
     }
 
-    /* Clean Factor Tags (Minimalist Downside AI Decision) */
+    /* ─────────────────────────────────────────
+       TELEMETRY TAGS
+    ───────────────────────────────────────── */
     .telemetry-tag-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
-      margin: 0.4rem 0;
+      gap: 0.3rem;
+      margin: 0.35rem 0;
       justify-content: center;
     }
     .telemetry-tag {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      padding: 0.2rem 0.55rem;
+      padding: 0.18rem 0.5rem;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-dim);
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
     }
     .telemetry-tag.tag-flagged {
-      background: rgba(239, 68, 68, 0.14);
-      border-color: rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger-text);
     }
     .telemetry-tag.tag-safe {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.35);
-      color: var(--emerald-light);
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
     }
 
-    /* Auth Modal & Role Switcher */
+    /* ─────────────────────────────────────────
+       AUTH MODAL
+    ───────────────────────────────────────── */
     .auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(4, 1, 2, 0.88);
-      backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
       z-index: 100000;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1rem;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     .auth-overlay.hidden {
       opacity: 0;
@@ -1265,67 +1532,67 @@
       display: none;
     }
     .auth-modal {
-      background: rgba(18, 4, 6, 0.96);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      box-shadow: 0 0 50px rgba(239, 68, 68, 0.35);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
       border-radius: 16px;
       width: 100%;
       max-width: 440px;
-      padding: 1.85rem 2rem;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
       position: relative;
-      animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes modalPop {
-      0% { transform: scale(0.92); opacity: 0; }
+      0%   { transform: scale(0.94); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
     .role-badge {
-      font-size: 0.65rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
+      padding: 0.18rem 0.5rem;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.2rem;
     }
     .role-admin {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid var(--danger-red);
-      color: var(--red-light);
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
     }
     .role-user {
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid var(--emerald);
-      color: var(--emerald-light);
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
     }
     .user-menu-dropdown {
       position: absolute;
       top: 54px;
       right: 1.5rem;
-      background: rgba(18, 4, 6, 0.96);
-      border: 1px solid var(--card-border-hover);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
       border-radius: 12px;
-      padding: 0.85rem;
+      padding: 0.75rem;
       width: 240px;
       display: none;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.4rem;
       z-index: 9999;
     }
     .user-menu-dropdown.show {
       display: flex;
     }
     .user-menu-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      padding: 0.5rem 0.75rem;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 0.45rem 0.7rem;
       border-radius: 8px;
       font-size: 0.78rem;
       cursor: pointer;
@@ -1333,82 +1600,94 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: all 0.18s ease;
+      transition: all 0.14s ease;
     }
     .user-menu-btn:hover {
-      background: rgba(239, 68, 68, 0.18);
-      border-color: var(--red-light);
+      background: var(--bg-hover);
+      border-color: var(--border);
+      color: var(--text-primary);
     }
 
-    /* Live Alerts Feed */
+    /* ─────────────────────────────────────────
+       ALERTS FEED
+    ───────────────────────────────────────── */
     .alerts-feed-box {
       max-height: 520px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      padding-right: 0.25rem;
+      gap: 0.65rem;
+      padding-right: 0.2rem;
     }
 
     .alert-entry {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-left: 3px solid var(--emerald-light);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--success);
       border-radius: 10px;
-      padding: 0.85rem 1rem;
+      padding: 0.75rem 0.9rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      transition: all 0.18s;
+      gap: 0.4rem;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .alert-entry:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-hover);
     }
 
     .alert-entry.critical {
-      border-left-color: var(--danger-red);
-      background: rgba(239, 68, 68, 0.05);
+      border-left-color: var(--danger);
+      background: var(--danger-bg);
     }
 
     .alert-entry.warning {
-      border-left-color: var(--approval-orange);
-      background: rgba(245, 158, 11, 0.05);
+      border-left-color: var(--warning);
+      background: var(--warning-bg);
     }
 
     .alert-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.75rem;
+      font-size: 0.73rem;
     }
 
     .alert-id {
       font-family: var(--font-mono);
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-primary);
     }
 
     .alert-time {
-      color: var(--text-dim);
-      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-size: 0.68rem;
     }
 
     .alert-body {
-      font-size: 0.82rem;
-      color: var(--text-main);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .alert-meta {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
     }
 
-    /* Tables */
+    /* ─────────────────────────────────────────
+       TABLES
+    ───────────────────────────────────────── */
     .table-wrapper {
       width: 100%;
       overflow-x: auto;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border);
       border-radius: 10px;
+      box-shadow: var(--shadow-sm);
     }
 
     table {
@@ -1416,39 +1695,43 @@
       border-collapse: collapse;
       font-size: 0.82rem;
       text-align: left;
+      background: var(--bg-card);
     }
 
     th {
-      background: rgba(255, 255, 255, 0.025);
-      color: var(--text-dim);
+      background: var(--bg-hover);
+      color: var(--text-muted);
       font-weight: 700;
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border-subtle);
+      letter-spacing: 0.07em;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
     }
 
     td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      color: var(--text-muted);
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+      color: var(--text-secondary);
     }
 
     tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-      color: #ffffff;
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
 
-    /* AI Analyst Chat Box */
+    /* ─────────────────────────────────────────
+       AI CHAT BOX
+    ───────────────────────────────────────── */
     .chat-container {
       display: flex;
       flex-direction: column;
       height: 520px;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border);
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.25);
+      background: var(--bg-card);
       overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
 
     .chat-messages {
@@ -1457,71 +1740,119 @@
       padding: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.65rem;
+      background: var(--bg-hover);
     }
 
     .chat-msg {
       max-width: 85%;
-      padding: 0.75rem 1.1rem;
+      padding: 0.7rem 1rem;
       border-radius: 12px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       line-height: 1.45;
     }
 
     .chat-msg.bot {
       align-self: flex-start;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      box-shadow: var(--shadow-sm);
     }
 
     .chat-msg.user {
       align-self: flex-end;
-      background: rgba(239, 68, 68, 0.18);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: var(--primary);
+      border: 1px solid var(--primary-dark);
       color: #ffffff;
     }
 
     .chat-input-bar {
       display: flex;
-      border-top: 1px solid var(--border-subtle);
-      background: rgba(14, 3, 4, 0.95);
-      padding: 0.75rem 1rem;
-      gap: 0.75rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-card);
+      padding: 0.7rem 1rem;
+      gap: 0.65rem;
     }
 
     .chat-input-bar input {
       flex: 1;
-      background: transparent;
-      border: none;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       outline: none;
-      color: #ffffff;
-      font-size: 0.88rem;
+      color: var(--text-primary);
+      font-size: 0.86rem;
       font-family: inherit;
+      padding: 0.45rem 0.75rem;
+      transition: border-color 0.15s;
+    }
+
+    .chat-input-bar input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
     }
 
     .chat-send-btn {
-      background: var(--red-dark);
-      border: 1px solid rgba(248, 113, 113, 0.5);
-      color: #fee2e2;
+      background: var(--primary);
+      border: none;
+      color: #ffffff;
       padding: 0.45rem 1.1rem;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.15s;
+      font-family: inherit;
     }
 
     .chat-send-btn:hover {
-      background: var(--red-primary);
-      color: #ffffff;
+      background: var(--primary-dark);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.35);
+    }
+    /* ─────────────────────────────────────────
+       RISK FACTOR BARS
+    ───────────────────────────────────────── */
+    .risk-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .risk-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .risk-bar-track {
+      width: 100%;
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       OFFLINE STATUS DOT
+    ───────────────────────────────────────── */
+    .status-pill.offline {
+      background: var(--warning-bg);
+      border-color: var(--warning-border);
+      color: var(--warning-text);
     }
   </style>
 </head>
 <body>
 
-  <!-- Red particle ambient background canvas -->
-  <canvas id="bg-canvas"></canvas>
 
   <div class="app-shell">
     
@@ -1607,7 +1938,7 @@
       <!-- Sidebar Footer -->
       <div class="sidebar-footer">
         <span class="version-pill">v2.4 Production</span>
-        <span style="font-size:0.75rem; color:var(--text-dim);">TRM-AI Engine</span>
+        <span style="font-size:0.75rem; color:var(--text-muted);">TRM-AI Engine</span>
       </div>
 
     </aside>
@@ -1625,7 +1956,7 @@
             <span>TRM ONLINE</span>
           </div>
           <div class="tag-mode" id="headerRolePill" style="letter-spacing:0.05em; font-weight:700;">ADMIN PORTAL</div>
-          <div id="p99Latency" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">P99: 12ms</div>
+          <div id="p99Latency" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">P99: 12ms</div>
         </div>
 
         <div class="topbar-right" style="position:relative;">
@@ -1638,14 +1969,14 @@
               <span id="topbarUserName" style="font-weight:700; font-size:0.78rem;">Admin (SecOps)</span>
               <span id="topbarRoleBadge" class="role-badge role-admin" style="padding:0.08rem 0.4rem; font-size:0.58rem; margin-top:2px;">ADMIN</span>
             </div>
-            <span style="font-size:0.7rem; color:var(--text-dim); margin-left:0.2rem;">▾</span>
+            <span style="font-size:0.7rem; color:var(--text-muted); margin-left:0.2rem;">▾</span>
           </div>
 
           <!-- User Role Dropdown Menu -->
           <div id="userDropdownMenu" class="user-menu-dropdown">
-            <div style="font-size:0.72rem; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">ACTIVE SESSION</div>
-            <div id="dropdownEmailText" style="font-size:0.8rem; font-weight:700; color:#fff; word-break:break-all;">admin@trm.ai</div>
-            <div style="height:1px; background:var(--border-subtle); margin:0.35rem 0;"></div>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">ACTIVE SESSION</div>
+            <div id="dropdownEmailText" style="font-size:0.8rem; font-weight:700; color:var(--text-primary); word-break:break-all;">admin@trm.ai</div>
+            <div style="height:1px; background:var(--border); margin:0.35rem 0;"></div>
             <button type="button" class="user-menu-btn" onclick="switchRole('admin')">
               <span>👑</span>
               <span>Switch to Admin Role</span>
@@ -1654,8 +1985,8 @@
               <span>👤</span>
               <span>Switch to Merchant User</span>
             </button>
-            <div style="height:1px; background:var(--border-subtle); margin:0.35rem 0;"></div>
-            <button type="button" class="user-menu-btn" style="color:var(--red-light);" onclick="openAuthModal()">
+            <div style="height:1px; background:var(--border); margin:0.35rem 0;"></div>
+            <button type="button" class="user-menu-btn" style="color:var(--danger);" onclick="openAuthModal()">
               <span>🚪</span>
               <span>Sign Out / Change User</span>
             </button>
@@ -1691,7 +2022,7 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-label">Autonomous Approvals</div>
-              <div class="kpi-value" id="kpi-approvals" style="color:var(--emerald-light);">3</div>
+              <div class="kpi-value" id="kpi-approvals" style="color:var(--success-text);">3</div>
               <div class="kpi-sub">Authorized</div>
             </div>
             <div class="kpi-card">
@@ -1701,7 +2032,7 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-label">Approval Required</div>
-              <div class="kpi-value" id="kpi-gate" style="color:var(--approval-orange);">0</div>
+              <div class="kpi-value" id="kpi-gate" style="color:var(--warning);">0</div>
               <div class="kpi-sub">Human Gate</div>
             </div>
             <div class="kpi-card">
@@ -1711,57 +2042,170 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-label">Protected Value</div>
-              <div class="kpi-value" id="kpi-protected" style="color:#ffffff;">₹1,35,000</div>
+              <div class="kpi-value" id="kpi-protected" style="color:var(--primary);">₹1,35,000</div>
               <div class="kpi-sub">Persisted Value</div>
             </div>
           </div>
 
           <!-- Pipeline & Decision Distribution Row -->
           <div class="middle-grid">
-            <!-- Pipeline -->
-            <div class="glass-card">
-              <div class="card-top">
-                <h2 class="card-heading">
-                  <span>Live authorization pipeline</span>
-                </h2>
-                <span class="card-tag">Decision Plane</span>
-              </div>
-
-              <div class="pipeline-container">
-                <div class="pipeline-step active" id="step-buyer">
-                  <span class="step-glyph">✦</span>
-                  <span class="step-name">Cardholder</span>
+            <!-- Live Authorization Pipeline -->
+            <div class="glass-card" id="pipelineCard">
+              <div class="card-top" style="margin-bottom:0.75rem;">
+                <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+                  <h2 class="card-heading" style="margin:0;">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--success); box-shadow:0 0 8px rgba(16,185,129,0.5); animation:pulseDot 1.6s infinite;"></span>
+                    <span>Live Authorization Pipeline</span>
+                  </h2>
+                  <span class="badge badge-success" style="font-size:0.68rem; padding:0.18rem 0.55rem; text-transform:uppercase;">
+                    ⚡ 38ms SLA • 99.98% UPTIME
+                  </span>
                 </div>
-                <span class="pipeline-arrow">›</span>
-                <div class="pipeline-step active" id="step-identity">
-                  <span class="step-glyph">ℹ</span>
-                  <span class="step-name">Device / IP</span>
-                </div>
-                <span class="pipeline-arrow">›</span>
-                <div class="pipeline-step active" id="step-intent">
-                  <span class="step-glyph">⌖</span>
-                  <span class="step-name">Velocity</span>
-                </div>
-                <span class="pipeline-arrow">›</span>
-                <div class="pipeline-step active" id="step-authority">
-                  <span class="step-glyph">⌘</span>
-                  <span class="step-name">ML Scorer</span>
-                </div>
-                <span class="pipeline-arrow">›</span>
-                <div class="pipeline-step active" id="step-policy">
-                  <span class="step-glyph">⊡</span>
-                  <span class="step-name">Risk Gate</span>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <button type="button" class="btn-pipeline-test" id="btnRunPipelineTest" onclick="triggerPipelineTest()" title="Trigger a live transaction evaluation through pipeline">
+                    <span>▶ Test Flow</span>
+                  </button>
+                  <select id="pipelineScenarioSelect" onchange="triggerPipelineTest(this.value)" style="font-size:0.72rem; font-family:var(--font-sans); background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:0.25rem 0.5rem; color:var(--text-primary); cursor:pointer;">
+                    <option value="clean">Test: Clean UPI (₹1,250)</option>
+                    <option value="spike">Test: Velocity Spike (₹48,000)</option>
+                    <option value="tor">Test: Tor Botnet (₹95,000)</option>
+                  </select>
                 </div>
               </div>
 
+              <!-- Active Streaming Transaction Bar -->
+              <div class="pipeline-stream-bar" id="pipelineStreamBar">
+                <div class="stream-pulse"></div>
+                <div class="stream-info">
+                  <span class="stream-tag" id="streamTag">LIVE STREAM</span>
+                  <span class="stream-txn-id" id="streamTxnId">TXN-8842</span>
+                  <span class="stream-dot">•</span>
+                  <span class="stream-amount" id="streamAmount">₹14,500.00</span>
+                  <span class="stream-dot">•</span>
+                  <span class="stream-method" id="streamMethod">HDFC Card (Visa)</span>
+                  <span class="stream-dot">•</span>
+                  <span class="stream-loc" id="streamLoc">Mumbai, IN</span>
+                </div>
+                <div class="stream-verdict" id="streamVerdict">
+                  <span class="stream-score" id="streamScore">Risk: 0.04</span>
+                  <span class="stream-decision-pill pill-allow" id="streamDecision">AUTHORIZED (34ms)</span>
+                </div>
+              </div>
+
+              <!-- 5 Pipeline Steps -->
+              <div class="pipeline-container" id="pipelineContainer">
+                <!-- Step 1 -->
+                <div class="pipeline-step active" id="pstep-1">
+                  <div class="pstep-header">
+                    <span class="pstep-num">01</span>
+                    <span class="pstep-latency" id="pstep1-lat">6ms</span>
+                  </div>
+                  <div class="pstep-icon-wrap">
+                    <span class="step-glyph">💳</span>
+                  </div>
+                  <div class="pstep-title">Cardholder / UPI</div>
+                  <div class="pstep-sub">3DS 2.2 Handshake</div>
+                  <div class="pstep-badge status-ok" id="pstep1-badge">VERIFIED</div>
+                </div>
+
+                <div class="pipeline-connector" id="pconn-1">
+                  <span class="pipeline-arrow">›</span>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="pipeline-step active" id="pstep-2">
+                  <div class="pstep-header">
+                    <span class="pstep-num">02</span>
+                    <span class="pstep-latency" id="pstep2-lat">11ms</span>
+                  </div>
+                  <div class="pstep-icon-wrap">
+                    <span class="step-glyph">🌐</span>
+                  </div>
+                  <div class="pstep-title">Device & IP</div>
+                  <div class="pstep-sub">GeoIP & Proxy Check</div>
+                  <div class="pstep-badge status-ok" id="pstep2-badge">CLEAN IP</div>
+                </div>
+
+                <div class="pipeline-connector" id="pconn-2">
+                  <span class="pipeline-arrow">›</span>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="pipeline-step active" id="pstep-3">
+                  <div class="pstep-header">
+                    <span class="pstep-num">03</span>
+                    <span class="pstep-latency" id="pstep3-lat">5ms</span>
+                  </div>
+                  <div class="pstep-icon-wrap">
+                    <span class="step-glyph">⚡</span>
+                  </div>
+                  <div class="pstep-title">Velocity Limit</div>
+                  <div class="pstep-sub">Rolling 1h Window</div>
+                  <div class="pstep-badge status-ok" id="pstep3-badge">1 TXN / HR</div>
+                </div>
+
+                <div class="pipeline-connector" id="pconn-3">
+                  <span class="pipeline-arrow">›</span>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="pipeline-step active" id="pstep-4">
+                  <div class="pstep-header">
+                    <span class="pstep-num">04</span>
+                    <span class="pstep-latency" id="pstep4-lat">14ms</span>
+                  </div>
+                  <div class="pstep-icon-wrap">
+                    <span class="step-glyph">🧠</span>
+                  </div>
+                  <div class="pstep-title">TRM AI Scorer</div>
+                  <div class="pstep-sub">XGBoost Ensemble</div>
+                  <div class="pstep-badge status-ok" id="pstep4-badge">SCORE 0.04</div>
+                </div>
+
+                <div class="pipeline-connector" id="pconn-4">
+                  <span class="pipeline-arrow">›</span>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="pipeline-step active" id="pstep-5">
+                  <div class="pstep-header">
+                    <span class="pstep-num">05</span>
+                    <span class="pstep-latency" id="pstep5-lat">2ms</span>
+                  </div>
+                  <div class="pstep-icon-wrap">
+                    <span class="step-glyph">🛡️</span>
+                  </div>
+                  <div class="pstep-title">Autonomous Gate</div>
+                  <div class="pstep-sub">Zero Step-up Auth</div>
+                  <div class="pstep-badge status-ok" id="pstep5-badge">ALLOW (PASS)</div>
+                </div>
+              </div>
+
+              <!-- Animated Laser Progress Track -->
               <div class="pipeline-track">
                 <div class="pipeline-fill" id="pipelineFillBar"></div>
+                <div class="pipeline-laser" id="pipelineLaser"></div>
               </div>
 
+              <!-- Pipeline Footer / Telemetry -->
               <div class="pipeline-footer">
-                <span class="pipeline-caption">Every transaction is evaluated in real-time, explainable, and risk-gated.</span>
-                <button class="btn-action" onclick="navigateTo('transactions')">
-                  <span>Launch Risk Simulator</span>
+                <div style="display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap;">
+                  <span class="pipeline-stat-item">
+                    <span style="color:var(--text-muted); font-size:0.75rem;">Throughput:</span>
+                    <strong style="color:var(--text-primary); font-family:var(--font-mono); font-size:0.8rem;" id="pipeTps">182 TPS</strong>
+                  </span>
+                  <span class="pipeline-stat-item">
+                    <span style="color:var(--text-muted); font-size:0.75rem;">Avg Latency:</span>
+                    <strong style="color:var(--success-text); font-family:var(--font-mono); font-size:0.8rem;" id="pipeAvgLatency">38.2 ms</strong>
+                  </span>
+                  <span class="pipeline-stat-item">
+                    <span style="color:var(--text-muted); font-size:0.75rem;">Gate Pass Rate:</span>
+                    <strong style="color:var(--primary); font-family:var(--font-mono); font-size:0.8rem;">99.12%</strong>
+                  </span>
+                </div>
+
+                <button class="btn-action" onclick="navigateTo('transactions')" style="margin-left:auto;">
+                  <span>Open Risk Simulator</span>
                   <span>→</span>
                 </button>
               </div>
@@ -1777,16 +2221,16 @@
               </div>
 
               <div class="distribution-legend">
-                <div class="legend-item" style="color:var(--allow-blue);">
-                  <span class="legend-dot" style="background:var(--allow-blue);"></span>
+                <div class="legend-item" style="color:var(--primary);">
+                  <span class="legend-dot" style="background:var(--primary);"></span>
                   <span>Allow</span>
                 </div>
                 <div class="legend-item" style="color:var(--modify-pink);">
                   <span class="legend-dot" style="background:var(--modify-pink);"></span>
                   <span>Modify</span>
                 </div>
-                <div class="legend-item" style="color:var(--approval-orange);">
-                  <span class="legend-dot" style="background:var(--approval-orange);"></span>
+                <div class="legend-item" style="color:var(--warning);">
+                  <span class="legend-dot" style="background:var(--warning);"></span>
                   <span>Approval</span>
                 </div>
                 <div class="legend-item" style="color:var(--block-yellow);">
@@ -1798,9 +2242,9 @@
               <div class="chart-box">
                 <svg class="donut-svg" width="180" height="180" viewBox="0 0 180 180">
                   <circle cx="90" cy="90" r="70" fill="transparent" stroke="rgba(255,255,255,0.04)" stroke-width="26" />
-                  <circle id="donut-allow" cx="90" cy="90" r="70" fill="transparent" stroke="var(--allow-blue)" stroke-width="26" stroke-dasharray="220 440" stroke-dashoffset="0" />
+                  <circle id="donut-allow" cx="90" cy="90" r="70" fill="transparent" stroke="var(--primary)" stroke-width="26" stroke-dasharray="220 440" stroke-dashoffset="0" />
                   <circle id="donut-modify" cx="90" cy="90" r="70" fill="transparent" stroke="var(--modify-pink)" stroke-width="26" stroke-dasharray="90 440" stroke-dashoffset="-220" />
-                  <circle id="donut-approval" cx="90" cy="90" r="70" fill="transparent" stroke="var(--approval-orange)" stroke-width="26" stroke-dasharray="30 440" stroke-dashoffset="-310" />
+                  <circle id="donut-approval" cx="90" cy="90" r="70" fill="transparent" stroke="var(--warning)" stroke-width="26" stroke-dasharray="30 440" stroke-dashoffset="-310" />
                   <circle id="donut-block" cx="90" cy="90" r="70" fill="transparent" stroke="var(--block-yellow)" stroke-width="26" stroke-dasharray="100 440" stroke-dashoffset="-340" />
                 </svg>
                 <div class="donut-center-text">
@@ -1865,18 +2309,18 @@
 
             <!-- Quick Sample Feed Presets -->
             <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
-              <span style="font-size:0.72rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">Quick Presets:</span>
+              <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Quick Presets:</span>
               <button class="btn-preset" onclick="loadSampleFeed('sample:crypto')">⚡ Crypto Night Spike (Attack)</button>
               <button class="btn-preset" onclick="loadSampleFeed('sample:ecom')">🛍️ E-Commerce Gateway (Mixed)</button>
               <button class="btn-preset" onclick="loadSampleFeed('sample:travel')">✈️ Cross-Border Travel (Geo-Hop)</button>
             </div>
 
             <!-- Ingestion Live Scan Result Banner -->
-            <div id="ingestResultBanner" style="display:none; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:0.85rem 1rem; margin-top:0.85rem;">
+            <div id="ingestResultBanner" style="display:none; background:var(--danger-bg); border:1px solid var(--danger-border); border-radius:10px; padding:0.85rem 1rem; margin-top:0.85rem;">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
                 <div style="display:flex; align-items:center; gap:0.6rem;">
                   <span class="pulse-dot"></span>
-                  <strong id="ingestSummaryTitle" style="color:#fff; font-size:0.88rem;">Scan Complete: 4 Transactions Evaluated</strong>
+                  <strong id="ingestSummaryTitle" style="color:var(--text-primary); font-size:0.88rem;">Scan Complete: 4 Transactions Evaluated</strong>
                 </div>
                 <div id="ingestSummaryBadges" style="display:flex; gap:0.5rem; font-family:var(--font-mono); font-size:0.78rem;">
                   <!-- Dynamic badges -->
@@ -1898,13 +2342,13 @@
             </div>
 
             <!-- Collapsible Slack Webhook Setup -->
-            <div id="slackConfigPanel" style="display:none; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:8px; padding:0.85rem; margin-bottom:1.25rem;">
-              <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:0.4rem; font-weight:600;">OUTGOING SLACK WEBHOOK (DISPATCH NOTIFICATIONS ON HIGH RISK):</div>
+            <div id="slackConfigPanel" style="display:none; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:0.85rem; margin-bottom:1.25rem;">
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.4rem; font-weight:600;">OUTGOING SLACK WEBHOOK (DISPATCH NOTIFICATIONS ON HIGH RISK):</div>
               <div style="display:flex; gap:0.75rem;">
                 <input type="text" id="slackWebhookInput" class="field-input" placeholder="https://hooks.slack.com/services/..." style="flex:1; font-size:0.82rem; padding:0.55rem 0.8rem;" />
                 <button class="btn-preset" style="padding:0.55rem 1rem;" onclick="saveSlackWebhook()">Save URL</button>
               </div>
-              <div id="webhookSaveStatus" style="font-size:0.75rem; color:var(--red-light); margin-top:0.4rem;"></div>
+              <div id="webhookSaveStatus" style="font-size:0.75rem; color:var(--success-text); margin-top:0.4rem;"></div>
             </div>
 
             <div class="alerts-feed-box" id="alertsFeed">
@@ -1943,7 +2387,7 @@
 
               <!-- Presets Strip with Risk Badges -->
               <div class="presets-strip" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.5rem;">
-                <span style="font-size:0.7rem; color:var(--text-dim); align-self:center; font-weight:700;">SCENARIO:</span>
+                <span style="font-size:0.7rem; color:var(--text-muted); align-self:center; font-weight:700;">SCENARIO:</span>
                 <button class="btn-preset" onclick="loadPreset('ato')" style="background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.4); color:#fca5a5; padding:0.25rem 0.5rem; font-size:0.72rem;">
                   🚨 ATO Attack <span class="card-tag" style="background:rgba(239,68,68,0.25); color:#f87171; border:none; margin-left:0.2rem; font-weight:800; font-size:0.6rem; padding:0.1rem 0.35rem;">99.9%</span>
                 </button>
@@ -1967,10 +2411,10 @@
                       <span>Amount (INR ₹)</span>
                       <span class="field-meta">amount</span>
                     </label>
-                    <span id="amountDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">₹89,000</span>
+                    <span id="amountDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--primary); font-weight:700;">₹89,000</span>
                   </div>
                   <input type="number" id="txn_amount" class="field-input" value="89000" min="1" step="any" oninput="syncAmountSlider(this.value)" />
-                  <input type="range" id="amount_slider" min="500" max="150000" step="500" value="89000" style="accent-color:var(--red-light); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncAmountInput(this.value)" />
+                  <input type="range" id="amount_slider" min="500" max="150000" step="500" value="89000" style="accent-color:var(--primary); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncAmountInput(this.value)" />
                 </div>
 
                 <div class="field-group">
@@ -1987,10 +2431,10 @@
                       <span>Velocity (1 Hour)</span>
                       <span class="field-meta">txn_velocity_1h</span>
                     </label>
-                    <span id="velocityDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">8 txns/hr</span>
+                    <span id="velocityDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--primary); font-weight:700;">8 txns/hr</span>
                   </div>
                   <input type="number" id="txn_velocity_1h" class="field-input" value="8" min="0" oninput="syncVelocitySlider(this.value)" />
-                  <input type="range" id="velocity_slider" min="0" max="15" step="1" value="8" style="accent-color:var(--red-light); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncVelocityInput(this.value)" />
+                  <input type="range" id="velocity_slider" min="0" max="15" step="1" value="8" style="accent-color:var(--primary); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncVelocityInput(this.value)" />
                 </div>
 
                 <div class="field-group">
@@ -2046,9 +2490,9 @@
                   <input type="text" id="home_city" class="field-input" value="Mumbai" />
                 </div>
 
-                <div class="checkbox-row" style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:0.35rem 0.65rem;">
+                <div class="checkbox-row" style="background:var(--primary-bg); border:1px solid var(--primary-border); border-radius:6px; padding:0.35rem 0.65rem;">
                   <input type="checkbox" id="device_new" checked />
-                  <label for="device_new" style="font-size:0.76rem; color:var(--text-main); cursor:pointer; font-weight:600;">
+                  <label for="device_new" style="font-size:0.76rem; color:var(--text-primary); cursor:pointer; font-weight:600;">
                     Unrecognized / New Device (+27% anomaly)
                   </label>
                 </div>
@@ -2067,7 +2511,7 @@
                   <span>🛡️ AI Decision Engine</span>
                 </h2>
                 <div style="display:flex; gap:0.35rem; align-items:center;">
-                  <span id="sourceBadge" class="card-tag" style="background:rgba(255,255,255,0.04); color:var(--text-dim); border-color:var(--border-subtle);">⚡ Standby</span>
+                  <span id="sourceBadge" class="card-tag" style="background:rgba(255,255,255,0.04); color:var(--text-muted); border-color:var(--border);">⚡ Standby</span>
                   <span id="latencyBadge" class="card-tag">Ready</span>
                 </div>
               </div>
@@ -2080,11 +2524,11 @@
               <!-- Compact Clean Gauge -->
               <div class="gauge-wrapper">
                 <svg class="score-circle-svg" width="115" height="115" viewBox="0 0 180 180">
-                  <circle cx="90" cy="90" r="74" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="14" />
-                  <circle id="gaugeCircle" cx="90" cy="90" r="74" fill="transparent" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-dasharray="465" stroke-dashoffset="465" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;" />
+                  <circle cx="90" cy="90" r="74" fill="transparent" stroke="#e2e8f0" stroke-width="14" />
+                  <circle id="gaugeCircle" cx="90" cy="90" r="74" fill="transparent" stroke="#cbd5e1" stroke-width="14" stroke-dasharray="465" stroke-dashoffset="465" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;" />
                 </svg>
                 <div class="gauge-center-content">
-                  <div class="gauge-pct" id="riskScoreValue" style="color:#ffffff;">0.0%</div>
+                  <div class="gauge-pct" id="riskScoreValue">0.0%</div>
                   <div class="gauge-tag" id="riskTagLabel">Risk Score</div>
                 </div>
               </div>
@@ -2103,15 +2547,16 @@
 
               <!-- Factors Box (SHAP List) -->
               <div class="factors-box" style="text-align:left;">
-                <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:0.15rem;">
+                <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.08em; margin-bottom:0.15rem;">
                   Key Explanatory Factors
                 </div>
                 <div id="explanationList" style="display:flex; flex-direction:column; gap:0.3rem;">
-                  <div class="factor-item" style="color:var(--text-dim);">
-                    <span class="factor-bullet" style="color:var(--text-dim);">•</span>
+                  <div class="factor-item" style="color:var(--text-muted);">
+                    <span class="factor-bullet" style="color:var(--text-muted);">•</span>
                     <span>Adjust parameters or select a scenario above, then click 'Run AI Inference & Decision Gate'.</span>
                   </div>
                 </div>
+                <div id="factorBarsList" style="display:flex; flex-direction:column; gap:0.35rem; margin-top:0.45rem;"></div>
               </div>
 
               <!-- Dual Action Deck: AI Chatbot & Direct History Navigation -->
@@ -2120,7 +2565,7 @@
                   <span>🤖 Analyze with AI</span>
                   <span>→</span>
                 </button>
-                <button id="btnViewHistory" class="btn-action" style="justify-content:center; padding:0.55rem 0.65rem; font-size:0.8rem; background:rgba(255,255,255,0.05); border-color:var(--border-subtle); color:#ffffff; white-space:nowrap;" onclick="navigateToHistory()">
+                <button id="btnViewHistory" class="btn-action" style="justify-content:center; padding:0.55rem 0.65rem; font-size:0.8rem; white-space:nowrap;" onclick="navigateToHistory()">
                   <span>📋 View History</span>
                   <span>→</span>
                 </button>
@@ -2248,21 +2693,21 @@
 
             <!-- Review Metrics Row -->
             <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:0.75rem; margin-bottom:1.5rem;">
-              <div style="background:rgba(255,255,255,0.02); padding:0.85rem; border-radius:10px; border:1px solid var(--border-subtle); text-align:center;">
-                <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Reviews</div>
-                <div id="totalFeedbackCount" style="font-size:1.6rem; font-weight:800; color:#fff;">12</div>
+              <div style="background:var(--bg-hover); padding:0.85rem; border-radius:10px; border:1px solid var(--border); text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">Reviews</div>
+                <div id="totalFeedbackCount" style="font-size:1.6rem; font-weight:800; color:var(--text-primary);">12</div>
               </div>
-              <div style="background:rgba(255,255,255,0.02); padding:0.85rem; border-radius:10px; border:1px solid var(--border-subtle); text-align:center;">
-                <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Confirmed Fraud</div>
-                <div id="fraudConfirmedCount" style="font-size:1.6rem; font-weight:800; color:var(--danger-red);">8</div>
+              <div style="background:var(--bg-hover); padding:0.85rem; border-radius:10px; border:1px solid var(--border); text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">Confirmed Fraud</div>
+                <div id="fraudConfirmedCount" style="font-size:1.6rem; font-weight:800; color:var(--danger);">8</div>
               </div>
-              <div style="background:rgba(255,255,255,0.02); padding:0.85rem; border-radius:10px; border:1px solid var(--border-subtle); text-align:center;">
-                <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">False Positives</div>
-                <div id="fpDisputesCount" style="font-size:1.6rem; font-weight:800; color:var(--emerald-light);">4</div>
+              <div style="background:var(--bg-hover); padding:0.85rem; border-radius:10px; border:1px solid var(--border); text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">False Positives</div>
+                <div id="fpDisputesCount" style="font-size:1.6rem; font-weight:800; color:var(--success-text);">4</div>
               </div>
-              <div style="background:rgba(255,255,255,0.02); padding:0.85rem; border-radius:10px; border:1px solid var(--border-subtle); text-align:center;">
-                <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Recal. Accuracy</div>
-                <div id="accuracyMetric" style="font-size:1.6rem; font-weight:800; color:var(--allow-blue);">99.2%</div>
+              <div style="background:var(--bg-hover); padding:0.85rem; border-radius:10px; border:1px solid var(--border); text-align:center;">
+                <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">Recal. Accuracy</div>
+                <div id="accuracyMetric" style="font-size:1.6rem; font-weight:800; color:var(--primary);">99.2%</div>
               </div>
             </div>
 
@@ -2284,7 +2729,7 @@
                 <label class="field-label">SecOps Notes & Evidence</label>
                 <input type="text" id="analystNotes" class="field-input" placeholder="e.g. Cardholder validated OTP step-up via phone call" />
               </div>
-              <button class="btn-preset" style="grid-column: span 2; background:rgba(239,68,68,0.2); color:var(--red-light); border-color:rgba(239,68,68,0.4); padding:0.75rem; font-size:0.9rem;" onclick="submitFeedback()">
+              <button class="btn-score-primary" style="grid-column: span 2; padding:0.75rem; font-size:0.9rem; margin-top:0;" onclick="submitFeedback()">
                 Submit Ground-Truth Label
               </button>
             </div>
@@ -2347,7 +2792,7 @@
                   </tr>
                 </thead>
                 <tbody id="historyTableBody">
-                  <tr><td colspan="8" style="text-align:center; color:var(--text-dim);">No transactions scored yet in this session.</td></tr>
+                  <tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No transactions scored yet in this session.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -2408,7 +2853,7 @@
       const headerRolePill = document.getElementById('headerRolePill');
       if (headerRolePill) {
         headerRolePill.innerText = isAdmin ? 'ADMIN PORTAL' : 'MERCHANT PORTAL';
-        headerRolePill.style.color = isAdmin ? 'var(--red-light)' : 'var(--emerald-light)';
+        headerRolePill.style.color = isAdmin ? 'var(--danger)' : 'var(--success-text)';
         headerRolePill.style.borderColor = isAdmin ? 'rgba(239,68,68,0.3)' : 'rgba(16,185,129,0.3)';
       }
 
@@ -2446,7 +2891,7 @@
         <span style="font-size:1.1rem;">${targetRole === 'admin' ? '👑' : '👤'}</span>
         <div>
           <div style="font-weight:700;">Switched to ${targetRole === 'admin' ? 'Administrator' : 'Merchant User'}</div>
-          <div style="font-size:0.75rem; color:var(--text-dim);">${targetRole === 'admin' ? 'Full access granted to all intelligence engines and logs.' : 'Restricted to operational view (Models & Audit locked).'}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${targetRole === 'admin' ? 'Full access granted to all intelligence engines and logs.' : 'Restricted to operational view (Models & Audit locked).'}</div>
         </div>
       `, targetRole === 'admin' ? 'LOW' : 'MEDIUM');
     }
@@ -2512,7 +2957,7 @@
         <span style="font-size:1.1rem;">✓</span>
         <div>
           <div style="font-weight:700;">Signed in as ${role === 'admin' ? 'Administrator' : 'Merchant User'}</div>
-          <div style="font-size:0.75rem; color:var(--text-dim);">${email}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${email}</div>
         </div>
       `, 'LOW');
     }
@@ -2538,7 +2983,7 @@
         <span style="font-size:1.1rem;">📋</span>
         <div>
           <div style="font-weight:700;">Transaction History</div>
-          <div style="font-size:0.75rem; color:var(--text-dim);">Loaded session scored transactions audit trail.</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Loaded session scored transactions audit trail.</div>
         </div>
       `, 'LOW');
     }
@@ -2555,8 +3000,8 @@
         showTrmToast(`
           <span style="font-size:1.1rem;">🔒</span>
           <div>
-            <div style="font-weight:700; color:var(--approval-orange);">Admin Access Required</div>
-            <div style="font-size:0.75rem; color:var(--text-dim);">Risk Models algorithm leaderboard is restricted to Administrator role.</div>
+            <div style="font-weight:700; color:var(--warning);">Admin Access Required</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Risk Models algorithm leaderboard is restricted to Administrator role.</div>
           </div>
         `, 'MEDIUM');
         return;
@@ -2595,75 +3040,7 @@
       navigateTo(hash);
     });
 
-    // -------------------------------------------------------------
-    // Red Particle Ambient Network Canvas
-    // -------------------------------------------------------------
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
 
-    function resizeCanvas() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2.2 + 0.8;
-      }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-      }
-      draw() {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#ef4444';
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    const particleCount = Math.min(65, Math.floor(window.innerWidth / 24));
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    function animateConstellation() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 135) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(239, 68, 68, ${0.28 * (1 - dist / 135)})`;
-            ctx.lineWidth = 0.85;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animateConstellation);
-    }
-    animateConstellation();
 
     // -------------------------------------------------------------
     // Environment & API Endpoints
@@ -2777,9 +3154,11 @@
         }
       } catch (err) {
         statusPill.innerHTML = `
-          <span class="pulse-dot" style="background:#fbbf24; box-shadow:0 0 10px #fbbf24;"></span>
-          <span style="color:#fbbf24;">OFFLINE (STANDBY)</span>
+          <span class="pulse-dot" style="background:var(--warning); box-shadow:none;"></span>
+          <span style="color:var(--warning-text);">OFFLINE (STANDBY)</span>
         `;
+        statusPill.style.background = 'var(--warning-bg)';
+        statusPill.style.borderColor = 'var(--warning-border)';
       }
     }
 
@@ -2941,31 +3320,31 @@
           label: 'Hardware Fingerprint',
           meta: p.device_new ? '+27% (Unrecognized Device)' : '0% (Verified Profile)',
           pct: p.device_new ? 88 : 8,
-          color: p.device_new ? 'var(--danger-red)' : 'var(--emerald-light)'
+          color: p.device_new ? 'var(--danger)' : 'var(--success-text)'
         },
         {
           label: 'Geographic Routing',
           meta: isGeoMismatch ? `+26% (${p.txn_city} vs ${p.home_city})` : '0% (Home Region)',
           pct: isGeoMismatch ? 82 : 6,
-          color: isGeoMismatch ? 'var(--danger-red)' : 'var(--emerald-light)'
+          color: isGeoMismatch ? 'var(--danger)' : 'var(--success-text)'
         },
         {
           label: 'Transaction Velocity (1h)',
           meta: isHighVel ? `+20% (${p.txn_velocity_1h}/hr Spike)` : `+4% (${p.txn_velocity_1h}/hr Nominal)`,
           pct: Math.min(100, (p.txn_velocity_1h / 10) * 85),
-          color: isHighVel ? 'var(--approval-orange)' : 'var(--emerald-light)'
+          color: isHighVel ? 'var(--warning)' : 'var(--success-text)'
         },
         {
           label: 'Payment Volume Threshold',
           meta: isHighAmt ? `+22% (₹${p.amount.toLocaleString()} High Value)` : '0% (Standard Ticket)',
           pct: Math.min(100, (p.amount / 90000) * 85),
-          color: isHighAmt ? 'var(--approval-orange)' : 'var(--emerald-light)'
+          color: isHighAmt ? 'var(--warning)' : 'var(--success-text)'
         },
         {
           label: 'Circadian Anomaly Window',
           meta: isNight ? `+18% (${p.txn_hour}:00 Late Night)` : '0% (Active Daytime)',
           pct: isNight ? 70 : 10,
-          color: isNight ? '#a855f7' : 'var(--emerald-light)'
+          color: isNight ? '#a855f7' : 'var(--success-text)'
         }
       ];
 
@@ -2990,9 +3369,11 @@
 
     async function evaluateRisk() {
       const btn = document.getElementById('evaluateBtn');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<span>⚡ Evaluating Neural Path...</span>';
-      btn.disabled = true;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.innerHTML = '<span>⚡ Evaluating Neural Path...</span>';
+        btn.disabled = true;
+      }
 
       // Pipeline animation
       animatePipeline();
@@ -3011,45 +3392,63 @@
 
       const t0 = performance.now();
       try {
-        const res = await fetch(`${API_BASE}/predict`, {
+        const fetchOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: AbortSignal.timeout(6000)
-        });
+          body: JSON.stringify(payload)
+        };
+        if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+          fetchOptions.signal = AbortSignal.timeout(6000);
+        }
+        const res = await fetch(`${API_BASE}/predict`, fetchOptions);
 
-        const latency = Math.max(12, Math.round(performance.now() - t0));
+        const latency = Math.max(18, Math.round(performance.now() - t0));
         if (!res.ok) throw new Error(`API returned status ${res.status}`);
         const data = await res.json();
+        // Give minimum visible feedback duration
+        await new Promise(r => setTimeout(r, 280));
         renderVerdict(data, payload, latency, "FastAPI XGBoost");
       } catch (err) {
         console.warn("API offline or slow; using client-side XGBoost neural rules", err);
-        const latency = Math.max(6, Math.round(performance.now() - t0));
+        const latency = Math.max(12, Math.round(performance.now() - t0));
         const fallback = simulateFallback(payload);
+        await new Promise(r => setTimeout(r, 280));
         renderVerdict(fallback, payload, latency, "Client Edge Model");
       } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
+        if (btn) {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
       }
     }
 
     function animatePipeline() {
-      const steps = ['step-buyer', 'step-identity', 'step-intent', 'step-authority', 'step-policy'];
+      const steps = ['pstep-1', 'pstep-2', 'pstep-3', 'pstep-4', 'pstep-5'];
       const fill = document.getElementById('pipelineFillBar');
       if (!fill) return;
-      steps.forEach(s => document.getElementById(s)?.classList.remove('active'));
+      steps.forEach(s => {
+        const el = document.getElementById(s);
+        if (el) {
+          el.classList.remove('pstep-flash');
+          el.style.opacity = '0.6';
+        }
+      });
       fill.style.width = '10%';
 
       let i = 0;
       const iv = setInterval(() => {
         if (i < steps.length) {
-          document.getElementById(steps[i])?.classList.add('active');
+          const el = document.getElementById(steps[i]);
+          if (el) {
+            el.style.opacity = '1';
+            el.classList.add('active', 'pstep-flash');
+          }
           fill.style.width = `${((i + 1) / steps.length) * 100}%`;
           i++;
         } else {
           clearInterval(iv);
         }
-      }, 90);
+      }, 100);
     }
 
     function simulateFallback(p) {
@@ -3095,13 +3494,13 @@
         const maxOffset = 465;
         const offset = maxOffset - (score / 100) * maxOffset;
         circle.style.strokeDashoffset = offset;
-        circle.style.stroke = data.risk_tier === 'HIGH' ? 'var(--danger-red)' : data.risk_tier === 'MEDIUM' ? 'var(--approval-orange)' : 'var(--emerald-light)';
+        circle.style.stroke = data.risk_tier === 'HIGH' ? 'var(--danger)' : data.risk_tier === 'MEDIUM' ? 'var(--warning)' : 'var(--success-text)';
       }
 
       // 3. Risk Gauge Value Text Color
       const scoreEl = document.getElementById('riskScoreValue');
       if (scoreEl) {
-        scoreEl.style.color = data.risk_tier === 'HIGH' ? 'var(--danger-red)' : data.risk_tier === 'MEDIUM' ? 'var(--approval-orange)' : 'var(--emerald-light)';
+        scoreEl.style.color = data.risk_tier === 'HIGH' ? 'var(--danger)' : data.risk_tier === 'MEDIUM' ? 'var(--warning)' : 'var(--success-text)';
       }
 
       // 4. Prominent Risk Assessment Header Banner
@@ -3130,7 +3529,7 @@
       const sourceBadge = document.getElementById('sourceBadge');
       if (sourceBadge) {
         sourceBadge.innerText = `⚡ ${source}`;
-        sourceBadge.style.color = source.includes('FastAPI') ? 'var(--emerald-light)' : 'var(--approval-orange)';
+        sourceBadge.style.color = source.includes('FastAPI') ? 'var(--success-text)' : 'var(--warning)';
         sourceBadge.style.borderColor = source.includes('FastAPI') ? 'rgba(16,185,129,0.3)' : 'rgba(245,158,11,0.3)';
       }
       const latencyBadge = document.getElementById('latencyBadge');
@@ -3165,26 +3564,29 @@
         (data.explanation || []).forEach(f => {
           const item = document.createElement('div');
           item.className = 'factor-item';
-          item.innerHTML = `<span class="factor-bullet" style="color:${data.risk_tier === 'HIGH' ? 'var(--danger-red)' : data.risk_tier === 'MEDIUM' ? 'var(--approval-orange)' : 'var(--emerald-light)'};">•</span><span>${f}</span>`;
+          item.innerHTML = `<span class="factor-bullet" style="color:${data.risk_tier === 'HIGH' ? 'var(--danger)' : data.risk_tier === 'MEDIUM' ? 'var(--warning)' : 'var(--success-text)'};">•</span><span>${f}</span>`;
           list.appendChild(item);
         });
       }
+
+      // 10. Risk Factor Progress Bars
+      renderFactorBars(payload, data);
 
       // 10. Clean Minimal Telemetry Tags
       const tagsContainer = document.getElementById('cleanTelemetryTags');
       if (tagsContainer) {
         const isGeoMismatch = (payload.txn_city || '').toLowerCase() !== (payload.home_city || '').toLowerCase();
         tagsContainer.innerHTML = `
-          <span class="telemetry-tag" style="border-color:${source.includes('FastAPI') ? 'rgba(16,185,129,0.4)' : 'rgba(245,158,11,0.4)'}; color:${source.includes('FastAPI') ? 'var(--emerald-light)' : 'var(--approval-orange)'};">
+          <span class="telemetry-tag" style="border-color:${source.includes('FastAPI') ? 'rgba(16,185,129,0.4)' : 'rgba(245,158,11,0.4)'}; color:${source.includes('FastAPI') ? 'var(--success-text)' : 'var(--warning)'};">
             ⚡ ${source} (${latency}ms)
           </span>
-          <span class="telemetry-tag" style="border-color:${payload.device_new ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${payload.device_new ? 'var(--red-light)' : 'var(--emerald-light)'};">
+          <span class="telemetry-tag" style="border-color:${payload.device_new ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${payload.device_new ? 'var(--danger)' : 'var(--success-text)'};">
             📱 ${payload.device_new ? 'New Device (+27%)' : 'Verified Device'}
           </span>
-          <span class="telemetry-tag" style="border-color:${isGeoMismatch ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${isGeoMismatch ? 'var(--red-light)' : 'var(--emerald-light)'};">
+          <span class="telemetry-tag" style="border-color:${isGeoMismatch ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${isGeoMismatch ? 'var(--danger)' : 'var(--success-text)'};">
             📍 ${isGeoMismatch ? `Geo Hop (${payload.txn_city} vs ${payload.home_city})` : 'Home Region'}
           </span>
-          <span class="telemetry-tag" style="border-color:${payload.txn_velocity_1h >= 5 ? 'rgba(245,158,11,0.4)' : 'rgba(255,255,255,0.1)'}; color:${payload.txn_velocity_1h >= 5 ? 'var(--approval-orange)' : 'var(--text-main)'};">
+          <span class="telemetry-tag" style="border-color:${payload.txn_velocity_1h >= 5 ? 'rgba(245,158,11,0.4)' : 'rgba(255,255,255,0.1)'}; color:${payload.txn_velocity_1h >= 5 ? 'var(--warning)' : 'var(--text-primary)'};">
             📈 Velocity: ${payload.txn_velocity_1h}/hr
           </span>
         `;
@@ -3195,7 +3597,7 @@
         <span style="font-size:1.1rem;">${data.risk_tier === 'HIGH' ? '🚨' : data.risk_tier === 'MEDIUM' ? '⚠️' : '🟢'}</span>
         <div>
           <div style="font-size:0.85rem; font-weight:700;">${data.decision}</div>
-          <div style="font-size:0.72rem; color:var(--text-dim);">Risk Index: ${score.toFixed(1)}% • Model: ${source} • ${latency}ms</div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">Risk Index: ${score.toFixed(1)}% • Model: ${source} • ${latency}ms</div>
         </div>
       `, data.risk_tier);
 
@@ -3257,19 +3659,19 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
       const tbody = document.getElementById('historyTableBody');
       if (!tbody) return;
       if (transactionHistory.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-dim);">No transactions scored yet in this session.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No transactions scored yet in this session.</td></tr>';
         return;
       }
       tbody.innerHTML = '';
       transactionHistory.forEach((t, idx) => {
         const tr = document.createElement('tr');
-        const color = t.tier === 'HIGH' ? 'var(--danger-red)' : t.tier === 'MEDIUM' ? 'var(--approval-orange)' : 'var(--emerald-light)';
+        const color = t.tier === 'HIGH' ? 'var(--danger)' : t.tier === 'MEDIUM' ? 'var(--warning)' : 'var(--success-text)';
         tr.innerHTML = `
           <td>${idx + 1}</td>
-          <td style="font-weight:700; color:#fff;">₹${t.amount.toLocaleString('en-IN')}</td>
+          <td style="font-weight:700; color:var(--text-primary);">₹${t.amount.toLocaleString('en-IN')}</td>
           <td>${t.city}</td>
           <td>${String(t.hour).padStart(2, '0')}:00</td>
-          <td>${t.device === 'New' ? '<span style="color:var(--danger-red);">⚠️ New</span>' : '<span style="color:var(--emerald-light);">✓ Known</span>'}</td>
+          <td>${t.device === 'New' ? '<span style="color:var(--danger);">⚠️ New</span>' : '<span style="color:var(--success-text);">✓ Known</span>'}</td>
           <td style="font-weight:700; color:${color}; font-family:var(--font-mono);">${t.score.toFixed(1)}%</td>
           <td><span class="nav-badge" style="border-color:${color}; color:${color};">${t.tier}</span></td>
           <td style="font-size:0.75rem;">${t.decision}</td>
@@ -3337,11 +3739,11 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
           </div>
           <div class="alert-body">
             <span><strong>₹${(a.amount || 0).toLocaleString('en-IN')}</strong> · ${a.merchant_category || 'Merchant'}</span>
-            <span style="font-family:var(--font-mono); font-weight:700; color:${isCrit ? 'var(--danger-red)' : 'var(--approval-orange)'};">${(a.risk_score_pct || 90).toFixed(1)}%</span>
+            <span style="font-family:var(--font-mono); font-weight:700; color:${isCrit ? 'var(--danger)' : 'var(--warning)'};">${(a.risk_score_pct || 90).toFixed(1)}%</span>
           </div>
           <div class="alert-meta">
             <span>Verdict: ${a.decision}</span> · 
-            <span style="color:var(--emerald-light);">✓ Webhook Dispatched (${a.webhook_status || '200 OK'})</span>
+            <span style="color:var(--success-text);">✓ Webhook Dispatched (${a.webhook_status || '200 OK'})</span>
           </div>
         `;
         feed.appendChild(div);
@@ -3412,13 +3814,13 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
           banner.style.display = 'block';
           title.innerText = `Scan Complete: ${data.total_evaluated} Transactions Evaluated`;
           badges.innerHTML = `
-            <span class="nav-badge" style="background:rgba(239,68,68,0.25); color:var(--red-light); border-color:var(--danger-red);">
+            <span class="nav-badge" style="background:rgba(239,68,68,0.25); color:var(--danger); border-color:var(--danger);">
               🚨 Blocked: ${data.high_risk_count}
             </span>
-            <span class="nav-badge" style="background:rgba(245,158,11,0.2); color:var(--approval-orange); border-color:var(--approval-orange);">
+            <span class="nav-badge" style="background:rgba(245,158,11,0.2); color:var(--warning); border-color:var(--warning);">
               ⚠️ Challenge (OTP): ${data.medium_risk_count}
             </span>
-            <span class="nav-badge" style="background:rgba(16,185,129,0.18); color:var(--emerald-light); border-color:var(--emerald-light);">
+            <span class="nav-badge" style="background:rgba(16,185,129,0.18); color:var(--success-text); border-color:var(--success-text);">
               ✓ Safe: ${data.safe_count}
             </span>
           `;
@@ -3549,8 +3951,8 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
           const tr = document.createElement('tr');
           const isBest = idx === 0;
           tr.innerHTML = `
-            <td><span class="nav-badge" style="${isBest ? 'background:rgba(239,68,68,0.25); color:var(--red-light);' : ''}">#${idx + 1}</span></td>
-            <td style="font-weight:700; color:${isBest ? 'var(--red-light)' : '#fff'};">${m.model_name} ${isBest ? '★ (Active Champion)' : ''}</td>
+            <td><span class="nav-badge" style="${isBest ? 'background:var(--primary-bg); color:var(--primary);' : ''}">#${idx + 1}</span></td>
+            <td style="font-weight:700; color:${isBest ? 'var(--primary)' : 'var(--text-primary)'};">${m.model_name} ${isBest ? '★ (Active Champion)' : ''}</td>
             <td style="font-family:var(--font-mono);">${(m.accuracy * 100).toFixed(2)}%</td>
             <td style="font-family:var(--font-mono);">${(m.precision * 100).toFixed(2)}%</td>
             <td style="font-family:var(--font-mono);">${(m.recall * 100).toFixed(2)}%</td>
@@ -3608,6 +4010,190 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
     }
 
     // -------------------------------------------------------------
+    // Live Authorization Pipeline Engine
+    // -------------------------------------------------------------
+    const PIPELINE_SCENARIOS = {
+      clean: {
+        txnId: 'TXN-' + Math.floor(1000 + Math.random() * 9000),
+        amount: '₹1,250.00',
+        method: 'UPI (GPay / ICICI)',
+        loc: 'Bengaluru, IN',
+        steps: [
+          { lat: '5ms', badge: 'VERIFIED', type: 'ok' },
+          { lat: '9ms', badge: 'CLEAN IP', type: 'ok' },
+          { lat: '4ms', badge: '1 TXN / HR', type: 'ok' },
+          { lat: '12ms', badge: 'SCORE 0.02', type: 'ok' },
+          { lat: '2ms', badge: 'ALLOW (PASS)', type: 'ok' }
+        ],
+        score: 'Risk: 0.02',
+        verdict: 'AUTHORIZED (32ms)',
+        verdictClass: 'pill-allow',
+        totalLat: '32.1 ms'
+      },
+      spike: {
+        txnId: 'TXN-' + Math.floor(1000 + Math.random() * 9000),
+        amount: '₹48,000.00',
+        method: 'HDFC Corp Credit',
+        loc: 'Delhi NCR, IN',
+        steps: [
+          { lat: '8ms', badge: 'VERIFIED', type: 'ok' },
+          { lat: '14ms', badge: 'GEO MISMATCH', type: 'warn' },
+          { lat: '6ms', badge: 'VELOCITY SPIKE (9/h)', type: 'warn' },
+          { lat: '18ms', badge: 'SCORE 0.68', type: 'warn' },
+          { lat: '3ms', badge: 'STEP-UP 2FA', type: 'warn' }
+        ],
+        score: 'Risk: 0.68',
+        verdict: 'STEP-UP CHALLENGE (49ms)',
+        verdictClass: 'pill-stepup',
+        totalLat: '49.0 ms'
+      },
+      tor: {
+        txnId: 'TXN-' + Math.floor(1000 + Math.random() * 9000),
+        amount: '₹95,000.00',
+        method: 'Prepaid Virtual Card',
+        loc: 'Tor Node (Frankfurt)',
+        steps: [
+          { lat: '9ms', badge: 'UNKNOWN BIN', type: 'warn' },
+          { lat: '18ms', badge: 'TOR EXIT NODE', type: 'danger' },
+          { lat: '8ms', badge: 'BURST 18 TXN/M', type: 'danger' },
+          { lat: '22ms', badge: 'SCORE 0.96', type: 'danger' },
+          { lat: '2ms', badge: 'HARD DECLINE', type: 'danger' }
+        ],
+        score: 'Risk: 0.96',
+        verdict: 'DENIED & BLOCKED (59ms)',
+        verdictClass: 'pill-block',
+        totalLat: '59.2 ms'
+      }
+    };
+
+    let isPipelineTesting = false;
+
+    async function triggerPipelineTest(scenarioKey) {
+      if (!scenarioKey || typeof scenarioKey !== 'string') {
+        const select = document.getElementById('pipelineScenarioSelect');
+        scenarioKey = select ? select.value : 'clean';
+      }
+      const data = PIPELINE_SCENARIOS[scenarioKey] || PIPELINE_SCENARIOS.clean;
+      isPipelineTesting = true;
+
+      const fillBar = document.getElementById('pipelineFillBar');
+      const tagEl = document.getElementById('streamTag');
+      const txnIdEl = document.getElementById('streamTxnId');
+      const amountEl = document.getElementById('streamAmount');
+      const methodEl = document.getElementById('streamMethod');
+      const locEl = document.getElementById('streamLoc');
+      const scoreEl = document.getElementById('streamScore');
+      const decisionEl = document.getElementById('streamDecision');
+      const avgLatEl = document.getElementById('pipeAvgLatency');
+
+      if (tagEl) tagEl.innerText = 'EVALUATING';
+      if (txnIdEl) txnIdEl.innerText = data.txnId;
+      if (amountEl) amountEl.innerText = data.amount;
+      if (methodEl) methodEl.innerText = data.method;
+      if (locEl) locEl.innerText = data.loc;
+      if (scoreEl) scoreEl.innerText = 'Calculating...';
+      if (decisionEl) {
+        decisionEl.className = 'stream-decision-pill pill-stepup';
+        decisionEl.innerText = 'IN FLIGHT...';
+      }
+      if (fillBar) fillBar.style.width = '0%';
+
+      // Reset step highlights
+      for (let i = 1; i <= 5; i++) {
+        const step = document.getElementById(`pstep-${i}`);
+        if (step) {
+          step.classList.remove('pstep-flash', 'active');
+          step.style.opacity = '0.5';
+        }
+      }
+
+      // Step-by-step illumination
+      for (let i = 1; i <= 5; i++) {
+        await new Promise(r => setTimeout(r, 220));
+        const step = document.getElementById(`pstep-${i}`);
+        const latEl = document.getElementById(`pstep${i}-lat`);
+        const badgeEl = document.getElementById(`pstep${i}-badge`);
+        const cfg = data.steps[i - 1];
+
+        if (step) {
+          step.style.opacity = '1';
+          step.classList.add('active', 'pstep-flash');
+        }
+        if (latEl) latEl.innerText = cfg.lat;
+        if (badgeEl) {
+          badgeEl.innerText = cfg.badge;
+          badgeEl.className = `pstep-badge status-${cfg.type}`;
+        }
+        if (fillBar) fillBar.style.width = `${i * 20}%`;
+      }
+
+      await new Promise(r => setTimeout(r, 150));
+      if (tagEl) tagEl.innerText = 'PROCESSED';
+      if (scoreEl) scoreEl.innerText = data.score;
+      if (decisionEl) {
+        decisionEl.className = `stream-decision-pill ${data.verdictClass}`;
+        decisionEl.innerText = data.verdict;
+      }
+      if (avgLatEl) avgLatEl.innerText = data.totalLat;
+
+      // Slight jitter on TPS
+      const tpsEl = document.getElementById('pipeTps');
+      if (tpsEl) tpsEl.innerText = `${Math.floor(175 + Math.random() * 20)} TPS`;
+
+      setTimeout(() => {
+        isPipelineTesting = false;
+        if (tagEl) tagEl.innerText = 'LIVE STREAM';
+      }, 3500);
+    }
+
+    // Background passive stream for authentic live payment engine feel
+    function initPipelineAutoStream() {
+      const liveSamples = [
+        { id: 'TXN-4192', amt: '₹3,400.00', m: 'UPI / Axis', loc: 'Delhi, IN', score: 'Risk: 0.01', dec: 'AUTHORIZED (28ms)', cls: 'pill-allow', lat: '28ms' },
+        { id: 'TXN-9021', amt: '₹18,500.00', m: 'ICICI Platinum Card', loc: 'Mumbai, IN', score: 'Risk: 0.05', dec: 'AUTHORIZED (34ms)', cls: 'pill-allow', lat: '34ms' },
+        { id: 'TXN-3829', amt: '₹62,000.00', m: 'SBI NetBanking', loc: 'Bengaluru, IN', score: 'Risk: 0.22', dec: 'AUTHORIZED (42ms)', cls: 'pill-allow', lat: '42ms' },
+        { id: 'TXN-7410', amt: '₹950.00', m: 'Paytm UPI', loc: 'Jaipur, IN', score: 'Risk: 0.00', dec: 'AUTHORIZED (19ms)', cls: 'pill-allow', lat: '19ms' },
+        { id: 'TXN-1104', amt: '₹41,200.00', m: 'Visa Corporate', loc: 'Kolkata, IN', score: 'Risk: 0.45', dec: 'STEP-UP 2FA (39ms)', cls: 'pill-stepup', lat: '39ms' }
+      ];
+
+      let idx = 0;
+      setInterval(() => {
+        if (isPipelineTesting) return; // Don't interrupt manual test
+        const overviewEl = document.getElementById('view-overview');
+        if (!overviewEl || !overviewEl.classList.contains('active')) return;
+
+        const s = liveSamples[idx % liveSamples.length];
+        idx++;
+
+        const txnIdEl = document.getElementById('streamTxnId');
+        const amountEl = document.getElementById('streamAmount');
+        const methodEl = document.getElementById('streamMethod');
+        const locEl = document.getElementById('streamLoc');
+        const scoreEl = document.getElementById('streamScore');
+        const decisionEl = document.getElementById('streamDecision');
+        const avgLatEl = document.getElementById('pipeAvgLatency');
+
+        if (txnIdEl) txnIdEl.innerText = s.id;
+        if (amountEl) amountEl.innerText = s.amt;
+        if (methodEl) methodEl.innerText = s.m;
+        if (locEl) locEl.innerText = s.loc;
+        if (scoreEl) scoreEl.innerText = s.score;
+        if (decisionEl) {
+          decisionEl.className = `stream-decision-pill ${s.cls}`;
+          decisionEl.innerText = s.dec;
+        }
+        if (avgLatEl) avgLatEl.innerText = s.lat;
+
+        // Pulse the ML scorer step gently
+        const step4 = document.getElementById('pstep-4');
+        if (step4) {
+          step4.classList.add('pstep-flash');
+          setTimeout(() => step4.classList.remove('pstep-flash'), 600);
+        }
+      }, 4500);
+    }
+
+    // -------------------------------------------------------------
     // Initialize On Load & Route
     // -------------------------------------------------------------
     window.addEventListener('DOMContentLoaded', () => {
@@ -3623,6 +4209,7 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
       loadMetrics();
       loadFeedbackData();
       fetchAlerts();
+      initPipelineAutoStream();
       // NOTE: evaluateRisk() is intentionally omitted on reload so the simulator stays at 0.0% standby
 
       // Poll live alerts every 4s
@@ -3652,15 +4239,15 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
         <div style="display:flex; align-items:center; gap:0.6rem;">
           <div class="brand-icon" style="width:34px; height:34px; font-size:1.1rem;">T</div>
           <div>
-            <div style="font-size:1rem; font-weight:800; color:#fff;">TRM Authentication</div>
-            <div style="font-size:0.72rem; color:var(--text-dim);">Select Role or Enter Credentials</div>
+            <div style="font-size:1rem; font-weight:800; color:var(--text-primary);">TRM Authentication</div>
+            <div style="font-size:0.72rem; color:var(--text-muted);">Select Role or Enter Credentials</div>
           </div>
         </div>
-        <button type="button" onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-dim); font-size:1.2rem; cursor:pointer; padding:0.2rem;">✕</button>
+        <button type="button" onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0.2rem;">✕</button>
       </div>
 
       <!-- Quick Role Fill Presets -->
-      <div style="display:flex; gap:0.5rem; background:rgba(255,255,255,0.03); padding:0.4rem; border-radius:8px; border:1px solid var(--border-subtle);">
+      <div style="display:flex; gap:0.5rem; background:var(--bg-hover); padding:0.4rem; border-radius:8px; border:1px solid var(--border);">
         <button type="button" class="btn-preset" style="flex:1; justify-content:center; text-align:center; font-size:0.75rem; padding:0.45rem;" onclick="fillAuthCredentials('admin')">
           👑 Admin (SecOps)
         </button>
@@ -3688,7 +4275,7 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
           </select>
         </div>
 
-        <div id="authErrorMsg" style="font-size:0.75rem; color:var(--danger-red); min-height:1rem; text-align:center;"></div>
+        <div id="authErrorMsg" style="font-size:0.75rem; color:var(--danger); min-height:1rem; text-align:center;"></div>
 
         <div style="display:flex; gap:0.75rem; margin-top:0.25rem;">
           <button type="button" class="btn-preset" style="flex:1; padding:0.65rem;" onclick="closeAuthModal()">Cancel</button>
@@ -3698,8 +4285,8 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
         </div>
       </form>
 
-      <div style="font-size:0.7rem; color:var(--text-dim); text-align:center; border-top:1px solid var(--border-subtle); padding-top:0.65rem;">
-        Demo Credentials: <code style="color:var(--red-light);">admin@trm.ai / admin123</code> or <code style="color:var(--emerald-light);">user@trm.ai / user123</code>
+      <div style="font-size:0.7rem; color:var(--text-muted); text-align:center; border-top:1px solid var(--border); padding-top:0.65rem;">
+        Demo Credentials: <code style="color:var(--primary);">admin@trm.ai / admin123</code> or <code style="color:var(--success-text);">user@trm.ai / user123</code>
       </div>
     </div>
   </div>
