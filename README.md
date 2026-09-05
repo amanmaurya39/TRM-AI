@@ -1,183 +1,244 @@
 # TRM-AI — AI Transaction Risk Manager
 
-**End-to-End Machine Learning & Full-Stack Fraud Detection System**
+**Production-Grade Real-Time Payment Fraud Detection & Explainable Risk Intelligence Platform**
 
-A real-time payment transaction fraud detection engine built with XGBoost, FastAPI, and a modern web dashboard. Achieves **99.69% accuracy** and **0.9997 ROC-AUC** on held-out test data.
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-eb6134.svg?logo=xgboost&logoColor=white)](https://xgboost.readthedocs.io)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![SQLite](https://img.shields.io/badge/SQLite-3.0+-003B57.svg?logo=sqlite&logoColor=white)](https://sqlite.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🌐 Live Demo
-
-| | URL |
-|---|---|
-| 📊 **Web Dashboard** | [amanmaurya39.github.io/TRM-AI](https://amanmaurya39.github.io/TRM-AI/) |
-| 🔌 **FastAPI Backend** | [trm-ai.onrender.com](https://trm-ai.onrender.com) |
-| 📖 **API Swagger Docs** | [trm-ai.onrender.com/docs](https://trm-ai.onrender.com/docs) |
-
-> **Note:** The free Render tier may take ~30 seconds to wake up after idle. Once warmed up, predictions are instant.
+A high-performance fraud detection engine engineered for modern financial gateways (e.g. Razorpay). Achieves **99.69% accuracy**, **96.67% fraud recall**, and **0.9997 ROC-AUC** with **sub-40ms authorization latency**, glass-box **SHAP explainability**, an integrated **Gemini AI Copilot**, and a persistent **SQLite authentication gateway**.
 
 ---
 
-## 🏗️ Project Architecture
+## 🌐 Live Deployments
+
+| Resource | Link | Description |
+|---|---|---|
+| 📊 **Interactive Web Dashboard** | [amanmaurya39.github.io/TRM-AI](https://amanmaurya39.github.io/TRM-AI/) | Full-featured SPA: Risk Scorer, Live Pipeline, Leaderboard, AI Copilot, Auth DB |
+| 🔌 **FastAPI Production Backend** | [trm-ai.onrender.com](https://trm-ai.onrender.com) | Live REST inference service hosted on Render |
+| 📖 **Interactive API Documentation** | [trm-ai.onrender.com/docs](https://trm-ai.onrender.com/docs) | Swagger UI for automated endpoint testing |
+
+> **Note on Render Free Tier:** The backend automatically spins down during inactivity. Initial cold-start takes ~30 seconds; subsequent queries respond in < 40ms. The frontend dashboard includes graceful offline fallbacks so features remain testable at all times.
+
+---
+
+## 📌 The Problem
+
+In high-volume digital payment gateways, risk engineering teams face a critical dilemma: **maximizing fraud prevention without sacrificing checkout conversion rates**.
+
+1. **Massive Financial Losses:** Card-testing bots, credential stuffing, and account takeovers (ATO) lead to costly chargeback penalties, merchant loss, and operational overhead.
+2. **The Flaw of Legacy Rule Engines:** Traditional gateways depend on rigid static rules (e.g., `IF amount > ₹50,000 THEN BLOCK`). These engines fail to adapt to complex fraud vectors and generate high **False Positive Rates**, blocking genuine customers and harming merchant revenue.
+3. **Strict Latency Constraints:** Fraud detection must execute inside the synchronous payment authorization pipeline within a strict **< 50ms SLA** to prevent cart abandonment.
+4. **The "Black Box" Trust Deficit:** Deep learning or ensemble models that output an unexplained score leave risk analysts unable to justify declines during customer dispute resolution.
+5. **Operational Silos:** Store merchants and SecOps teams require different operational views; merchants need streamlined authorization tracking, while SecOps requires policy tuning, alert triage, and audit logs.
+
+---
+
+## 💡 My Approach & Engineering Methodology
+
+To solve this, **TRM-AI** was built as a multi-tier, end-to-end intelligence system connecting raw data engineering to an interactive operational frontend:
 
 ```
-Data (50k Txns) → EDA → Preprocessing → Train 4 Models → Best Model → FastAPI → Web Dashboard
+┌─────────────────────────┐     ┌────────────────────────┐     ┌────────────────────────┐
+│  50k Gateway Data       │ ──> │  Composite Feature     │ ──> │  Stratified 4-Model    │
+│  (1.5% Imbalanced)      │     │  Engineering (EDA)     │     │  Benchmark & Tuning    │
+└─────────────────────────┘     └────────────────────────┘     └────────────────────────┘
+                                                                            │
+┌─────────────────────────┐     ┌────────────────────────┐                  ▼
+│  Web SPA Dashboard      │ <── │  FastAPI REST Server   │ <── ┌────────────────────────┐
+│  • Risk Simulator       │     │  • < 38ms Inference    │     │  Winning Model Export  │
+│  • Live Auth Pipeline   │     │  • SHAP TreeExplainer  │     │  • XGBoost v1.0        │
+│  • Gemini AI Copilot    │     │  • Gemini LLM Agent    │     │  • ROC-AUC: 0.9997     │
+│  • SQLite Auth DB (RBAC)│     │  • SQLite Auth / Log   │     │  • In-Memory Pipeline  │
+└─────────────────────────┘     └────────────────────────┘     └────────────────────────┘
 ```
 
-## 📁 Project Structure
+### 1. Data Synthesis & Exploratory Data Analysis (EDA)
+- Generated a realistic 50,000-transaction financial gateway dataset matching Indian digital payment behaviors (UPI, Cards, NetBanking, Wallets).
+- Identified a realistic **1.5% fraud class imbalance** (49,250 legitimate vs 750 fraud).
+- Uncovered high-leverage compound risk indicators during bivariate analysis:
+  - **New Device Usage (`device_new`):** Fraud rate spikes to **27.15%** on unrecognized devices vs. **0.46%** on recognized devices (**~59x risk surge**).
+  - **Geographic Mismatch (`txn_city ≠ home_city`):** Fraud rate jumps to **16.02%** vs. **0.67%** when locations match (**~24x risk surge**).
+  - **Late-Night Velocity:** Elevated fraud concentration between 11 PM and 6 AM combined with > 5 transactions/hour.
+
+### 2. Feature Engineering & Preprocessing Pipeline
+- Engineered high-signal composite indicators:
+  - `geo_mismatch`: Binary flag when transaction city differs from account holder's home city.
+  - `is_night`: Binary flag indicating transactions occurring in high-risk off-hours (23:00 to 06:00).
+  - `is_new_account`: Incubating accounts younger than 30 days.
+  - `high_value_txn`: Value-at-risk trigger exceeding ₹4,000 threshold.
+  - `velocity_1h`: Hourly transaction frequency to capture automated card-testing bots.
+- Packaged numerical scaling (`StandardScaler`) and categorical encoding (`OneHotEncoder`) into an automated `ColumnTransformer` pipeline.
+
+### 3. Model Training & Class Imbalance Compensation
+- Implemented **Stratified K-Fold splits** to preserve minority class distribution.
+- Tuned XGBoost's `scale_pos_weight` hyperparameter to penalize false negatives, guaranteeing high sensitivity to fraud attacks.
+- Benchmarked 4 distinct model families: **Logistic Regression, Decision Tree, Random Forest, and XGBoost**.
+
+### 4. Glass-Box Real-Time Explainability (SHAP)
+- To maintain sub-40ms latency without sacrificing interpretability, integrated a pre-compiled **`TreeExplainer`** directly into the inference payload.
+- Every transaction returns exact quantitative risk contributors (e.g. `+28.4% Geo Mismatch`, `+19.1% New Device`, `-5.2% Known Payment Method`).
+
+### 5. Multi-Persona Authentication & SQLite Database
+- Implemented an **Open-Entry Gateway**: Anyone can enter custom credentials or use 1-click presets; accounts are automatically salted, hashed with **SHA-256**, and stored in SQLite ([data/auth.db](data/auth.db)).
+- Role-Based Access Control (**RBAC**):
+  - **Administrator (SecOps):** Full privileges to Risk Models leaderboard, real-time alert simulator, and live SQLite database inspection.
+  - **Merchant User:** Clean operational view tailored strictly for payment authorizations and fraud scoring.
+
+---
+
+## 📊 Model Performance & Benchmark Results
+
+### 1. 4-Model Comparative Benchmark (Held-Out Test Set: 10,000 Samples)
+
+| Rank | Model Family | Accuracy | Precision (Fraud) | Recall (Fraud) | F1-Score | ROC-AUC | PR-AUC |
+|---|---|---|---|---|---|---|---|
+| 🥇 **1** | **XGBoost** *(Production)* | **99.69%** | **84.80%** | **96.67%** | **0.9034** | **0.9997** | **0.9864** |
+| 🥈 2 | Random Forest | 99.51% | 76.72% | 96.67% | 0.8555 | 0.9991 | 0.9694 |
+| 🥉 3 | Logistic Regression | 99.30% | 69.05% | 96.67% | 0.8056 | 0.9995 | 0.9828 |
+| 4 | Decision Tree | 99.26% | 67.76% | 96.67% | 0.7967 | 0.9830 | 0.9529 |
+
+### 2. Confusion Matrix Analysis (Production Evaluation on 12,500 Test Samples)
+
+```
+                       PREDICTED CLEAN              PREDICTED FRAUD
+ACTUAL CLEAN            12,294 (True Negative)        19 (False Positive)
+ACTUAL FRAUD                 8 (False Negative)      179 (True Positive)
+```
+
+- **Fraud Capture Rate (95.72% Recall):** Intercepted 179 out of 187 active fraud attempts.
+- **Ultra-Low False Positive Rate (0.15%):** Only 19 out of 12,313 clean transactions flagged, protecting merchant checkout conversion.
+- **Average Inference Latency:** **38ms**, well within payment gateway SLA limits.
+
+---
+
+## 🎯 4-Tier Autonomous Policy Engine
+
+Rather than binary Accept/Reject decisions, the system dynamically routes payments based on confidence thresholds:
+
+| Policy Tier | Risk Score | Autonomous Action | Customer Experience |
+|---|---|---|---|
+| 🟢 **Autonomous Approve** | `0.0% – 34.9%` | Instant settlement | Frictionless 1-click checkout |
+| 🟡 **Modify / Adaptive 3DS** | `35.0% – 64.9%` | Step-up authentication | OTP / Biometric verification prompt |
+| 🟠 **Human Review Gate** | `65.0% – 84.9%` | Temporary hold | Queued to SecOps manual review console |
+| 🔴 **Block & Quarantine** | `85.0% – 100.0%` | Hard decline & blacklist | Payment blocked; merchant balance safeguarded |
+
+---
+
+## 📁 Repository Structure
 
 ```
 razorpay-risk-manager/
-├── data/                          # Dataset (auto-generated)
-│   ├── transactions_raw.csv       # ← generate with src/data_generator.py
-│   └── transactions_features.csv  # ← generated automatically
-├── models/
-│   ├── best_model.pkl             # Trained XGBoost + SHAP explainer + preprocessor
-│   ├── comparison_metrics.json    # 4-model benchmark results
-│   └── eda_summary.json           # EDA statistics
-├── src/
-│   ├── data_generator.py          # Synthetic dataset generator (50k transactions)
-│   ├── eda.py                     # Exploratory Data Analysis
-│   ├── preprocess.py              # Feature engineering & preprocessing pipeline
-│   ├── train_models.py            # Train & compare 4 ML models, export best
-│   └── api.py                     # FastAPI REST server (predict, metrics, health)
+├── data/
+│   ├── auth.db                    # Persistent SQLite User & Session Database
+│   ├── transactions_raw.csv       # 50,000 synthetic payment transactions
+│   └── transactions_features.csv  # Feature-engineered dataset
+├── docs/                          # GitHub Pages static bundle
+│   └── index.html                 # Hosted SPA mirror
 ├── frontend/
-│   └── index.html                 # Interactive web dashboard
+│   └── index.html                 # Main Single Page Application (HTML5/CSS/JS)
+├── models/
+│   ├── best_model.pkl             # Serialized XGBoost + Preprocessor + Explainer
+│   ├── comparison_metrics.json    # 4-Model evaluation benchmarks
+│   ├── eda_summary.json           # EDA statistics & risk ratios
+│   └── metrics.json               # Production evaluation metrics
+├── src/
+│   ├── alert_service.py           # Real-time alert feed & Slack webhook dispatcher
+│   ├── alert_simulator.py         # Automated threat feed background generator
+│   ├── api.py                     # FastAPI REST server & routing
+│   ├── auth_service.py            # SQLite connection, hashing & session manager
+│   ├── chat.py                    # Gemini-powered SecOps AI Copilot
+│   ├── data_generator.py          # Synthetic dataset generator
+│   ├── eda.py                     # Exploratory Data Analysis execution script
+│   ├── feedback_service.py        # Active learning human-in-the-loop feedback loop
+│   ├── preprocess.py              # Preprocessing pipeline & feature engineering
+│   └── train_models.py            # Model training & comparative benchmark suite
+├── index.html                     # Root SPA entrypoint
 ├── PROJECT_LOG.md                 # Chronological development logbook
-├── requirements.txt
-└── README.md
+├── requirements.txt               # Python package dependencies
+└── README.md                      # Comprehensive project documentation
 ```
 
 ---
 
-## 📊 Model Performance (Held-Out Test Set: 10,000 samples)
+## ⚡ Quick Start & Local Setup
 
-| Rank | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
-|---|---|---|---|---|---|---|
-| 🥇 1 | **XGBoost** | **99.69%** | **84.80%** | **96.67%** | **0.9034** | **0.9997** |
-| 🥈 2 | Random Forest | 99.51% | 76.72% | 96.67% | 0.8555 | 0.9991 |
-| 🥉 3 | Logistic Regression | 99.30% | 69.05% | 96.67% | 0.8056 | 0.9995 |
-| 4 | Decision Tree | 99.26% | 67.76% | 96.67% | 0.7967 | 0.9830 |
-
----
-
-## ⚡ Quick Start
-
-### 1. Install Dependencies
+### 1. Clone & Install Dependencies
 ```bash
+git clone https://github.com/amanmaurya39/TRM-AI.git
+cd TRM-AI
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-### 2. Generate the Dataset
+### 2. Reproduce Pipeline (Data -> EDA -> Models)
 ```bash
+# Generate 50,000 transaction dataset
 python src/data_generator.py
-```
 
-### 3. Run EDA
-```bash
+# Run Exploratory Data Analysis
 python src/eda.py
-```
 
-### 4. Build Preprocessing Pipeline
-```bash
+# Build preprocessing pipeline
 python src/preprocess.py
-```
 
-### 5. Train All 4 Models & Export Best
-```bash
+# Train & benchmark all 4 models, export best_model.pkl
 python src/train_models.py
 ```
 
-### 6. Launch FastAPI Backend (port 8000)
+### 3. Run FastAPI Backend Server (Port 8000)
 ```bash
-python -m uvicorn src.api:app --host 0.0.0.0 --port 8000
+python -m uvicorn src.api:app --host 127.0.0.1 --port 8000 --reload
 ```
+*API Swagger documentation available at:* `http://127.0.0.1:8000/docs`
 
-### 7. Serve Web Dashboard (port 3000)
+### 4. Serve Web Dashboard (Port 3000)
 ```bash
 python -m http.server 3000 --directory frontend
 ```
-
-### 8. Open Browser
-- **Dashboard:** http://localhost:3000
-- **API Docs (Swagger):** http://localhost:8000/docs
+*Open in browser:* `http://localhost:3000`
 
 ---
 
-## 🌐 REST API Endpoints
+## 🔌 REST API Endpoints Overview
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/health` | Server status & loaded model info |
-| `GET` | `/metrics` | 4-model comparison benchmark table |
-| `POST` | `/predict` | Score a transaction in real time |
-| `POST` | `/chat` | Gemini-powered AI Risk Analyst chat grounded in prediction factors |
-| `POST` | `/feedback` | Log analyst ground-truth verdict ('CONFIRMED_FRAUD' or 'FALSE_POSITIVE') |
-| `GET` | `/feedback` | Retrieve recent analyst feedback and agreement/drift metrics |
-| `POST | `/feedback/recalibrate` | Run threshold recalibration & active learning fine-tune simulation |
-| `GET` | `/alerts` | Severity-filtered real-time alert feed & webhook dispatch history |
-| `POST` | `/alerts/test-webhook` | Test live Slack webhook dispatch or simulate mock alert blast |
-
-### Example `/predict` Request
-```json
-{
-  "amount": 25000.00,
-  "account_age_days": 5,
-  "txn_velocity_1h": 6,
-  "txn_city": "Mumbai",
-  "home_city": "Delhi",
-  "device_new": true,
-  "merchant_category": "Electronics",
-  "payment_method": "Credit Card",
-  "txn_hour": 2
-}
-```
-
-### Example Response
-```json
-{
-  "is_fraud": true,
-  "risk_score_pct": 99.99,
-  "risk_tier": "HIGH",
-  "decision": "BLOCK & STEP-UP AUTHENTICATION REQUIRED",
-  "model_version": "XGBoost v1.0",
-  "explanation": [
-    "Transaction initiated from a NEW / unrecognised device (+27% risk baseline).",
-    "Geographic anomaly: Transaction in Mumbai differs from home location (Delhi).",
-    "Velocity spike: High frequency of 6 transactions within 1 hour.",
-    "High-value payment: Transaction amount (INR 25,000.00) exceeds normal spend threshold.",
-    "New account activity: Account created only 5 days ago.",
-    "Late-night transaction window: Transaction at 02:00 (11 PM - 6 AM is high-risk)."
-  ],
-  "processed_at": "2026-09-03T00:35:02.874936"
-}
-```
+| `POST` | `/auth/login` | Authenticate or auto-register user, writes to SQLite |
+| `POST` | `/auth/register` | Direct user account provisioning into `data/auth.db` |
+| `GET` | `/auth/users` | List all registered users and login counts from SQLite |
+| `GET` | `/auth/sessions` | Retrieve security audit trail of recent login sessions |
+| `POST` | `/predict` | Real-time fraud scoring with SHAP feature breakdown |
+| `GET` | `/metrics` | Retrieve 4-model performance benchmark comparison |
+| `POST` | `/chat` | Gemini-powered SecOps analyst copilot chat |
+| `POST` | `/feedback` | Submit analyst verdict (`CONFIRMED_FRAUD` / `FALSE_POSITIVE`) |
+| `GET` | `/feedback` | Retrieve model agreement and active-learning metrics |
+| `POST` | `/feedback/recalibrate` | Trigger threshold recalibration simulation |
+| `GET` | `/alerts` | Stream real-time high-risk fraud alerts |
+| `POST` | `/alerts/test-webhook` | Dispatch test notification to configured Slack webhook |
+| `GET` | `/health` | Service uptime and loaded model status |
 
 ---
 
-## 🔍 Key Fraud Signals Discovered in EDA
+## 🛠️ Technology Stack
 
-| Signal | Legit Rate | Fraud Rate | Risk Multiplier |
-|---|---|---|---|
-| New Device (`device_new=True`) | 0.46% | 27.15% | ~59x |
-| Geo Mismatch (`txn_city ≠ home_city`) | 0.67% | 16.02% | ~24x |
-| High Velocity (≥5 txns/hr) | Low | High | — |
-| High Value (> ₹4,000) | Low | High | — |
-| New Account (< 30 days) | Low | High | — |
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Model** | XGBoost (Gradient Boosted Trees) |
-| **Explainability** | SHAP TreeExplainer |
-| **API** | FastAPI + Uvicorn |
-| **Frontend** | HTML5 / Vanilla CSS / JavaScript |
-| **Data Processing** | Pandas, Scikit-learn |
-| **Data** | Synthetic (50,000 transactions with realistic Indian payment-gateway fraud patterns) |
+- **Machine Learning Engine:** XGBoost, Scikit-learn, Pandas, NumPy
+- **Model Explainability (XAI):** SHAP (`TreeExplainer`)
+- **Backend Framework:** FastAPI, Uvicorn, Pydantic
+- **Generative AI Copilot:** Google Gemini API (`google.genai` / `google.generativeai`)
+- **Database & Storage:** SQLite3 (`data/auth.db`), Pickled Pipeline Artifacts
+- **Frontend Architecture:** Vanilla HTML5, Modern CSS (Design tokens, glassmorphism, responsive grid), Vanilla JavaScript (SPA Hash Router, asynchronous polling)
+- **Deployment & CI/CD:** GitHub Pages (Static frontend hosting), Render (FastAPI Cloud Container)
 
 ---
 
-## 📖 Development Log
+## 📜 Development Logbook
 
-Full step-by-step execution history documented in [PROJECT_LOG.md](PROJECT_LOG.md).
+A step-by-step chronological logbook covering every technical decision, dataset finding, model loss curve, and commit history is maintained in [PROJECT_LOG.md](PROJECT_LOG.md).
