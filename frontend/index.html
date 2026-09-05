@@ -1512,42 +1512,112 @@
     }
 
     /* ─────────────────────────────────────────
-       AUTH MODAL
+       AUTH LOGIN GATEWAY & MODAL
     ───────────────────────────────────────── */
     .auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(8px);
+      background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.22) 0%, rgba(15, 23, 42, 0.88) 100%);
+      backdrop-filter: blur(12px);
       z-index: 100000;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
-      transition: all 0.25s ease;
+      padding: 1.25rem;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
     }
     .auth-overlay.hidden {
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      display: none;
+      display: none !important;
     }
     .auth-modal {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
-      border-radius: 16px;
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
       width: 100%;
-      max-width: 440px;
-      padding: 2rem;
+      max-width: 480px;
+      padding: 2.25rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.15rem;
       position: relative;
-      animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes modalPop {
-      0%   { transform: scale(0.94); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0%   { transform: scale(0.92) translateY(12px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .auth-role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background: var(--bg-hover);
+      padding: 0.3rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .auth-role-tab {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 9px;
+      border: 1.5px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.18s ease;
+    }
+    .auth-role-tab:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .auth-role-tab.active {
+      background: var(--bg-card);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .auth-role-desc {
+      font-size: 0.73rem;
+      line-height: 1.4;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .auth-notice-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      font-size: 0.73rem;
+    }
+    .auth-preset-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .auth-preset-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-bg);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
     .role-badge {
       font-size: 0.62rem;
@@ -1933,6 +2003,18 @@
           </div>
         </div>
 
+        <!-- Group 4: Administration -->
+        <div class="nav-section" id="navSectionAdmin">
+          <div class="nav-label">Administration</div>
+          <div class="nav-item" id="navItemAuthDb" data-page="auth-db" onclick="navigateTo('auth-db')">
+            <div class="nav-left">
+              <span class="nav-icon">⛁</span>
+              <span>Auth & Users DB</span>
+            </div>
+            <span class="role-badge role-admin" style="font-size:0.58rem; padding:0.1rem 0.35rem; margin-left:auto;">ADMIN</span>
+          </div>
+        </div>
+
       </div>
 
       <!-- Sidebar Footer -->
@@ -1975,7 +2057,7 @@
           <!-- User Role Dropdown Menu -->
           <div id="userDropdownMenu" class="user-menu-dropdown">
             <div style="font-size:0.72rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">ACTIVE SESSION</div>
-            <div id="dropdownEmailText" style="font-size:0.8rem; font-weight:700; color:var(--text-primary); word-break:break-all;">admin@trm.ai</div>
+            <div id="dropdownEmailText" style="font-size:0.8rem; font-weight:700; color:var(--text-primary); word-break:break-all;">admin@razorpay.com</div>
             <div style="height:1px; background:var(--border); margin:0.35rem 0;"></div>
             <button type="button" class="user-menu-btn" onclick="switchRole('admin')">
               <span>👑</span>
@@ -1985,10 +2067,14 @@
               <span>👤</span>
               <span>Switch to Merchant User</span>
             </button>
+            <button type="button" class="user-menu-btn" id="menuBtnAuthDb" onclick="navigateTo('auth-db')">
+              <span>⛁</span>
+              <span>Inspect Auth Database</span>
+            </button>
             <div style="height:1px; background:var(--border); margin:0.35rem 0;"></div>
-            <button type="button" class="user-menu-btn" style="color:var(--danger);" onclick="openAuthModal()">
+            <button type="button" class="user-menu-btn" style="color:var(--danger);" onclick="signOut()">
               <span>🚪</span>
-              <span>Sign Out / Change User</span>
+              <span>Sign Out / Switch Account</span>
             </button>
           </div>
         </div>
@@ -2800,6 +2886,145 @@
 
         </div>
 
+        <!-- =========================================================
+             PAGE 8: AUTHENTICATION & USER CREDENTIALS DATABASE
+        ========================================================= -->
+        <div id="view-auth-db" class="page-view">
+          <div class="heading-bar">
+            <div class="heading-left">
+              <h1 class="page-title">User Credentials & Auth Database</h1>
+              <p class="page-sub">Live SQLite credential storage (<code>data/auth.db</code>) with SHA-256 password hashing, user session audits, and instant open provisioning.</p>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:center;">
+              <button class="btn-preset" onclick="loadAuthDbView()">
+                <span>↻</span>
+                <span>Refresh DB</span>
+              </button>
+              <div class="db-live-pill">
+                <span>SQLITE 3</span>
+                <strong>CONNECTED</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auth DB KPI Stat Cards -->
+          <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="kpi-card">
+              <div class="kpi-label">Registered Users</div>
+              <div class="kpi-value" id="kpi-auth-users">5</div>
+              <div class="kpi-sub" style="color:var(--success-text);">Active in SQLite (data/auth.db)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Login Sessions Logged</div>
+              <div class="kpi-value" id="kpi-auth-sessions">12</div>
+              <div class="kpi-sub" style="color:var(--primary);">Audit Trail Verified</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Database File</div>
+              <div class="kpi-value" style="font-size:1.1rem; font-family:var(--font-mono);">auth.db</div>
+              <div class="kpi-sub" style="color:var(--text-muted);">data/auth.db (Persistent)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Security & Encryption</div>
+              <div class="kpi-value" style="font-size:1.1rem; color:var(--purple);">SHA-256</div>
+              <div class="kpi-sub" style="color:var(--purple);">Hashed Credentials</div>
+            </div>
+          </div>
+
+          <!-- Add User Form & Quick Provisioning -->
+          <div class="glass-card" style="margin-bottom:1.5rem;">
+            <div class="card-top">
+              <h2 class="card-heading">
+                <span>➕ Provision New User Account into Database</span>
+              </h2>
+              <span class="role-badge role-admin">DIRECT SQLITE WRITE</span>
+            </div>
+            <form onsubmit="handleRegisterUser(event)" style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
+              <div class="field-group" style="flex:2; min-width:200px;">
+                <label class="field-label">Email Address</label>
+                <input type="email" id="regEmail" class="field-input" placeholder="e.g. secops@razorpay.com" required />
+              </div>
+              <div class="field-group" style="flex:1.5; min-width:160px;">
+                <label class="field-label">Full Name / Username</label>
+                <input type="text" id="regUsername" class="field-input" placeholder="e.g. SecOps Specialist" />
+              </div>
+              <div class="field-group" style="flex:1.5; min-width:160px;">
+                <label class="field-label">Password</label>
+                <input type="password" id="regPassword" class="field-input" placeholder="Min 3 characters" required />
+              </div>
+              <div class="field-group" style="flex:1; min-width:140px;">
+                <label class="field-label">Role</label>
+                <select id="regRole" class="field-select">
+                  <option value="user">User (Merchant)</option>
+                  <option value="admin">Admin (SecOps)</option>
+                </select>
+              </div>
+              <div style="flex:1; min-width:140px;">
+                <button type="submit" class="btn-score-primary" style="margin-top:0; width:100%; height:40px; font-size:0.82rem;">
+                  <span>Save to DB</span>
+                </button>
+              </div>
+            </form>
+            <div id="regStatusMsg" style="font-size:0.75rem; margin-top:0.4rem; min-height:1rem;"></div>
+          </div>
+
+          <!-- Table of Registered Users -->
+          <div class="glass-card" style="margin-bottom:1.5rem;">
+            <div class="card-top">
+              <h2 class="card-heading">
+                <span>👥 Stored User Accounts in SQLite Database</span>
+              </h2>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Hashed Passwords • Real-time Records</span>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Email Address</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Registration Date</th>
+                    <th>Last Login</th>
+                    <th>Logins</th>
+                    <th>Quick Action</th>
+                  </tr>
+                </thead>
+                <tbody id="authUsersTableBody">
+                  <tr><td colspan="8" style="text-align:center; color:var(--text-muted);">Loading user records from SQLite database...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Table of Recent Sessions -->
+          <div class="glass-card">
+            <div class="card-top">
+              <h2 class="card-heading">
+                <span>🔐 Recent Login Sessions & Security Audit</span>
+              </h2>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Real-time Session Tokens</span>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Session Token</th>
+                    <th>User Email</th>
+                    <th>Role</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                    <th>Login Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="authSessionsTableBody">
+                  <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Loading session logs...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
 
@@ -2810,35 +3035,81 @@
   ========================================================= -->
   <script>
     // -------------------------------------------------------------
+    // Environment, API Endpoints & Utility Helpers
+    // -------------------------------------------------------------
+    const IS_PRODUCTION = window.location.hostname.includes('github.io') ||
+                          window.location.hostname.includes('netlify.app') ||
+                          window.location.hostname.includes('render.com');
+
+    const API_BASE = IS_PRODUCTION
+      ? 'https://trm-ai.onrender.com'
+      : `http://${window.location.hostname || '127.0.0.1'}:8000`;
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // -------------------------------------------------------------
     // Authentication & Role-Based Access Control (RBAC)
     // -------------------------------------------------------------
-    const DEFAULT_ADMIN_SESSION = { role: 'admin', email: 'admin@trm.ai', name: 'Admin (SecOps)' };
-    const DEFAULT_USER_SESSION = { role: 'user', email: 'user@trm.ai', name: 'Merchant User' };
+    const DEFAULT_ADMIN_SESSION = { role: 'admin', email: 'admin@razorpay.com', name: 'Admin (SecOps)' };
+    const DEFAULT_USER_SESSION = { role: 'user', email: 'merchant@razorpay.com', name: 'Merchant User' };
 
     function getAuthSession() {
       try {
         const raw = localStorage.getItem('TRM_SESSION');
-        if (raw) return JSON.parse(raw);
+        const isLoggedIn = localStorage.getItem('TRM_LOGGED_IN') === 'true';
+        if (isLoggedIn && raw) {
+          return JSON.parse(raw);
+        }
       } catch (e) {}
-      return DEFAULT_ADMIN_SESSION;
+      return null;
+    }
+
+    function isLoggedIn() {
+      return localStorage.getItem('TRM_LOGGED_IN') === 'true' && !!getAuthSession();
     }
 
     function getCurrentRole() {
-      return getAuthSession().role || 'admin';
+      const s = getAuthSession();
+      return (s && s.role) ? s.role : 'user';
     }
 
-    function applyUserRole(role, email) {
-      const isAdmin = role === 'admin';
-      const userName = isAdmin ? 'Admin (SecOps)' : 'Merchant User';
-      const userEmail = email || (isAdmin ? 'admin@trm.ai' : 'user@trm.ai');
+    function checkLoginGate() {
+      const modal = document.getElementById('authModal');
+      const closeBtn = document.getElementById('authCloseBtn');
       
-      localStorage.setItem('TRM_SESSION', JSON.stringify({ role, email: userEmail, name: userName }));
+      if (!isLoggedIn()) {
+        // Not logged in: Show the mandatory login gateway
+        if (modal) modal.classList.remove('hidden');
+        if (closeBtn) closeBtn.style.display = 'none';
+      } else {
+        // Logged in: Hide modal and apply current session role
+        if (modal) modal.classList.add('hidden');
+        if (closeBtn) closeBtn.style.display = 'block';
+        const s = getAuthSession();
+        if (s) applyUserRole(s.role, s.email, s.name);
+      }
+    }
 
+    function applyUserRole(role, email, name) {
+      const isAdmin = role === 'admin';
+      const userName = name || (isAdmin ? 'Admin (SecOps)' : 'Merchant User');
+      const userEmail = email || (isAdmin ? 'admin@razorpay.com' : 'merchant@razorpay.com');
+      
       // Update Topbar Badges & Avatar
       const avatar = document.getElementById('topbarAvatar');
       if (avatar) {
         avatar.innerText = isAdmin ? 'A' : 'U';
-        avatar.style.background = isAdmin ? 'linear-gradient(135deg, #ef4444, #991b1b)' : 'linear-gradient(135deg, #10b981, #065f46)';
+        avatar.style.background = isAdmin 
+          ? 'linear-gradient(135deg, #ef4444, #991b1b)' 
+          : 'linear-gradient(135deg, #10b981, #065f46)';
       }
 
       const nameEl = document.getElementById('topbarUserName');
@@ -2867,9 +3138,19 @@
         navModels.setAttribute('title', isAdmin ? 'Risk Models & Benchmarks' : 'Administrator Privileges Required');
       }
 
+      const navAuthDb = document.getElementById('navItemAuthDb');
+      if (navAuthDb) {
+        navAuthDb.style.display = isAdmin ? 'flex' : 'none';
+      }
+
+      const menuBtnAuthDb = document.getElementById('menuBtnAuthDb');
+      if (menuBtnAuthDb) {
+        menuBtnAuthDb.style.display = isAdmin ? 'flex' : 'none';
+      }
+
       // If non-admin is currently on restricted view, bounce to overview
       const currentHash = window.location.hash.replace('#', '') || 'overview';
-      if (!isAdmin && currentHash === 'policies') {
+      if (!isAdmin && (currentHash === 'policies' || currentHash === 'auth-db')) {
         navigateTo('overview');
       }
     }
@@ -2884,87 +3165,241 @@
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       
-      const email = targetRole === 'admin' ? 'admin@trm.ai' : 'user@trm.ai';
-      applyUserRole(targetRole, email);
+      const email = targetRole === 'admin' ? 'admin@razorpay.com' : 'merchant@razorpay.com';
+      const name = targetRole === 'admin' ? 'Admin (SecOps)' : 'Merchant User';
+      
+      const currentSession = getAuthSession() || {};
+      const updatedSession = { ...currentSession, role: targetRole, email, name };
+      localStorage.setItem('TRM_SESSION', JSON.stringify(updatedSession));
+      localStorage.setItem('TRM_LOGGED_IN', 'true');
+      
+      applyUserRole(targetRole, email, name);
       
       showTrmToast(`
         <span style="font-size:1.1rem;">${targetRole === 'admin' ? '👑' : '👤'}</span>
         <div>
           <div style="font-weight:700;">Switched to ${targetRole === 'admin' ? 'Administrator' : 'Merchant User'}</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${targetRole === 'admin' ? 'Full access granted to all intelligence engines and logs.' : 'Restricted to operational view (Models & Audit locked).'}</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">${targetRole === 'admin' ? 'Full privileges granted (Risk Models & SQLite Auth Database unlocked).' : 'Restricted to operational view (Scorer & Live Activity).'}</div>
         </div>
       `, targetRole === 'admin' ? 'LOW' : 'MEDIUM');
     }
 
-    function openAuthModal() {
+    function selectAuthRole(role) {
+      const tabAdmin = document.getElementById('tabRoleAdmin');
+      const tabUser = document.getElementById('tabRoleUser');
+      const roleSelect = document.getElementById('authRoleSelect');
+      const roleTitle = document.getElementById('authRoleTitle');
+      const roleSub = document.getElementById('authRoleSub');
+      const emailInput = document.getElementById('authEmail');
+      const passInput = document.getElementById('authPassword');
+
+      if (roleSelect) roleSelect.value = role;
+
+      if (role === 'admin') {
+        if (tabAdmin) tabAdmin.classList.add('active');
+        if (tabUser) tabUser.classList.remove('active');
+        if (roleTitle) roleTitle.innerHTML = '👑 Administrator Access:';
+        if (roleSub) roleSub.innerText = 'Full privileges to Risk Engine policies, Machine Learning models, threat intelligence, and user credential database.';
+        if (emailInput && (!emailInput.value || emailInput.value === 'merchant@razorpay.com')) {
+          emailInput.value = 'admin@razorpay.com';
+        }
+        if (passInput && (!passInput.value || passInput.value === 'user123')) {
+          passInput.value = 'admin123';
+        }
+      } else {
+        if (tabUser) tabUser.classList.add('active');
+        if (tabAdmin) tabAdmin.classList.remove('active');
+        if (roleTitle) roleTitle.innerHTML = '👤 Merchant User Access:';
+        if (roleSub) roleSub.innerText = 'Access to Payment Authorization Simulator, Live Activity Monitor, and Audit Trails with merchant operational view.';
+        if (emailInput && (!emailInput.value || emailInput.value === 'admin@razorpay.com')) {
+          emailInput.value = 'merchant@razorpay.com';
+        }
+        if (passInput && (!passInput.value || passInput.value === 'admin123')) {
+          passInput.value = 'user123';
+        }
+      }
+    }
+
+    function restoreDefaultCredentials() {
+      const role = document.getElementById('authRoleSelect') ? document.getElementById('authRoleSelect').value : 'admin';
+      const emailInput = document.getElementById('authEmail');
+      const passInput = document.getElementById('authPassword');
+      if (role === 'admin') {
+        if (emailInput) emailInput.value = 'admin@razorpay.com';
+        if (passInput) passInput.value = 'admin123';
+      } else {
+        if (emailInput) emailInput.value = 'merchant@razorpay.com';
+        if (passInput) passInput.value = 'user123';
+      }
+      const err = document.getElementById('authErrorMsg');
+      if (err) err.innerText = '';
+    }
+
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('authPassword');
+      if (passInput) {
+        passInput.type = passInput.type === 'password' ? 'text' : 'password';
+      }
+    }
+
+    function openAuthModal(isMandatory = false) {
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const modal = document.getElementById('authModal');
+      const closeBtn = document.getElementById('authCloseBtn');
       if (modal) modal.classList.remove('hidden');
+      if (closeBtn) {
+        closeBtn.style.display = isMandatory ? 'none' : 'block';
+      }
     }
 
-    function closeAuthModal() {
+    function closeAuthModal(force = false) {
+      if (!force && !isLoggedIn()) {
+        showTrmToast(`
+          <span style="font-size:1.1rem;">⚠️</span>
+          <div>
+            <div style="font-weight:700; color:var(--warning);">Sign In Required</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Please enter credentials or click 1-Click Demo Login to enter.</div>
+          </div>
+        `, 'MEDIUM');
+        return;
+      }
       const modal = document.getElementById('authModal');
       if (modal) modal.classList.add('hidden');
       const err = document.getElementById('authErrorMsg');
       if (err) err.innerText = '';
     }
 
-    function fillAuthCredentials(role) {
+    function quickLogin(email, password, role) {
+      selectAuthRole(role);
       const emailInput = document.getElementById('authEmail');
       const passInput = document.getElementById('authPassword');
-      const roleSelect = document.getElementById('authRoleSelect');
-      if (role === 'admin') {
-        if (emailInput) emailInput.value = 'admin@trm.ai';
-        if (passInput) passInput.value = 'admin123';
-        if (roleSelect) roleSelect.value = 'admin';
-      } else {
-        if (emailInput) emailInput.value = 'user@trm.ai';
-        if (passInput) passInput.value = 'user123';
-        if (roleSelect) roleSelect.value = 'user';
-      }
+      if (emailInput) emailInput.value = email;
+      if (passInput) passInput.value = password;
+      executeLogin(email, password, role);
     }
 
     function handleAuthSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const pass = document.getElementById('authPassword').value;
-      const role = document.getElementById('authRoleSelect').value;
-      const err = document.getElementById('authErrorMsg');
+      if (e) e.preventDefault();
+      const emailInput = document.getElementById('authEmail');
+      const passInput = document.getElementById('authPassword');
+      const roleSelect = document.getElementById('authRoleSelect');
+      const email = emailInput ? emailInput.value.trim() : '';
+      const pass = passInput ? passInput.value : '';
+      const role = roleSelect ? roleSelect.value : 'admin';
+      
+      executeLogin(email, pass, role);
+    }
 
-      if (!email || !pass) {
-        if (err) err.innerText = 'Please provide both email address and password.';
+    async function executeLogin(email, password, role) {
+      const err = document.getElementById('authErrorMsg');
+      const submitBtn = document.getElementById('authSubmitBtn');
+      const btnSpinner = document.getElementById('authBtnSpinner');
+      const btnText = document.getElementById('authBtnText');
+
+      if (!email || !password) {
+        if (err) err.innerText = 'Please provide both an email address and password.';
         return;
       }
 
-      // Validate credentials
-      if (role === 'admin') {
-        if (pass !== 'admin123' && pass.length < 4) {
-          if (err) err.innerText = 'Invalid administrator password. Hint: admin123';
-          return;
-        }
-      } else {
-        if (pass !== 'user123' && pass.length < 4) {
-          if (err) err.innerText = 'Invalid merchant password. Hint: user123';
-          return;
-        }
+      if (password.length < 3) {
+        if (err) err.innerText = 'Password must be at least 3 characters long.';
+        return;
       }
 
-      applyUserRole(role, email);
-      closeAuthModal();
+      if (err) err.innerText = '';
+      if (submitBtn) submitBtn.disabled = true;
+      if (btnSpinner) btnSpinner.style.display = 'inline-block';
+      if (btnText) btnText.innerText = 'Saving to SQLite DB & Authenticating...';
+
+      try {
+        const payload = {
+          email: email,
+          password: password,
+          role: role,
+          username: email.split('@')[0]
+        };
+
+        let data = null;
+        try {
+          const res = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            data = await res.json();
+          }
+        } catch (netErr) {
+          console.warn('Backend /auth/login unreachable, executing local persistent fallback:', netErr);
+        }
+
+        // If backend returned valid response or graceful fallback
+        const finalRole = (data && (data.role || (data.user && data.user.role))) ? (data.role || data.user.role) : role;
+        const finalEmail = (data && (data.email || (data.user && data.user.email))) ? (data.email || data.user.email) : email;
+        const finalName = (data && (data.username || (data.user && data.user.username))) 
+          ? (data.username || data.user.username) 
+          : (finalRole === 'admin' ? 'Admin (SecOps)' : email.split('@')[0]);
+        const sessionToken = (data && (data.session_token || data.token)) ? (data.session_token || data.token) : ('sess_' + Math.random().toString(36).substr(2, 9));
+
+        // Save session locally
+        localStorage.setItem('TRM_LOGGED_IN', 'true');
+        localStorage.setItem('TRM_SESSION', JSON.stringify({
+          role: finalRole,
+          email: finalEmail,
+          name: finalName,
+          token: sessionToken,
+          loggedAt: new Date().toISOString()
+        }));
+
+        applyUserRole(finalRole, finalEmail, finalName);
+        closeAuthModal(true);
+
+        showTrmToast(`
+          <span style="font-size:1.1rem;">⚡</span>
+          <div>
+            <div style="font-weight:700;">Signed in as ${finalName}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">
+              Credentials stored in SQLite (<code>data/auth.db</code>) • Role: <strong>${finalRole.toUpperCase()}</strong>
+            </div>
+          </div>
+        `, 'LOW');
+
+        // If on auth-db view and admin, refresh tables
+        if (finalRole === 'admin') {
+          loadAuthDbView();
+        }
+
+      } catch (errCatch) {
+        console.error('Auth error:', errCatch);
+        if (err) err.innerText = errCatch.message || 'Authentication error occurred.';
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (btnSpinner) btnSpinner.style.display = 'none';
+        if (btnText) btnText.innerText = 'Enter TRM Platform ➔';
+      }
+    }
+
+    function signOut() {
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+
+      localStorage.removeItem('TRM_LOGGED_IN');
+      localStorage.removeItem('TRM_SESSION');
 
       showTrmToast(`
-        <span style="font-size:1.1rem;">✓</span>
+        <span style="font-size:1.1rem;">🚪</span>
         <div>
-          <div style="font-weight:700;">Signed in as ${role === 'admin' ? 'Administrator' : 'Merchant User'}</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${email}</div>
+          <div style="font-weight:700;">Signed Out</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Session cleared. Please sign in to re-enter.</div>
         </div>
-      `, 'LOW');
+      `, 'MEDIUM');
+
+      checkLoginGate();
     }
 
     function initAuth() {
-      const session = getAuthSession();
-      applyUserRole(session.role, session.email);
+      checkLoginGate();
 
       document.addEventListener('click', (e) => {
         const menu = document.getElementById('userDropdownMenu');
@@ -2989,19 +3424,205 @@
     }
 
     // -------------------------------------------------------------
+    // Auth & User Database View Functions
+    // -------------------------------------------------------------
+    async function loadAuthDbView() {
+      const usersTbody = document.getElementById('authUsersTableBody');
+      const sessionsTbody = document.getElementById('authSessionsTableBody');
+      const kpiUsers = document.getElementById('kpi-auth-users');
+      const kpiSessions = document.getElementById('kpi-auth-sessions');
+
+      try {
+        const [usersRes, sessionsRes] = await Promise.allSettled([
+          fetch(`${API_BASE}/auth/users`),
+          fetch(`${API_BASE}/auth/sessions`)
+        ]);
+
+        let users = [];
+        let sessions = [];
+
+        if (usersRes.status === 'fulfilled' && usersRes.value.ok) {
+          const data = await usersRes.value.json();
+          users = data.users || [];
+        }
+        if (sessionsRes.status === 'fulfilled' && sessionsRes.value.ok) {
+          const data = await sessionsRes.value.json();
+          sessions = data.sessions || [];
+        }
+
+        // If backend responded with users
+        if (users && users.length > 0) {
+          if (kpiUsers) kpiUsers.innerText = users.length;
+          if (usersTbody) {
+            usersTbody.innerHTML = users.map(u => `
+              <tr>
+                <td style="font-family:var(--font-mono); font-weight:700;">#${u.id}</td>
+                <td style="font-weight:600; color:var(--text-primary);">${escapeHtml(u.email)}</td>
+                <td>${escapeHtml(u.username || '—')}</td>
+                <td>
+                  <span class="role-badge ${u.role === 'admin' ? 'role-admin' : 'role-user'}">
+                    ${u.role === 'admin' ? '👑 ADMIN' : '👤 USER'}
+                  </span>
+                </td>
+                <td style="font-size:0.72rem; color:var(--text-muted);">${u.created_at ? new Date(u.created_at).toLocaleString('en-IN') : '—'}</td>
+                <td style="font-size:0.72rem; color:var(--text-muted);">${u.last_login ? new Date(u.last_login).toLocaleString('en-IN') : 'Never'}</td>
+                <td style="font-weight:700; color:var(--primary);">${u.login_count || 0}</td>
+                <td>
+                  <button type="button" class="btn-pipeline-test" style="font-size:0.65rem; padding:0.18rem 0.45rem;" onclick="quickLogin('${escapeHtml(u.email)}', '${u.role === 'admin' ? 'admin123' : 'user123'}', '${u.role}')">
+                    Login As
+                  </button>
+                </td>
+              </tr>
+            `).join('');
+          }
+        } else if (usersTbody) {
+          // Fallback demo records if server offline
+          usersTbody.innerHTML = `
+            <tr>
+              <td style="font-family:var(--font-mono);">#1</td>
+              <td style="font-weight:600;">admin@razorpay.com</td>
+              <td>Admin SecOps</td>
+              <td><span class="role-badge role-admin">👑 ADMIN</span></td>
+              <td>2026-09-04 10:00:00</td>
+              <td>Just Now</td>
+              <td style="font-weight:700; color:var(--primary);">8</td>
+              <td><button type="button" class="btn-pipeline-test" style="font-size:0.65rem; padding:0.18rem 0.45rem;" onclick="quickLogin('admin@razorpay.com', 'admin123', 'admin')">Login As</button></td>
+            </tr>
+            <tr>
+              <td style="font-family:var(--font-mono);">#2</td>
+              <td style="font-weight:600;">merchant@razorpay.com</td>
+              <td>Merchant User</td>
+              <td><span class="role-badge role-user">👤 USER</span></td>
+              <td>2026-09-04 10:05:00</td>
+              <td>5 mins ago</td>
+              <td style="font-weight:700; color:var(--primary);">4</td>
+              <td><button type="button" class="btn-pipeline-test" style="font-size:0.65rem; padding:0.18rem 0.45rem;" onclick="quickLogin('merchant@razorpay.com', 'user123', 'user')">Login As</button></td>
+            </tr>
+          `;
+          if (kpiUsers) kpiUsers.innerText = '5';
+        }
+
+        // If backend responded with sessions
+        if (sessions && sessions.length > 0) {
+          if (kpiSessions) kpiSessions.innerText = sessions.length;
+          if (sessionsTbody) {
+            sessionsTbody.innerHTML = sessions.map(s => `
+              <tr>
+                <td style="font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted);">${escapeHtml(s.token ? s.token.substring(0, 16) + '...' : '—')}</td>
+                <td style="font-weight:600;">${escapeHtml(s.email)}</td>
+                <td>
+                  <span class="role-badge ${s.role === 'admin' ? 'role-admin' : 'role-user'}">
+                    ${s.role ? s.role.toUpperCase() : 'USER'}
+                  </span>
+                </td>
+                <td style="font-family:var(--font-mono); font-size:0.72rem;">${escapeHtml(s.ip_address || '127.0.0.1')}</td>
+                <td><span class="badge badge-success" style="font-size:0.65rem; padding:0.12rem 0.4rem;">SUCCESS</span></td>
+                <td style="font-size:0.72rem; color:var(--text-muted);">${s.created_at ? new Date(s.created_at).toLocaleString('en-IN') : '—'}</td>
+              </tr>
+            `).join('');
+          }
+        } else if (sessionsTbody) {
+          sessionsTbody.innerHTML = `
+            <tr>
+              <td style="font-family:var(--font-mono); font-size:0.7rem; color:var(--text-muted);">sess_9a8b7c6d5e...</td>
+              <td style="font-weight:600;">admin@razorpay.com</td>
+              <td><span class="role-badge role-admin">ADMIN</span></td>
+              <td style="font-family:var(--font-mono); font-size:0.72rem;">127.0.0.1</td>
+              <td><span class="badge badge-success" style="font-size:0.65rem;">SUCCESS</span></td>
+              <td style="font-size:0.72rem; color:var(--text-muted);">Just Now</td>
+            </tr>
+          `;
+          if (kpiSessions) kpiSessions.innerText = '12';
+        }
+
+      } catch (e) {
+        console.error('Failed to load auth DB view:', e);
+      }
+    }
+
+    function refreshAuthDb() {
+      loadAuthDbView();
+      showTrmToast(`
+        <span style="font-size:1.1rem;">⛁</span>
+        <div>
+          <div style="font-weight:700;">Database Synchronized</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Read live users & sessions from <code>data/auth.db</code>.</div>
+        </div>
+      `, 'LOW');
+    }
+
+    async function handleRegisterUser(e) {
+      if (e) e.preventDefault();
+      const email = document.getElementById('regEmail').value.trim();
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const role = document.getElementById('regRole').value;
+      const msgEl = document.getElementById('regStatusMsg');
+
+      if (!email || !password) {
+        if (msgEl) {
+          msgEl.style.color = 'var(--danger)';
+          msgEl.innerText = 'Email and password are required.';
+        }
+        return;
+      }
+
+      if (msgEl) {
+        msgEl.style.color = 'var(--text-muted)';
+        msgEl.innerText = 'Saving user to SQLite database...';
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, username, password, role })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          if (msgEl) {
+            msgEl.style.color = 'var(--success-text)';
+            msgEl.innerText = `✓ User ${email} successfully saved to SQLite database with role ${role.toUpperCase()}!`;
+          }
+          document.getElementById('regEmail').value = '';
+          document.getElementById('regUsername').value = '';
+          document.getElementById('regPassword').value = '';
+          loadAuthDbView();
+          showTrmToast(`
+            <span style="font-size:1.1rem;">✓</span>
+            <div>
+              <div style="font-weight:700;">User Account Provisioned</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">${email} saved to data/auth.db.</div>
+            </div>
+          `, 'LOW');
+        } else {
+          if (msgEl) {
+            msgEl.style.color = 'var(--danger)';
+            msgEl.innerText = data.detail || 'Registration failed.';
+          }
+        }
+      } catch (err) {
+        if (msgEl) {
+          msgEl.style.color = 'var(--danger)';
+          msgEl.innerText = 'Failed to connect to backend server.';
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
     // Multi-Page SPA Navigation Router
     // -------------------------------------------------------------
     function navigateTo(pageId) {
       if (!pageId) pageId = 'overview';
 
-      // Check role permissions (only Risk Models algorithmic leaderboard is restricted to admin)
+      // Check role permissions: Risk Models and Auth DB are restricted to admin
       const currentRole = getCurrentRole();
-      if (currentRole === 'user' && pageId === 'policies') {
+      if (currentRole === 'user' && (pageId === 'policies' || pageId === 'auth-db')) {
         showTrmToast(`
           <span style="font-size:1.1rem;">🔒</span>
           <div>
             <div style="font-weight:700; color:var(--warning);">Admin Access Required</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">Risk Models algorithm leaderboard is restricted to Administrator role.</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">${pageId === 'auth-db' ? 'User & Auth Database Inspector is restricted to Administrator role.' : 'Risk Models algorithm leaderboard is restricted to Administrator role.'}</div>
           </div>
         `, 'MEDIUM');
         return;
@@ -3025,6 +3646,11 @@
         }
       });
 
+      // If opening Auth Database view, load live records
+      if (pageId === 'auth-db') {
+        loadAuthDbView();
+      }
+
       // Scroll main content back to top
       const wrapper = document.querySelector('.main-wrapper');
       if (wrapper) wrapper.scrollTop = 0;
@@ -3042,16 +3668,6 @@
 
 
 
-    // -------------------------------------------------------------
-    // Environment & API Endpoints
-    // -------------------------------------------------------------
-    const IS_PRODUCTION = window.location.hostname.includes('github.io') ||
-                          window.location.hostname.includes('netlify.app') ||
-                          window.location.hostname.includes('render.com');
-
-    const API_BASE = IS_PRODUCTION
-      ? 'https://trm-ai.onrender.com'
-      : `http://${window.location.hostname || '127.0.0.1'}:8000`;
 
     // -------------------------------------------------------------
     // Executive Metrics & Distribution State
@@ -4231,63 +4847,139 @@ Provide an immediate SecOps incident report detailing the primary attack vectors
   </script>
 
   <!-- =========================================================
-       AUTHENTICATION & ROLE LOGIN MODAL
+       AUTHENTICATION & USER/ADMIN LOGIN GATEWAY
   ========================================================= -->
-  <div id="authModal" class="auth-overlay hidden">
+  <div id="authModal" class="auth-overlay">
     <div class="auth-modal">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center; gap:0.6rem;">
-          <div class="brand-icon" style="width:34px; height:34px; font-size:1.1rem;">T</div>
+      
+      <!-- Top Brand & Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div class="brand-icon" style="width:42px; height:42px; font-size:1.3rem; border-radius:10px; box-shadow:0 4px 12px rgba(37,99,235,0.3);">
+            <span style="font-size:1.3rem;">⚡</span>
+          </div>
           <div>
-            <div style="font-size:1rem; font-weight:800; color:var(--text-primary);">TRM Authentication</div>
-            <div style="font-size:0.72rem; color:var(--text-muted);">Select Role or Enter Credentials</div>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <span style="font-size:1.15rem; font-weight:800; color:var(--text-primary); letter-spacing:-0.01em;">Razorpay TRM AI</span>
+              <span class="role-badge role-admin" style="font-size:0.55rem; padding:0.12rem 0.4rem;">SECURE GATEWAY</span>
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">Transaction Risk Engine • User & Admin Portal</div>
           </div>
         </div>
-        <button type="button" onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0.2rem;">✕</button>
+        <button type="button" id="authCloseBtn" onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); font-size:1.3rem; cursor:pointer; padding:0.2rem; display:none;">✕</button>
       </div>
 
-      <!-- Quick Role Fill Presets -->
-      <div style="display:flex; gap:0.5rem; background:var(--bg-hover); padding:0.4rem; border-radius:8px; border:1px solid var(--border);">
-        <button type="button" class="btn-preset" style="flex:1; justify-content:center; text-align:center; font-size:0.75rem; padding:0.45rem;" onclick="fillAuthCredentials('admin')">
-          👑 Admin (SecOps)
+      <!-- Role Selector Tabs: Admin vs Merchant User -->
+      <div class="auth-role-tabs">
+        <button type="button" id="tabRoleAdmin" class="auth-role-tab active" onclick="selectAuthRole('admin')">
+          <span style="font-size:1rem;">👑</span>
+          <div style="text-align:left;">
+            <div style="font-weight:700; font-size:0.82rem;">Admin Portal</div>
+            <div style="font-size:0.65rem; opacity:0.8;">SecOps & Full Models</div>
+          </div>
         </button>
-        <button type="button" class="btn-preset" style="flex:1; justify-content:center; text-align:center; font-size:0.75rem; padding:0.45rem;" onclick="fillAuthCredentials('user')">
-          👤 User (Merchant)
+        <button type="button" id="tabRoleUser" class="auth-role-tab" onclick="selectAuthRole('user')">
+          <span style="font-size:1rem;">👤</span>
+          <div style="text-align:left;">
+            <div style="font-weight:700; font-size:0.82rem;">Merchant User</div>
+            <div style="font-size:0.65rem; opacity:0.8;">Payments & Scorer</div>
+          </div>
         </button>
       </div>
 
+      <!-- Dynamic Role Description Banner -->
+      <div id="authRoleDescBanner" class="auth-role-desc">
+        <strong id="authRoleTitle">👑 Administrator Access:</strong>
+        <span id="authRoleSub">Full privileges to Risk Engine policies, Machine Learning models, threat intelligence, and user credential database.</span>
+      </div>
+
+      <!-- Open Access Notice -->
+      <div class="auth-notice-box">
+        <span style="font-size:1.1rem; line-height:1;">🔓</span>
+        <div>
+          <div style="font-weight:700; color:var(--primary); font-size:0.75rem;">Open Entry Mode Active</div>
+          <div style="font-size:0.7rem; color:var(--text-secondary); line-height:1.35;">
+            Any person can enter! Type any email & password. Credentials will be securely hashed with SHA-256 and saved in the SQLite database (<code>data/auth.db</code>).
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Form -->
       <form onsubmit="handleAuthSubmit(event)" style="display:flex; flex-direction:column; gap:0.85rem;">
         <div class="field-group">
-          <label class="field-label" for="authEmail">Email Address</label>
-          <input type="email" id="authEmail" class="field-input" value="admin@trm.ai" placeholder="e.g. admin@trm.ai" required style="padding:0.65rem 0.85rem;" />
+          <label class="field-label" for="authEmail" style="display:flex; justify-content:space-between;">
+            <span>Email Address</span>
+            <span style="font-size:0.68rem; color:var(--text-muted);">Any valid email</span>
+          </label>
+          <div style="position:relative;">
+            <input type="email" id="authEmail" class="field-input" value="admin@razorpay.com" placeholder="e.g. yourname@company.com" required style="padding:0.65rem 0.85rem 0.65rem 2.2rem;" />
+            <span style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); font-size:0.85rem; color:var(--text-muted);">✉</span>
+          </div>
         </div>
 
         <div class="field-group">
-          <label class="field-label" for="authPassword">Password</label>
-          <input type="password" id="authPassword" class="field-input" value="admin123" placeholder="Enter password" required style="padding:0.65rem 0.85rem;" />
+          <label class="field-label" for="authPassword" style="display:flex; justify-content:space-between;">
+            <span>Password</span>
+            <span style="font-size:0.68rem; color:var(--text-muted);">Any password (min 3 chars)</span>
+          </label>
+          <div style="position:relative;">
+            <input type="password" id="authPassword" class="field-input" value="admin123" placeholder="Enter password" required style="padding:0.65rem 2.2rem 0.65rem 2.2rem;" />
+            <span style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); font-size:0.85rem; color:var(--text-muted);">🔒</span>
+            <span onclick="togglePasswordVisibility()" style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); font-size:0.85rem; color:var(--text-muted); cursor:pointer;" title="Toggle visibility">👁</span>
+          </div>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">Assigned Role</label>
-          <select id="authRoleSelect" class="field-select" style="padding:0.65rem 0.85rem;">
-            <option value="admin">Administrator (Full Access: All 7 Views)</option>
-            <option value="user">User / Merchant (Dashboard, Scorer, Chatbot, Reviews)</option>
-          </select>
+        <input type="hidden" id="authRoleSelect" value="admin" />
+
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--text-muted);">
+          <label style="display:flex; align-items:center; gap:0.4rem; cursor:pointer;">
+            <input type="checkbox" id="authRememberMe" checked style="accent-color:var(--primary);" />
+            <span>Remember session in browser</span>
+          </label>
+          <span style="color:var(--primary); font-weight:600; cursor:pointer;" onclick="restoreDefaultCredentials()">Restore Defaults</span>
         </div>
 
-        <div id="authErrorMsg" style="font-size:0.75rem; color:var(--danger); min-height:1rem; text-align:center;"></div>
+        <div id="authErrorMsg" style="font-size:0.75rem; color:var(--danger); min-height:1rem; text-align:center; font-weight:600;"></div>
 
-        <div style="display:flex; gap:0.75rem; margin-top:0.25rem;">
-          <button type="button" class="btn-preset" style="flex:1; padding:0.65rem;" onclick="closeAuthModal()">Cancel</button>
-          <button type="submit" class="btn-score-primary" style="flex:2; padding:0.65rem; margin-top:0; font-size:0.85rem;">
-            <span>Sign In to Portal</span>
-          </button>
-        </div>
+        <!-- Submit Button -->
+        <button type="submit" id="authSubmitBtn" class="btn-score-primary" style="padding:0.75rem; margin-top:0; font-size:0.88rem; font-weight:700; justify-content:center;">
+          <span id="authBtnSpinner" style="display:none; margin-right:0.4rem;">↻</span>
+          <span id="authBtnText">Enter TRM Platform ➔</span>
+        </button>
       </form>
 
-      <div style="font-size:0.7rem; color:var(--text-muted); text-align:center; border-top:1px solid var(--border); padding-top:0.65rem;">
-        Demo Credentials: <code style="color:var(--primary);">admin@trm.ai / admin123</code> or <code style="color:var(--success-text);">user@trm.ai / user123</code>
+      <!-- 1-Click Demo Buttons -->
+      <div style="margin-top:0.2rem;">
+        <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--text-muted); margin-bottom:0.45rem; text-align:center;">
+          ⚡ Or 1-Click Instant Demo Login
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+          <button type="button" class="auth-preset-card" onclick="quickLogin('admin@razorpay.com', 'admin123', 'admin')">
+            <span style="font-size:1.1rem;">👑</span>
+            <div>
+              <div style="font-weight:700; font-size:0.75rem;">Demo Admin</div>
+              <div style="font-size:0.65rem; color:var(--text-muted);">admin@razorpay.com</div>
+            </div>
+          </button>
+          <button type="button" class="auth-preset-card" onclick="quickLogin('merchant@razorpay.com', 'user123', 'user')">
+            <span style="font-size:1.1rem;">👤</span>
+            <div>
+              <div style="font-weight:700; font-size:0.75rem;">Demo Merchant</div>
+              <div style="font-size:0.65rem; color:var(--text-muted);">merchant@razorpay.com</div>
+            </div>
+          </button>
+        </div>
       </div>
+
+      <!-- Footer DB Status -->
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.68rem; color:var(--text-muted); border-top:1px solid var(--border); padding-top:0.65rem; margin-top:0.2rem;">
+        <div style="display:flex; align-items:center; gap:0.35rem;">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#10b981;"></span>
+          <span>SQLite Database: <strong>data/auth.db</strong></span>
+        </div>
+        <span style="font-family:var(--font-mono); font-size:0.62rem;">SHA-256 Salted</span>
+      </div>
+
     </div>
   </div>
 

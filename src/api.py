@@ -492,6 +492,59 @@ def ingest_and_detect_from_url(req: IngestUrlRequest):
         "results": scored_results
     }
 
+# -------------------------------------------------------------
+# User Authentication & Credentials Database Endpoints
+# -------------------------------------------------------------
+from src.auth_service import (
+    authenticate_user,
+    register_or_update_user,
+    get_all_users,
+    get_recent_sessions,
+    init_auth_db
+)
+
+# Initialize auth db on module load
+init_auth_db()
+
+class AuthRequest(BaseModel):
+    email: str = Field(default="admin@razorpay.com")
+    password: str = Field(default="admin123")
+    role: Optional[str] = Field(default="user")
+    username: Optional[str] = None
+
+@app.post("/auth/login")
+def login_endpoint(auth: AuthRequest):
+    return authenticate_user(
+        email=auth.email,
+        password=auth.password,
+        role_fallback=auth.role or "user"
+    )
+
+@app.post("/auth/register")
+def register_endpoint(auth: AuthRequest):
+    return register_or_update_user(
+        email=auth.email,
+        password=auth.password,
+        role=auth.role or "user",
+        username=auth.username
+    )
+
+@app.get("/auth/users")
+def list_users():
+    return {
+        "status": "success",
+        "database": "SQLite (data/auth.db)",
+        "users": get_all_users()
+    }
+
+@app.get("/auth/sessions")
+def list_sessions():
+    return {
+        "status": "success",
+        "database": "SQLite (data/auth.db)",
+        "sessions": get_recent_sessions()
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.api:app", host="127.0.0.1", port=8000, reload=True)
