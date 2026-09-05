@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TRM | Transaction Risk Management</title>
+  <title>Transaction Risk Manager | TRM AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1072,43 +1072,243 @@
       border-left-color: var(--approval-orange);
     }
 
-    /* Risk Factor Breakdown Bars */
-    .risk-bars-box {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 0.75rem 0.9rem;
+    /* Compact, Full-Viewport Risk Simulator Layout (Zero Vertical Scroll) */
+    #view-transactions:not(.active) {
+      display: none !important;
+    }
+    #view-transactions.active {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      width: 100%;
-      margin-bottom: 0.75rem;
+      height: 100%;
+      max-height: calc(100vh - 74px);
+      box-sizing: border-box;
+      padding-bottom: 0.25rem;
     }
-    .risk-bar-item {
+    #view-transactions .heading-bar {
+      margin-bottom: 0.35rem;
+      padding-bottom: 0;
+    }
+    #view-transactions .page-title {
+      font-size: 1.35rem;
+      margin-bottom: 0.1rem;
+    }
+    #view-transactions .page-sub {
+      font-size: 0.76rem;
+      margin-bottom: 0;
+    }
+    #view-transactions .engine-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 0.75rem;
+      flex: 1;
+      min-height: 0;
+    }
+    #view-transactions .glass-card {
+      padding: 0.85rem 1.05rem;
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
-    }
-    .risk-bar-labels {
-      display: flex;
       justify-content: space-between;
+    }
+    #view-transactions .card-top {
+      margin-bottom: 0.35rem;
+    }
+    #view-transactions .card-heading {
+      font-size: 1.05rem;
+    }
+    #view-transactions .presets-strip {
+      gap: 0.35rem;
+      margin-bottom: 0.5rem;
+    }
+    #view-transactions .btn-preset {
+      padding: 0.3rem 0.55rem;
       font-size: 0.72rem;
+    }
+    #view-transactions .form-grid {
+      gap: 0.4rem 0.65rem;
+    }
+    #view-transactions .field-group {
+      gap: 0.1rem;
+    }
+    #view-transactions .field-label {
+      font-size: 0.7rem;
+      margin-bottom: 0.05rem;
+    }
+    #view-transactions .field-label span.field-meta {
+      font-size: 0.62rem;
+    }
+    #view-transactions .field-input, #view-transactions .field-select {
+      padding: 0.32rem 0.55rem;
+      font-size: 0.8rem;
+      height: 31px;
+      border-radius: 6px;
+    }
+    #view-transactions .checkbox-row {
+      padding: 0.35rem 0.6rem;
+      margin-top: 0.1rem;
+      font-size: 0.76rem;
+    }
+    #view-transactions .btn-score-primary {
+      font-size: 1.05rem;
+      padding: 0.6rem 1rem;
+      margin-top: 0.35rem;
+      border-radius: 8px;
+    }
+    #view-transactions .gauge-wrapper {
+      padding: 0.25rem 0;
+    }
+    #view-transactions .score-circle-svg {
+      width: 120px;
+      height: 120px;
+    }
+    #view-transactions .gauge-pct {
+      font-size: 2.1rem;
+    }
+    #view-transactions .gauge-tag {
+      font-size: 0.62rem;
+      margin-top: 0.15rem;
+    }
+    #view-transactions .decision-badge {
+      margin: 0.3rem 0;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+    }
+    #view-transactions .factors-box {
+      padding: 0.5rem 0.75rem;
+      gap: 0.3rem;
+      border-radius: 8px;
+      margin-top: 0.15rem;
+      max-height: 115px;
+      overflow-y: auto;
+    }
+    #view-transactions .factor-item {
+      font-size: 0.73rem;
+      line-height: 1.35;
+    }
+    #view-transactions .btn-action {
+      font-size: 0.95rem;
+      padding: 0.55rem 1rem;
+    }
+
+    /* Clean Factor Tags (Minimalist Downside AI Decision) */
+    .telemetry-tag-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.4rem 0;
+      justify-content: center;
+    }
+    .telemetry-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
       color: var(--text-dim);
     }
-    .risk-bar-labels strong {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
+    .telemetry-tag.tag-flagged {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
     }
-    .risk-bar-track {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
-      overflow: hidden;
+    .telemetry-tag.tag-safe {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: var(--emerald-light);
     }
-    .risk-bar-fill {
-      height: 100%;
+
+    /* Auth Modal & Role Switcher */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 1, 2, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+    .auth-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+    .auth-modal {
+      background: rgba(18, 4, 6, 0.96);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      box-shadow: 0 0 50px rgba(239, 68, 68, 0.35);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 1.85rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .role-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
       border-radius: 999px;
-      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .role-admin {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--danger-red);
+      color: var(--red-light);
+    }
+    .role-user {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--emerald);
+      color: var(--emerald-light);
+    }
+    .user-menu-dropdown {
+      position: absolute;
+      top: 54px;
+      right: 1.5rem;
+      background: rgba(18, 4, 6, 0.96);
+      border: 1px solid var(--card-border-hover);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      border-radius: 12px;
+      padding: 0.85rem;
+      width: 240px;
+      display: none;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 9999;
+    }
+    .user-menu-dropdown.show {
+      display: flex;
+    }
+    .user-menu-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.18s ease;
+    }
+    .user-menu-btn:hover {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: var(--red-light);
     }
 
     /* Live Alerts Feed */
@@ -1306,7 +1506,7 @@
         <div class="brand-icon">T</div>
         <div class="brand-text">
           <span class="brand-title">TRM</span>
-          <span class="brand-sub">Transaction Risk Management</span>
+          <span class="brand-sub">Transaction Risk Manager</span>
         </div>
       </div>
 
@@ -1343,14 +1543,15 @@
           <div class="nav-item" data-page="ai-agents" onclick="navigateTo('ai-agents')">
             <div class="nav-left">
               <span class="nav-icon">◎</span>
-              <span>AI Copilot</span>
+              <span>AI Chatbot</span>
             </div>
           </div>
-          <div class="nav-item" data-page="policies" onclick="navigateTo('policies')">
+          <div class="nav-item" id="navItemModels" data-page="policies" onclick="navigateTo('policies')">
             <div class="nav-left">
               <span class="nav-icon">⊡</span>
               <span>Risk Models</span>
             </div>
+            <span class="role-badge role-admin" style="font-size:0.58rem; padding:0.1rem 0.35rem; margin-left:auto;">ADMIN</span>
           </div>
         </div>
 
@@ -1364,11 +1565,12 @@
             </div>
             <span id="sidebar-review-badge" class="nav-badge">8</span>
           </div>
-          <div class="nav-item" data-page="audit-trail" onclick="navigateTo('audit-trail')">
+          <div class="nav-item" id="navItemAuditLogs" data-page="audit-trail" onclick="navigateTo('audit-trail')">
             <div class="nav-left">
               <span class="nav-icon">≡</span>
               <span>Audit Logs</span>
             </div>
+            <span class="role-badge role-admin" style="font-size:0.58rem; padding:0.1rem 0.35rem; margin-left:auto;">ADMIN</span>
           </div>
         </div>
 
@@ -1394,15 +1596,41 @@
             <span class="pulse-dot"></span>
             <span>TRM ONLINE</span>
           </div>
-          <div class="tag-mode">TEST MODE</div>
+          <div class="tag-mode" id="headerRolePill" style="letter-spacing:0.05em; font-weight:700;">ADMIN PORTAL</div>
           <div id="p99Latency" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">P99: 12ms</div>
         </div>
 
-        <div class="topbar-right">
+        <div class="topbar-right" style="position:relative;">
           <div class="time-display" id="headerClock">02:04:22 pm</div>
-          <div class="user-pill">
-            <div class="user-avatar">A</div>
-            <span>admin · admin ▾</span>
+          
+          <!-- User Profile & Role Switcher -->
+          <div class="user-pill" onclick="toggleUserDropdown(event)" style="cursor:pointer; display:flex; align-items:center; gap:0.55rem; padding:0.4rem 0.85rem;">
+            <div class="user-avatar" id="topbarAvatar">A</div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; line-height:1.15;">
+              <span id="topbarUserName" style="font-weight:700; font-size:0.78rem;">Admin (SecOps)</span>
+              <span id="topbarRoleBadge" class="role-badge role-admin" style="padding:0.08rem 0.4rem; font-size:0.58rem; margin-top:2px;">ADMIN</span>
+            </div>
+            <span style="font-size:0.7rem; color:var(--text-dim); margin-left:0.2rem;">▾</span>
+          </div>
+
+          <!-- User Role Dropdown Menu -->
+          <div id="userDropdownMenu" class="user-menu-dropdown">
+            <div style="font-size:0.72rem; color:var(--text-dim); font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">ACTIVE SESSION</div>
+            <div id="dropdownEmailText" style="font-size:0.8rem; font-weight:700; color:#fff; word-break:break-all;">admin@trm.ai</div>
+            <div style="height:1px; background:var(--border-subtle); margin:0.35rem 0;"></div>
+            <button type="button" class="user-menu-btn" onclick="switchRole('admin')">
+              <span>👑</span>
+              <span>Switch to Admin Role</span>
+            </button>
+            <button type="button" class="user-menu-btn" onclick="switchRole('user')">
+              <span>👤</span>
+              <span>Switch to Merchant User</span>
+            </button>
+            <div style="height:1px; background:var(--border-subtle); margin:0.35rem 0;"></div>
+            <button type="button" class="user-menu-btn" style="color:var(--red-light);" onclick="openAuthModal()">
+              <span>🚪</span>
+              <span>Sign Out / Change User</span>
+            </button>
           </div>
         </div>
       </header>
@@ -1686,35 +1914,35 @@
               </div>
 
               <!-- Presets Strip with Risk Badges -->
-              <div class="presets-strip" style="display:flex; flex-wrap:wrap; gap:0.45rem; margin-bottom:1.25rem;">
-                <span style="font-size:0.75rem; color:var(--text-dim); align-self:center; font-weight:700;">TEST SCENARIO:</span>
-                <button class="btn-preset" onclick="loadPreset('ato')" style="background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.4); color:#fca5a5;">
-                  🚨 ATO Attack <span class="card-tag" style="background:rgba(239,68,68,0.25); color:#f87171; border:none; margin-left:0.25rem; font-weight:800;">99.9% Risk</span>
+              <div class="presets-strip" style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.5rem;">
+                <span style="font-size:0.7rem; color:var(--text-dim); align-self:center; font-weight:700;">SCENARIO:</span>
+                <button class="btn-preset" onclick="loadPreset('ato')" style="background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.4); color:#fca5a5; padding:0.25rem 0.5rem; font-size:0.72rem;">
+                  🚨 ATO Attack <span class="card-tag" style="background:rgba(239,68,68,0.25); color:#f87171; border:none; margin-left:0.2rem; font-weight:800; font-size:0.6rem; padding:0.1rem 0.35rem;">99.9%</span>
                 </button>
-                <button class="btn-preset" onclick="loadPreset('new_device_crypto')" style="background:rgba(168,85,247,0.12); border-color:rgba(168,85,247,0.4); color:#d8b4fe;">
-                  🪙 Crypto Surge <span class="card-tag" style="background:rgba(168,85,247,0.25); color:#c084fc; border:none; margin-left:0.25rem; font-weight:800;">94.2% Risk</span>
+                <button class="btn-preset" onclick="loadPreset('new_device_crypto')" style="background:rgba(168,85,247,0.12); border-color:rgba(168,85,247,0.4); color:#d8b4fe; padding:0.25rem 0.5rem; font-size:0.72rem;">
+                  🪙 Crypto Surge <span class="card-tag" style="background:rgba(168,85,247,0.25); color:#c084fc; border:none; margin-left:0.2rem; font-weight:800; font-size:0.6rem; padding:0.1rem 0.35rem;">94.2%</span>
                 </button>
-                <button class="btn-preset" onclick="loadPreset('night_spike')" style="background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.4); color:#fde68a;">
-                  🌙 Night Velocity <span class="card-tag" style="background:rgba(245,158,11,0.25); color:#fbbf24; border:none; margin-left:0.25rem; font-weight:800;">68.5% Risk</span>
+                <button class="btn-preset" onclick="loadPreset('night_spike')" style="background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.4); color:#fde68a; padding:0.25rem 0.5rem; font-size:0.72rem;">
+                  🌙 Velocity <span class="card-tag" style="background:rgba(245,158,11,0.25); color:#fbbf24; border:none; margin-left:0.2rem; font-weight:800; font-size:0.6rem; padding:0.1rem 0.35rem;">68.5%</span>
                 </button>
-                <button class="btn-preset" onclick="loadPreset('legit')" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.35); color:#a7f3d0;">
-                  🟢 Safe Merchant <span class="card-tag" style="background:rgba(16,185,129,0.2); color:#34d399; border:none; margin-left:0.25rem; font-weight:800;">1.2% Risk</span>
+                <button class="btn-preset" onclick="loadPreset('legit')" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.35); color:#a7f3d0; padding:0.25rem 0.5rem; font-size:0.72rem;">
+                  🟢 Safe Merchant <span class="card-tag" style="background:rgba(16,185,129,0.2); color:#34d399; border:none; margin-left:0.2rem; font-weight:800; font-size:0.6rem; padding:0.1rem 0.35rem;">1.2%</span>
                 </button>
               </div>
 
-              <!-- Inputs Form -->
+              <!-- Inputs Form (Compact) -->
               <div class="form-grid">
                 
                 <div class="field-group">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <label class="field-label" style="margin-bottom:0.2rem;">
+                    <label class="field-label">
                       <span>Amount (INR ₹)</span>
                       <span class="field-meta">amount</span>
                     </label>
-                    <span id="amountDisplayBadge" style="font-size:0.75rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">₹89,000</span>
+                    <span id="amountDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">₹89,000</span>
                   </div>
                   <input type="number" id="txn_amount" class="field-input" value="89000" min="1" step="any" oninput="syncAmountSlider(this.value)" />
-                  <input type="range" id="amount_slider" min="500" max="150000" step="500" value="89000" style="accent-color:var(--red-light); margin-top:0.35rem; width:100%; cursor:pointer;" oninput="syncAmountInput(this.value)" />
+                  <input type="range" id="amount_slider" min="500" max="150000" step="500" value="89000" style="accent-color:var(--red-light); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncAmountInput(this.value)" />
                 </div>
 
                 <div class="field-group">
@@ -1727,19 +1955,19 @@
 
                 <div class="field-group">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <label class="field-label" style="margin-bottom:0.2rem;">
-                      <span>Velocity (Last 1 Hour)</span>
+                    <label class="field-label">
+                      <span>Velocity (1 Hour)</span>
                       <span class="field-meta">txn_velocity_1h</span>
                     </label>
-                    <span id="velocityDisplayBadge" style="font-size:0.75rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">8 txns/hr</span>
+                    <span id="velocityDisplayBadge" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--red-light); font-weight:700;">8 txns/hr</span>
                   </div>
                   <input type="number" id="txn_velocity_1h" class="field-input" value="8" min="0" oninput="syncVelocitySlider(this.value)" />
-                  <input type="range" id="velocity_slider" min="0" max="15" step="1" value="8" style="accent-color:var(--red-light); margin-top:0.35rem; width:100%; cursor:pointer;" oninput="syncVelocityInput(this.value)" />
+                  <input type="range" id="velocity_slider" min="0" max="15" step="1" value="8" style="accent-color:var(--red-light); width:100%; height:4px; margin-top:0.15rem; cursor:pointer;" oninput="syncVelocityInput(this.value)" />
                 </div>
 
                 <div class="field-group">
                   <label class="field-label">
-                    <span>Transaction Hour (0 - 23)</span>
+                    <span>Txn Hour (0 - 23)</span>
                     <span class="field-meta">txn_hour</span>
                   </label>
                   <input type="number" id="txn_hour" class="field-input" value="3" min="0" max="23" />
@@ -1776,7 +2004,7 @@
 
                 <div class="field-group">
                   <label class="field-label">
-                    <span>Transaction City</span>
+                    <span>Txn City</span>
                     <span class="field-meta">txn_city</span>
                   </label>
                   <input type="text" id="txn_city" class="field-input" value="Kolkata" />
@@ -1784,89 +2012,89 @@
 
                 <div class="field-group">
                   <label class="field-label">
-                    <span>Registered Home City</span>
+                    <span>Registered Home</span>
                     <span class="field-meta">home_city</span>
                   </label>
                   <input type="text" id="home_city" class="field-input" value="Mumbai" />
                 </div>
 
-                <div class="checkbox-row" style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); border-radius:8px; padding:0.65rem 0.85rem;">
+                <div class="checkbox-row" style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:0.35rem 0.65rem;">
                   <input type="checkbox" id="device_new" checked />
-                  <label for="device_new" style="font-size:0.85rem; color:var(--text-main); cursor:pointer; font-weight:600;">
-                    Unrecognized / New Device Fingerprint (+27% baseline anomaly)
+                  <label for="device_new" style="font-size:0.76rem; color:var(--text-main); cursor:pointer; font-weight:600;">
+                    Unrecognized / New Device (+27% anomaly)
                   </label>
                 </div>
 
-                <button id="evaluateBtn" class="btn-score-primary" onclick="evaluateRisk()" style="box-shadow:0 0 25px rgba(239,68,68,0.35);">
+                <button id="evaluateBtn" class="btn-score-primary" onclick="evaluateRisk()">
                   <span>⚡ Run AI Inference & Decision Gate</span>
                 </button>
 
               </div>
             </div>
 
-            <!-- Risk Gauge & Explainability Deck -->
+            <!-- Risk Gauge & Clean Decision Deck -->
             <div id="riskGaugeCard" class="glass-card" style="align-items:center; text-align:center; transition: all 0.35s ease;">
               <div class="card-top" style="width:100%;">
                 <h2 class="card-heading">
                   <span>🛡️ AI Decision Engine</span>
                 </h2>
-                <div style="display:flex; gap:0.4rem; align-items:center;">
-                  <span id="sourceBadge" class="card-tag" style="background:rgba(16,185,129,0.15); color:var(--emerald-light); border-color:rgba(16,185,129,0.3);">⚡ Live XGBoost</span>
-                  <span id="latencyBadge" class="card-tag">14 ms</span>
+                <div style="display:flex; gap:0.35rem; align-items:center;">
+                  <span id="sourceBadge" class="card-tag" style="background:rgba(255,255,255,0.04); color:var(--text-dim); border-color:var(--border-subtle);">⚡ Standby</span>
+                  <span id="latencyBadge" class="card-tag">Ready</span>
                 </div>
               </div>
 
-              <!-- Prominent Risk Assessment Header -->
-              <div id="riskAssessmentLevel" class="decision-badge badge-high" style="margin:0.4rem 0 0.6rem 0; font-size:0.9rem; padding:0.45rem 1.4rem; letter-spacing:0.06em;">
-                🚨 CRITICAL FRAUD RISK (99.9%)
+              <!-- Risk Assessment Header (Zero on Reload) -->
+              <div id="riskAssessmentLevel" class="decision-badge badge-low" style="margin:0.25rem 0 0.35rem 0; font-size:0.76rem; padding:0.3rem 0.9rem; letter-spacing:0.06em;">
+                STANDBY • AWAITING INFERENCE
               </div>
 
-              <!-- Gauge -->
+              <!-- Compact Clean Gauge -->
               <div class="gauge-wrapper">
-                <svg class="score-circle-svg" width="180" height="180" viewBox="0 0 180 180">
+                <svg class="score-circle-svg" width="115" height="115" viewBox="0 0 180 180">
                   <circle cx="90" cy="90" r="74" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="14" />
-                  <circle id="gaugeCircle" cx="90" cy="90" r="74" fill="transparent" stroke="var(--danger-red)" stroke-width="14" stroke-dasharray="465" stroke-dashoffset="0" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;" />
+                  <circle id="gaugeCircle" cx="90" cy="90" r="74" fill="transparent" stroke="rgba(255,255,255,0.12)" stroke-width="14" stroke-dasharray="465" stroke-dashoffset="465" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;" />
                 </svg>
                 <div class="gauge-center-content">
-                  <div class="gauge-pct" id="riskScoreValue" style="color:var(--danger-red);">99.9%</div>
-                  <div class="gauge-tag" id="riskTagLabel">Fraud Probability</div>
+                  <div class="gauge-pct" id="riskScoreValue" style="color:#ffffff;">0.0%</div>
+                  <div class="gauge-tag" id="riskTagLabel">Risk Score</div>
                 </div>
               </div>
 
-              <div id="decisionBadge" class="decision-badge badge-high" style="margin-top:0.5rem; margin-bottom:0.75rem;">
-                BLOCK & STEP-UP AUTHENTICATION REQUIRED
+              <!-- Clean Decision Badge -->
+              <div id="decisionBadge" class="decision-badge badge-low" style="margin-top:0.3rem; margin-bottom:0.45rem; font-size:0.76rem;">
+                READY FOR EVALUATION
               </div>
 
-              <!-- Real-Time Feature Attribution Breakdown Bars -->
-              <div id="factorBarsContainer" class="risk-bars-box">
-                <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase; color:var(--text-dim); letter-spacing:0.08em; text-align:left; margin-bottom:0.2rem;">
-                  Neural Telemetry Attributions
-                </div>
-                <div id="factorBarsList">
-                  <!-- Injected dynamically -->
-                </div>
+              <!-- Minimal Clean Telemetry Signal Tags -->
+              <div id="cleanTelemetryTags" class="telemetry-tag-strip">
+                <span class="telemetry-tag">⚡ Standby</span>
+                <span class="telemetry-tag">📱 Device: Ready</span>
+                <span class="telemetry-tag">📍 Routing: Ready</span>
               </div>
 
               <!-- Factors Box (SHAP List) -->
               <div class="factors-box" style="text-align:left;">
-                <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:0.25rem;">
-                  Key Explanatory Factors (SHAP Attributions)
+                <div style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--text-dim); letter-spacing:0.08em; margin-bottom:0.15rem;">
+                  Key Explanatory Factors
                 </div>
-                <div id="explanationList" style="display:flex; flex-direction:column; gap:0.4rem;">
-                  <div class="factor-item">
-                    <span class="factor-bullet">•</span>
-                    <span>Transaction initiated from trusted hardware profile.</span>
+                <div id="explanationList" style="display:flex; flex-direction:column; gap:0.3rem;">
+                  <div class="factor-item" style="color:var(--text-dim);">
+                    <span class="factor-bullet" style="color:var(--text-dim);">•</span>
+                    <span>Adjust parameters or select a scenario above, then click 'Run AI Inference & Decision Gate'.</span>
                   </div>
                 </div>
               </div>
 
-              <!-- AI Copilot Investigation Action Deck -->
-              <div style="margin-top:1.15rem; width:100%; text-align:left;">
-                <button id="btnAnalyzeWithAi" class="btn-action" style="width:100%; justify-content:center; padding:0.85rem 1.25rem; font-size:0.9rem;" onclick="analyzeCurrentTxnWithAI()">
-                  <span>🤖 Analyze with AI Copilot</span>
+              <!-- AI Chatbot Investigation Action Deck -->
+              <div style="margin-top:0.5rem; width:100%; text-align:left;">
+                <button id="btnAnalyzeWithAi" class="btn-action" style="width:100%; justify-content:center; padding:0.6rem 1rem; font-size:0.85rem;" onclick="analyzeCurrentTxnWithAI()">
+                  <span>🤖 Analyze with AI Chatbot</span>
                   <span>→</span>
                 </button>
               </div>
+
+            </div>
 
             </div>
 
@@ -1875,17 +2103,17 @@
         </div>
 
         <!-- =========================================================
-             PAGE 4: AI AGENTS (COPILOT CHAT)
+             PAGE 4: AI AGENTS (CHATBOT INTERACTION)
         ========================================================= -->
         <div id="view-ai-agents" class="page-view">
           
           <div class="heading-bar">
             <div class="heading-left">
-              <h1 class="page-title">AI Copilot</h1>
+              <h1 class="page-title">AI Chatbot</h1>
               <p class="page-sub">Conversational fraud intelligence powered by Google Gemini and inference trees.</p>
             </div>
             <div class="db-live-pill">
-              <span>COPILOT STATE</span>
+              <span>CHATBOT STATE</span>
               <strong>ONLINE</strong>
             </div>
           </div>
@@ -1895,17 +2123,17 @@
               <h2 class="card-heading">
                 <span>🤖 Natural Language SecOps Terminal</span>
               </h2>
-              <span class="card-tag">Gemini / Rule Engine</span>
+              <span class="card-tag">Gemini / SecOps Engine</span>
             </div>
 
             <div class="chat-container">
               <div class="chat-messages" id="chat-log">
                 <div class="chat-msg bot">
-                  Hello SecOps. I am your TRM AI Copilot. Ask me about recent attack vectors, model calibration, or high-risk geographic anomalies.
+                  Hello SecOps. I am your TRM AI Chatbot. Ask me about recent attack vectors, model calibration, transaction diagnostics, or run in-depth simulator analysis.
                 </div>
               </div>
               <div class="chat-input-bar">
-                <input type="text" id="chat-input" placeholder="Ask AI analyst (e.g. Why was TXN-98421 flagged as high risk?)" />
+                <input type="text" id="chat-input" placeholder="Ask AI Chatbot (e.g. Analyze why the last transaction was flagged...)" />
                 <button class="chat-send-btn" onclick="askAnalyst()">Send Inquiry</button>
               </div>
             </div>
@@ -2105,10 +2333,196 @@
   ========================================================= -->
   <script>
     // -------------------------------------------------------------
+    // Authentication & Role-Based Access Control (RBAC)
+    // -------------------------------------------------------------
+    const DEFAULT_ADMIN_SESSION = { role: 'admin', email: 'admin@trm.ai', name: 'Admin (SecOps)' };
+    const DEFAULT_USER_SESSION = { role: 'user', email: 'user@trm.ai', name: 'Merchant User' };
+
+    function getAuthSession() {
+      try {
+        const raw = localStorage.getItem('TRM_SESSION');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return DEFAULT_ADMIN_SESSION;
+    }
+
+    function getCurrentRole() {
+      return getAuthSession().role || 'admin';
+    }
+
+    function applyUserRole(role, email) {
+      const isAdmin = role === 'admin';
+      const userName = isAdmin ? 'Admin (SecOps)' : 'Merchant User';
+      const userEmail = email || (isAdmin ? 'admin@trm.ai' : 'user@trm.ai');
+      
+      localStorage.setItem('TRM_SESSION', JSON.stringify({ role, email: userEmail, name: userName }));
+
+      // Update Topbar Badges & Avatar
+      const avatar = document.getElementById('topbarAvatar');
+      if (avatar) {
+        avatar.innerText = isAdmin ? 'A' : 'U';
+        avatar.style.background = isAdmin ? 'linear-gradient(135deg, #ef4444, #991b1b)' : 'linear-gradient(135deg, #10b981, #065f46)';
+      }
+
+      const nameEl = document.getElementById('topbarUserName');
+      if (nameEl) nameEl.innerText = userName;
+
+      const badgeEl = document.getElementById('topbarRoleBadge');
+      if (badgeEl) {
+        badgeEl.className = `role-badge ${isAdmin ? 'role-admin' : 'role-user'}`;
+        badgeEl.innerText = isAdmin ? 'ADMIN' : 'USER';
+      }
+
+      const headerRolePill = document.getElementById('headerRolePill');
+      if (headerRolePill) {
+        headerRolePill.innerText = isAdmin ? 'ADMIN PORTAL' : 'MERCHANT PORTAL';
+        headerRolePill.style.color = isAdmin ? 'var(--red-light)' : 'var(--emerald-light)';
+        headerRolePill.style.borderColor = isAdmin ? 'rgba(239,68,68,0.3)' : 'rgba(16,185,129,0.3)';
+      }
+
+      const dropdownEmail = document.getElementById('dropdownEmailText');
+      if (dropdownEmail) dropdownEmail.innerText = userEmail;
+
+      // Restrict/Decorate Navigation Items for Merchant User
+      const navModels = document.getElementById('navItemModels');
+      const navAudit = document.getElementById('navItemAuditLogs');
+      if (navModels) {
+        navModels.style.opacity = isAdmin ? '1' : '0.45';
+        navModels.setAttribute('title', isAdmin ? 'Risk Models & Benchmarks' : 'Administrator Privileges Required');
+      }
+      if (navAudit) {
+        navAudit.style.opacity = isAdmin ? '1' : '0.45';
+        navAudit.setAttribute('title', isAdmin ? 'Audit Logs & Ledger' : 'Administrator Privileges Required');
+      }
+
+      // If non-admin is currently on restricted view, bounce to overview
+      const currentHash = window.location.hash.replace('#', '') || 'overview';
+      if (!isAdmin && (currentHash === 'policies' || currentHash === 'audit-trail')) {
+        navigateTo('overview');
+      }
+    }
+
+    function toggleUserDropdown(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function switchRole(targetRole) {
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+      
+      const email = targetRole === 'admin' ? 'admin@trm.ai' : 'user@trm.ai';
+      applyUserRole(targetRole, email);
+      
+      showTrmToast(`
+        <span style="font-size:1.1rem;">${targetRole === 'admin' ? '👑' : '👤'}</span>
+        <div>
+          <div style="font-weight:700;">Switched to ${targetRole === 'admin' ? 'Administrator' : 'Merchant User'}</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);">${targetRole === 'admin' ? 'Full access granted to all intelligence engines and logs.' : 'Restricted to operational view (Models & Audit locked).'}</div>
+        </div>
+      `, targetRole === 'admin' ? 'LOW' : 'MEDIUM');
+    }
+
+    function openAuthModal() {
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+      const modal = document.getElementById('authModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (modal) modal.classList.add('hidden');
+      const err = document.getElementById('authErrorMsg');
+      if (err) err.innerText = '';
+    }
+
+    function fillAuthCredentials(role) {
+      const emailInput = document.getElementById('authEmail');
+      const passInput = document.getElementById('authPassword');
+      const roleSelect = document.getElementById('authRoleSelect');
+      if (role === 'admin') {
+        if (emailInput) emailInput.value = 'admin@trm.ai';
+        if (passInput) passInput.value = 'admin123';
+        if (roleSelect) roleSelect.value = 'admin';
+      } else {
+        if (emailInput) emailInput.value = 'user@trm.ai';
+        if (passInput) passInput.value = 'user123';
+        if (roleSelect) roleSelect.value = 'user';
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value.trim();
+      const pass = document.getElementById('authPassword').value;
+      const role = document.getElementById('authRoleSelect').value;
+      const err = document.getElementById('authErrorMsg');
+
+      if (!email || !pass) {
+        if (err) err.innerText = 'Please provide both email address and password.';
+        return;
+      }
+
+      // Validate credentials
+      if (role === 'admin') {
+        if (pass !== 'admin123' && pass.length < 4) {
+          if (err) err.innerText = 'Invalid administrator password. Hint: admin123';
+          return;
+        }
+      } else {
+        if (pass !== 'user123' && pass.length < 4) {
+          if (err) err.innerText = 'Invalid merchant password. Hint: user123';
+          return;
+        }
+      }
+
+      applyUserRole(role, email);
+      closeAuthModal();
+
+      showTrmToast(`
+        <span style="font-size:1.1rem;">✓</span>
+        <div>
+          <div style="font-weight:700;">Signed in as ${role === 'admin' ? 'Administrator' : 'Merchant User'}</div>
+          <div style="font-size:0.75rem; color:var(--text-dim);">${email}</div>
+        </div>
+      `, 'LOW');
+    }
+
+    function initAuth() {
+      const session = getAuthSession();
+      applyUserRole(session.role, session.email);
+
+      document.addEventListener('click', (e) => {
+        const menu = document.getElementById('userDropdownMenu');
+        const pill = document.querySelector('.user-pill');
+        if (menu && menu.classList.contains('show')) {
+          if (!menu.contains(e.target) && (!pill || !pill.contains(e.target))) {
+            menu.classList.remove('show');
+          }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
     // Multi-Page SPA Navigation Router
     // -------------------------------------------------------------
     function navigateTo(pageId) {
       if (!pageId) pageId = 'overview';
+
+      // Check role permissions
+      const currentRole = getCurrentRole();
+      if (currentRole === 'user' && (pageId === 'policies' || pageId === 'audit-trail')) {
+        showTrmToast(`
+          <span style="font-size:1.1rem;">🔒</span>
+          <div>
+            <div style="font-weight:700; color:var(--approval-orange);">Admin Access Required</div>
+            <div style="font-size:0.75rem; color:var(--text-dim);">${pageId === 'policies' ? 'Risk Models' : 'Audit Logs'} is restricted to Administrator role.</div>
+          </div>
+        `, 'MEDIUM');
+        return;
+      }
       
       // Hide all page views
       const views = document.querySelectorAll('.page-view');
@@ -2718,8 +3132,25 @@
         });
       }
 
-      // 10. Factor Attribution Bars
-      renderFactorBars(payload, data);
+      // 10. Clean Minimal Telemetry Tags
+      const tagsContainer = document.getElementById('cleanTelemetryTags');
+      if (tagsContainer) {
+        const isGeoMismatch = (payload.txn_city || '').toLowerCase() !== (payload.home_city || '').toLowerCase();
+        tagsContainer.innerHTML = `
+          <span class="telemetry-tag" style="border-color:${source.includes('FastAPI') ? 'rgba(16,185,129,0.4)' : 'rgba(245,158,11,0.4)'}; color:${source.includes('FastAPI') ? 'var(--emerald-light)' : 'var(--approval-orange)'};">
+            ⚡ ${source} (${latency}ms)
+          </span>
+          <span class="telemetry-tag" style="border-color:${payload.device_new ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${payload.device_new ? 'var(--red-light)' : 'var(--emerald-light)'};">
+            📱 ${payload.device_new ? 'New Device (+27%)' : 'Verified Device'}
+          </span>
+          <span class="telemetry-tag" style="border-color:${isGeoMismatch ? 'rgba(239,68,68,0.4)' : 'rgba(16,185,129,0.3)'}; color:${isGeoMismatch ? 'var(--red-light)' : 'var(--emerald-light)'};">
+            📍 ${isGeoMismatch ? `Geo Hop (${payload.txn_city} vs ${payload.home_city})` : 'Home Region'}
+          </span>
+          <span class="telemetry-tag" style="border-color:${payload.txn_velocity_1h >= 5 ? 'rgba(245,158,11,0.4)' : 'rgba(255,255,255,0.1)'}; color:${payload.txn_velocity_1h >= 5 ? 'var(--approval-orange)' : 'var(--text-main)'};">
+            📈 Velocity: ${payload.txn_velocity_1h}/hr
+          </span>
+        `;
+      }
 
       // 11. Toast Notification
       showTrmToast(`
@@ -2740,14 +3171,10 @@
         tier: data.risk_tier,
         decision: data.decision
       });
-
-      // Reset inline AI analysis box for fresh evaluation
-      const box = document.getElementById('inlineAiAnalysisBox');
-      if (box) box.style.display = 'none';
     }
 
     // -------------------------------------------------------------
-    // Analyze Current Transaction with AI Copilot (Lands on AI Tab)
+    // Analyze Current Transaction with AI Chatbot (Lands on AI Tab)
     // -------------------------------------------------------------
     function analyzeCurrentTxnWithAI() {
       const amt = parseFloat(document.getElementById('txn_amount').value) || 0;
@@ -2756,12 +3183,24 @@
       const home = document.getElementById('home_city').value;
       const isNew = document.getElementById('device_new').checked;
       const vel = document.getElementById('txn_velocity_1h').value;
+      const hour = document.getElementById('txn_hour').value;
+      const method = document.getElementById('payment_method').value;
       const score = lastEvaluatedPrediction ? lastEvaluatedPrediction.risk_score_pct : null;
-      const decision = lastEvaluatedPrediction ? lastEvaluatedPrediction.decision : null;
+      const tier = lastEvaluatedPrediction ? lastEvaluatedPrediction.risk_tier : 'PENDING';
+      const decision = lastEvaluatedPrediction ? lastEvaluatedPrediction.decision : 'Awaiting Inference';
 
-      const query = `Analyze why this transaction of INR ${amt.toLocaleString('en-IN')} at ${cat} in ${city} (Home: ${home}, Device: ${isNew ? 'New' : 'Known'}, Velocity: ${vel}/hr) received risk score ${score !== null ? score + '%' : ''} and decision: ${decision || 'Pending'}. Explain the primary risk factors.`;
+      const query = `Analyze this transaction with real-time dashboard telemetry:
+- Transaction Amount: ₹${amt.toLocaleString('en-IN')}
+- Sector / Payment Method: ${cat} / ${method}
+- Geographic Route: ${city} (Registered Home: ${home})
+- Hardware Device: ${isNew ? 'Unrecognized / New Device (+27% anomaly)' : 'Known Verified Profile'}
+- Velocity & Time: ${vel} txns/hr at ${String(hour).padStart(2, '0')}:00
+- Risk Assessment: ${score !== null ? score.toFixed(1) + '%' : 'Pending'} [Tier: ${tier}]
+- Engine Decision: ${decision}
+- Dashboard Telemetry: Processed ${state.evaluated} txns, ${state.blocked} blocked, ₹${state.protectedValue.toLocaleString('en-IN')} fraud prevented.
+Provide an immediate SecOps incident report detailing the primary attack vectors, anomaly attributions, and actionable merchant risk recommendations.`;
 
-      // 1. Immediately switch to AI Copilot tab
+      // 1. Immediately switch to AI Chatbot tab
       navigateTo('ai-agents');
 
       // 2. Automatically trigger inquiry in chat terminal
@@ -3125,7 +3564,7 @@
           throw new Error("Chat endpoint returned error");
         }
       } catch (err) {
-        botMsg.innerText = "TRM AI Copilot: Based on real-time XGBoost trees, high-risk flags occur primarily on unrecognised hardware devices combined with cross-state IP hops and high INR velocity.";
+        botMsg.innerText = "TRM AI Chatbot: Based on real-time XGBoost trees, high-risk flags occur primarily on unrecognised hardware devices combined with cross-state IP hops and high INR velocity.";
       }
       log.scrollTop = log.scrollHeight;
     }
@@ -3134,6 +3573,9 @@
     // Initialize On Load & Route
     // -------------------------------------------------------------
     window.addEventListener('DOMContentLoaded', () => {
+      // Initialize Auth Session and Roles
+      initAuth();
+
       // Determine initial page from hash
       const initialPage = window.location.hash.replace('#', '') || 'overview';
       navigateTo(initialPage);
@@ -3143,7 +3585,7 @@
       loadMetrics();
       loadFeedbackData();
       fetchAlerts();
-      evaluateRisk();
+      // NOTE: evaluateRisk() is intentionally omitted on reload so the simulator stays at 0.0% standby
 
       // Poll live alerts every 4s
       setInterval(fetchAlerts, 4000);
@@ -3162,6 +3604,68 @@
       }
     });
   </script>
+
+  <!-- =========================================================
+       AUTHENTICATION & ROLE LOGIN MODAL
+  ========================================================= -->
+  <div id="authModal" class="auth-overlay hidden">
+    <div class="auth-modal">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <div class="brand-icon" style="width:34px; height:34px; font-size:1.1rem;">T</div>
+          <div>
+            <div style="font-size:1rem; font-weight:800; color:#fff;">TRM Authentication</div>
+            <div style="font-size:0.72rem; color:var(--text-dim);">Select Role or Enter Credentials</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-dim); font-size:1.2rem; cursor:pointer; padding:0.2rem;">✕</button>
+      </div>
+
+      <!-- Quick Role Fill Presets -->
+      <div style="display:flex; gap:0.5rem; background:rgba(255,255,255,0.03); padding:0.4rem; border-radius:8px; border:1px solid var(--border-subtle);">
+        <button type="button" class="btn-preset" style="flex:1; justify-content:center; text-align:center; font-size:0.75rem; padding:0.45rem;" onclick="fillAuthCredentials('admin')">
+          👑 Admin (SecOps)
+        </button>
+        <button type="button" class="btn-preset" style="flex:1; justify-content:center; text-align:center; font-size:0.75rem; padding:0.45rem;" onclick="fillAuthCredentials('user')">
+          👤 User (Merchant)
+        </button>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)" style="display:flex; flex-direction:column; gap:0.85rem;">
+        <div class="field-group">
+          <label class="field-label" for="authEmail">Email Address</label>
+          <input type="email" id="authEmail" class="field-input" value="admin@trm.ai" placeholder="e.g. admin@trm.ai" required style="padding:0.65rem 0.85rem;" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="authPassword">Password</label>
+          <input type="password" id="authPassword" class="field-input" value="admin123" placeholder="Enter password" required style="padding:0.65rem 0.85rem;" />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Assigned Role</label>
+          <select id="authRoleSelect" class="field-select" style="padding:0.65rem 0.85rem;">
+            <option value="admin">Administrator (Full Access: All 7 Views)</option>
+            <option value="user">User / Merchant (Dashboard, Scorer, Chatbot, Reviews)</option>
+          </select>
+        </div>
+
+        <div id="authErrorMsg" style="font-size:0.75rem; color:var(--danger-red); min-height:1rem; text-align:center;"></div>
+
+        <div style="display:flex; gap:0.75rem; margin-top:0.25rem;">
+          <button type="button" class="btn-preset" style="flex:1; padding:0.65rem;" onclick="closeAuthModal()">Cancel</button>
+          <button type="submit" class="btn-score-primary" style="flex:2; padding:0.65rem; margin-top:0; font-size:0.85rem;">
+            <span>Sign In to Portal</span>
+          </button>
+        </div>
+      </form>
+
+      <div style="font-size:0.7rem; color:var(--text-dim); text-align:center; border-top:1px solid var(--border-subtle); padding-top:0.65rem;">
+        Demo Credentials: <code style="color:var(--red-light);">admin@trm.ai / admin123</code> or <code style="color:var(--emerald-light);">user@trm.ai / user123</code>
+      </div>
+    </div>
+  </div>
+
   <div id="trmToast" class="trm-toast"></div>
 </body>
 </html>
