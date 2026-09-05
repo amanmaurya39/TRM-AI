@@ -6,11 +6,11 @@
   <title>Transaction Risk Manager | TRM AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Sentinel Red Monster Cybernetic & Crimson Particle Network */
+      /* Sentinel Red Cybernetic & Crimson Particle Network */
       --bg-space: #070102;
       --bg-sidebar: #0a0203;
       --bg-topbar: rgba(10, 2, 3, 0.9);
@@ -44,10 +44,10 @@
       --input-bg: rgba(14, 3, 4, 0.88);
       --input-border: rgba(239, 68, 68, 0.28);
 
-      --font-monster: 'Creepster', cursive;
-      --font-monster-drip: 'Nosifer', cursive;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      --font-monster: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
     }
 
     * {
@@ -118,17 +118,18 @@
     }
 
     .brand-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
-      border: 1px solid rgba(248, 113, 113, 0.5);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+      border: 1px solid rgba(248, 113, 113, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-monster);
-      font-size: 1.5rem;
-      color: #fee2e2;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #ffffff;
       box-shadow: 0 0 16px var(--red-glow);
     }
 
@@ -138,18 +139,13 @@
     }
 
     .brand-title {
-      font-family: var(--font-monster);
-      font-size: 1.55rem;
-      letter-spacing: 0.08em;
-      color: #ef4444;
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
       line-height: 1.1;
-      text-shadow: 
-        -1.5px -1.5px 0 #ffffff,
-         1.5px -1.5px 0 #ffffff,
-        -1.5px  1.5px 0 #ffffff,
-         1.5px  1.5px 0 #ffffff,
-         0 0 18px rgba(239, 68, 68, 0.85),
-         2px 3px 0px #7f1d1d;
+      text-shadow: none;
     }
 
     .brand-sub {
@@ -178,12 +174,14 @@
     }
 
     .nav-label {
-      font-family: var(--font-monster);
-      font-size: 0.95rem;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
       letter-spacing: 0.08em;
-      color: var(--red-light);
-      padding: 0 0.75rem 0.4rem 0.75rem;
-      text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 0 0.75rem 0.35rem 0.75rem;
+      text-shadow: none;
     }
 
     .nav-item {
@@ -431,18 +429,13 @@
     }
 
     .page-title {
-      font-family: var(--font-monster);
-      font-size: 3.2rem;
-      letter-spacing: 0.06em;
-      color: #ef4444;
-      line-height: 1.1;
-      text-shadow: 
-        -2px -2px 0 #ffffff,
-         2px -2px 0 #ffffff,
-        -2px  2px 0 #ffffff,
-         2px  2px 0 #ffffff,
-         0 0 28px rgba(239, 68, 68, 0.9),
-         3px 4px 0px #7f1d1d;
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      line-height: 1.15;
+      text-shadow: none;
     }
 
     .page-sub {
@@ -521,22 +514,24 @@
     }
 
     .kpi-label {
-      font-family: var(--font-monster);
-      font-size: 1.05rem;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
       letter-spacing: 0.06em;
-      color: var(--text-muted);
-      text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-shadow: none;
     }
 
     .kpi-value {
-      font-family: var(--font-monster);
-      font-size: 2.6rem;
-      font-weight: 400;
+      font-family: var(--font-heading);
+      font-size: 2.1rem;
+      font-weight: 800;
       color: #ffffff;
-      letter-spacing: 0.02em;
+      letter-spacing: -0.02em;
       line-height: 1;
       margin: 0.4rem 0;
-      text-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+      text-shadow: none;
     }
 
     .kpi-sub {
@@ -585,14 +580,15 @@
     }
 
     .card-heading {
-      font-family: var(--font-monster);
-      font-size: 1.45rem;
-      letter-spacing: 0.05em;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       color: #ffffff;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      text-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+      text-shadow: none;
     }
 
     .card-tag {
@@ -706,11 +702,12 @@
       background: rgba(239, 68, 68, 0.16);
       border: 1px solid rgba(239, 68, 68, 0.45);
       color: var(--red-light);
-      padding: 0.6rem 1.2rem;
-      border-radius: 9px;
-      font-family: var(--font-monster);
-      font-size: 1.15rem;
-      letter-spacing: 0.05em;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -895,23 +892,25 @@
 
     .btn-score-primary {
       grid-column: span 2;
-      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
       color: #ffffff;
       border: 1px solid rgba(254, 202, 202, 0.25);
-      padding: 0.85rem 1.5rem;
-      border-radius: 10px;
-      font-family: var(--font-monster);
-      font-size: 1.35rem;
-      letter-spacing: 0.06em;
+      padding: 0.75rem 1.4rem;
+      border-radius: 9px;
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       transition: all 0.22s;
       box-shadow: 0 4px 18px var(--red-glow);
-      margin-top: 0.5rem;
-      text-shadow: 1px 1px 2px #000;
+      margin-top: 0.35rem;
+      text-shadow: none;
     }
 
     @media (max-width: 640px) {
@@ -946,13 +945,13 @@
     }
 
     .gauge-pct {
-      font-size: 3.2rem;
-      font-weight: 400;
-      font-family: var(--font-monster);
+      font-size: 2.2rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
       color: #ffffff;
       line-height: 1;
-      letter-spacing: 0.02em;
-      text-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+      letter-spacing: -0.03em;
+      text-shadow: none;
     }
 
     .gauge-tag {
